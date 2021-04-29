@@ -88,3 +88,6 @@ fabric.properties
 /.idea/modules.xml
 /.idea/swtp-ss21.iml
 /.idea/vcs.xml
+
+
+node_modules/*
