@@ -1,1 +1,52 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+  font-family: NunitoSans, serif;
+  background-color: #121212;
+  color: #FFFFFF;
+}
+
+nav, .navbar-brand {
+  font-family: Montserrat, serif;
+  font-size: 1.3em;
+}
+
+
+/* Background Colors */
+.bg-black {
+  background-color: #000000;
+}
+.bg-surface {
+  background-color: #121212;
+}
+.bg-medium {
+  background-color: #303030;
+}
+.bg-accent {
+  background-color: #C6E8DA;
+}
+
+/* Font Colors */
+.c-white  {
+  color: #FFFFFF !important;
+}
+.c-medium {
+  color: #C4C4C4 !important;
+}
+.c-black {
+  color: #000000;
+}
+
+.c-accent {
+  color: #C6E8DA !important;
+}
+
+
+/* Fonts */
+@font-face {
+  font-family: Montserrat;
+  src: url(./assets/fonts/Montserrat-Regular.ttf)
+}
+@font-face {
+  font-family: NunitoSans;
+  src: url(./assets/fonts/NunitoSans-Regular.ttf)
+}
