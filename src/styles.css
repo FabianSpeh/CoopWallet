@@ -1,15 +1,10 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global Styles that are used in multiple Components */
+
 body {
   font-family: NunitoSans, serif;
   background-color: #121212;
   color: #FFFFFF;
 }
-
-nav, .navbar-brand {
-  font-family: Montserrat, serif;
-  font-size: 1.3em;
-}
-
 
 /* Background Colors */
 .bg-black {

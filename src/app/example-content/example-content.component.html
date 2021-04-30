@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="row justify-content-end pt-5">
+    <button (click)="toggleShow()" [ngClass]="{
+         'bg-accent': show == false,
+         'bg-black c-medium': show == true
+    }" class="btn">Toggle</button>
+  </div>
+  <div *ngIf="show" class="row py-5">
+    <div class="col bg-medium p-4 mr-4">
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus laborum maxime nostrum porro soluta! Esse eum excepturi harum ipsam libero minima molestiae nobis perspiciatis reiciendis similique sit veniam, voluptas voluptatem?</p>
+    </div>
+    <div class="col bg-medium p-4">
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus ad assumenda beatae delectus dolorem enim, illum labore laborum magnam magni minus modi mollitia obcaecati, odit officia quidem sequi tempora ullam.</p>
+    </div>
+  </div>
+
+</div>
+

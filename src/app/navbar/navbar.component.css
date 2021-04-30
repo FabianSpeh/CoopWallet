@@ -1,0 +1,8 @@
+nav, .navbar-brand {
+  font-family: Montserrat, serif;
+  font-size: 1.3em;
+}
+
+nav a:hover {
+  color: #FFFFFF !important;
+}
