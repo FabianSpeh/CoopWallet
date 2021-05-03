@@ -1,0 +1,10 @@
+:host {
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  background-image: url("src/assets/img/BackgroundLogoWIP.png");
+  background-repeat: no-repeat;
+  background-position: bottom;
+}
