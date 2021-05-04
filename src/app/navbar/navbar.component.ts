@@ -23,7 +23,7 @@ export class NavbarComponent implements OnInit {
 
   getMetaMask(): void{
     if (this.ethEnabled()){
-      console.log('Test');
+      console.log('Connect to Metamask');
     }
   }
 
