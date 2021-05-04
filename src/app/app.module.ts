@@ -8,6 +8,9 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { WalletsComponent } from './wallets/wallets.component';
 import { AddressesComponent } from './addresses/addresses.component';
+import { PopupComponent } from './popup/popup.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -16,11 +19,14 @@ import { AddressesComponent } from './addresses/addresses.component';
     NavbarComponent,
     TransactionsComponent,
     WalletsComponent,
-    AddressesComponent
+    AddressesComponent,
+    PopupComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgbModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

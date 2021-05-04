@@ -1,0 +1,29 @@
+.dark-modal .modal-content {
+  background-color: #292b2c;
+  color: Black !important;
+}
+.modal-header .modal-body {
+  color:Black !important;
+}
+#modal-basic-title{
+  color:Black !important;
+
+}
+
+#modal-header, #mo{
+  background-color:lightgray;
+}
+#body-text, #modal-footer{
+  color:Black !important;
+  background-color: lightgray;
+}
+.dark-modal .close {
+  color: white;
+}
+.light-blue-backdrop {
+  background-color: #5cb3fd;
+}
+
+#checkbox{
+  margin-right: 30px
+}
