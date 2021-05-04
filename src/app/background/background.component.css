@@ -1,0 +1,14 @@
+.canvas {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  position: fixed;
+}
+
+.background-logo {
+  width: 550px;
+  height: 450px;
+  content: "";
+  background: url("../../assets/img/BackgroundLogoWIP.png") no-repeat;
+  opacity: 0.3;
+}
