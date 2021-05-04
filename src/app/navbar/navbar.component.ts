@@ -7,16 +7,24 @@ declare var window: any;
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  private web3: any;
+  balance: number;
+  accounts: any;
+  web3js: any;
   ethEnabled = async () => {
+
     if (window.ethereum) {
       await window.ethereum.send('eth_requestAccounts');
-      window.web3 = new Web3(window.ethereum);
+      this.web3js = new Web3(window.ethereum);
+      this.accounts = await this.web3js.eth.getAccounts();
+      this.balance = await this.web3js.eth.getBalance(this.accounts[0]);
+      console.log(this.accounts);
+      const test = this.balance / 1000000000000000000;
+      this.balance = test;
       return true;
     }
     return false;
   }
-  constructor() { }
+  constructor() {this.balance = 0; }
 
   ngOnInit(): void {
   }
