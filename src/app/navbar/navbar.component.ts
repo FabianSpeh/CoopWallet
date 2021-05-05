@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import Web3 from 'web3';
+import {BrowserRefreshService} from '../browser-refresh.service';
 declare var window: any;
 @Component({
   selector: 'app-navbar',
@@ -10,10 +11,11 @@ export class NavbarComponent implements OnInit {
   balance: number;
   accounts: any;
   web3js: any;
+  etherumEnabled: boolean;
   ethEnabled = async () => {
 
     if (window.ethereum) {
-      await window.ethereum.send('eth_requestAccounts');
+      await window.ethereum.enable();
       this.web3js = new Web3(window.ethereum);
       this.accounts = await this.web3js.eth.getAccounts();
       this.balance = await this.web3js.eth.getBalance(this.accounts[0]);
@@ -24,9 +26,18 @@ export class NavbarComponent implements OnInit {
     }
     return false;
   }
-  constructor() {this.balance = 0; }
+  constructor(private service: BrowserRefreshService) {
+    this.balance = 0;
+    this.etherumEnabled = false;
+  }
 
-  ngOnInit(): void {
+  async checkData(){
+    this.etherumEnabled = await this.service.checkEtherumConection();
+  }
+
+  async ngOnInit(): Promise<void> {
+    await this.checkData();
+    console.log(this.etherumEnabled);
   }
 
   getMetaMask(): void{
