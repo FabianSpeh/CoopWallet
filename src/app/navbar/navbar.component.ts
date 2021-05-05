@@ -37,7 +37,7 @@ export class NavbarComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     await this.checkData();
-    console.log(this.etherumEnabled);
+    //TODO Get MetaMaskData if this.etherumEnabled is true and Change Navbar Layout to show these Stats
   }
 
   getMetaMask(): void{

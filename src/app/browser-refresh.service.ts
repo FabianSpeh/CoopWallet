@@ -27,12 +27,10 @@ export class BrowserRefreshService implements OnDestroy{
         }
         console.log(test);
       }
-      console.log(this.etherumCheck + 'HI');
     } catch (err) {
       console.log(err);
       this.etherumCheck =  false;
     }
-    console.log('Werte' + this.etherumCheck);
     return this.etherumCheck;
   }
 
