@@ -8,7 +8,11 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { WalletsComponent } from './wallets/wallets.component';
 import { AddressesComponent } from './addresses/addresses.component';
+import { PopupComponent } from './popup/popup.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {FormsModule} from '@angular/forms';
 import { BackgroundComponent } from './background/background.component';
+
 
 @NgModule({
   declarations: [
@@ -18,11 +22,14 @@ import { BackgroundComponent } from './background/background.component';
     TransactionsComponent,
     WalletsComponent,
     AddressesComponent,
+    PopupComponent,
     BackgroundComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgbModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
