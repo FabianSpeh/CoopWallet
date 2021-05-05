@@ -18,11 +18,15 @@
           <a class="nav-link c-medium" routerLink="/addresses">Addresses</a>
         </li>
       </ul>
-      <ul class="navbar-nav">
+      <ul class="navbar-nav" *ngIf="dataGet">
         <li class="nav-item pr-3">
           <div class="c-medium">Balance: <span class="c-white">{{balance}}ETH</span></div>
+        </li>
+      </ul>
+      <ul class="navbar-nav" *ngIf="!dataGet">
+        <li class="nav-item pr-3">
           <div class="c-medium">
-            <button (click)="getMetaMask()">Connect Metamask</button>
+            <button *ngIf="!dataGet" (click)="connectMetaMask()">Connect Metamask</button>
           </div>
         </li>
       </ul>

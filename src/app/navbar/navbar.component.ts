@@ -12,6 +12,7 @@ export class NavbarComponent implements OnInit {
   accounts: any;
   web3js: any;
   etherumEnabled: boolean;
+  dataGet: boolean;
   ethEnabled = async () => {
 
     if (window.ethereum) {
@@ -29,19 +30,26 @@ export class NavbarComponent implements OnInit {
   constructor(private service: BrowserRefreshService) {
     this.balance = 0;
     this.etherumEnabled = false;
+    this.dataGet = false;
   }
 
+  // tslint:disable-next-line:typedef
   async checkData(){
     this.etherumEnabled = await this.service.checkEtherumConection();
   }
 
   async ngOnInit(): Promise<void> {
     await this.checkData();
-    //TODO Get MetaMaskData if this.etherumEnabled is true and Change Navbar Layout to show these Stats
+    if (this.etherumEnabled){
+      await this.connectMetaMask();
+    }
+
+    // TODO Get MetaMaskData if this.etherumEnabled is true and Change Navbar Layout to show these Stats
   }
 
-  getMetaMask(): void{
-    if (this.ethEnabled()){
+  async connectMetaMask(): Promise<void> {
+    this.dataGet = await this.ethEnabled();
+    if (this.dataGet) {
       console.log('Connect to Metamask');
     }
   }
