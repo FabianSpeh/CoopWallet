@@ -1,37 +1,39 @@
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header" id="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Hi there!</h4>
+    <h2 class="modal-title" id="modal-basic-title">Coop Wallet - Introduction</h2>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body" id="body-text">
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin rutrum, urna vel varius dignissim, tortor lacus porta elit, at blandit nibh sapien vel enim.
-      Vestibulum at varius leo. Donec magna enim, varius non auctor sit amet, finibus eu nisi. Suspendisse at sapien quis risus tempus tincidunt.
-      In tincidunt justo id nunc fermentum, eu molestie ante condimentum.
-      Donec sit amet sapien nec neque auctor placerat eu et nulla. Aliquam gravida arcu elit, in gravida dui ornare vel. Sed iaculis et risus sit amet aliquam.</p>
-    <p>
-      Mauris egestas massa in viverra sollicitudin. Etiam luctus urna a ligula vestibulum, quis blandit nunc gravida. Pellentesque non dolor ornare, dignissim augue sit amet, placerat nulla.
-      Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi id viverra augue, eget fringilla nunc. Pellentesque vehicula mattis leo sit amet rhoncus.
-      Ut vel blandit dolor, ut venenatis urna. Nunc tempus fringilla risus nec hendrerit. Suspendisse ornare nisl nulla, eget tincidunt elit convallis vitae.
-      Curabitur sollicitudin dui at mi blandit, at ultricies ipsum pulvinar.
-      Nulla molestie sit amet nulla at lobortis. Integer nunc nisl, pellentesque at laoreet et, fermentum eget purus. Quisque eu semper felis.
-    </p>
-    <p>
-      Fusce et congue est. Vestibulum accumsan lacus sed massa pellentesque consectetur. Curabitur consectetur ligula nec lectus viverra ornare.
-      Donec convallis lobortis ante at suscipit. Nam maximus consequat augue in accumsan.
-      Nunc molestie, quam vel euismod semper, est elit porttitor massa, eu viverra lectus massa et elit. Aliquam eu ultricies velit.
-    </p>
+    <h5><b>What is Coop Wallet?</b></h5>
+    <p>Coop Wallet is a Multi-signature Wallet decentralized application developed as a university project by a small group of developers.</p>
+    <h5><b>What is a Multi-signature wallet?</b></h5>
+    <p>Multi-signature, also referred to as Multi-sig means that transactions can only be authorized and completed with the use of multiple signatures (at least 2).
+      This means that funds can not be moved with the use of a single key, making this type of wallet a much securer solution than a Single-signature Wallet.
+      </p>
+    <h5><b>Applications:</b></h5>
+    <ul>
+      <li>Dividing up responsibility for the possession of currency among multiple users</li>
+      <li>Wallet isn't compromised as easily, since a single "stolen" key isn't necessarily enough to access funds</li>
+      <li>Solid Backup structure, since losing a single key doesn't lead to the loss of the wallet</li>
+    </ul>
+    <h5><b>Features:</b></h5>
+    <ul>
+      <li>Easy connection to your account using Metamask</li>
+      <li>A status bar that is constantly being updated, showing you the most important information and current status of your account, such as the balance, the wallets address, the current network etc.</li>
+      <li>A list of all your registered wallets, includind information such as its balance, the number of owners and required confirmations to authorize a transaction.</li>
+      <li>A list with all your transactions and an easy way too add new ones</li>
+      <li>An Address Book to simplify reoccuring transactions and increase efficiency.</li>
+    </ul>
+
+
   </div>
+
   <div class="modal-footer" id="modal-footer">
-    <div class="form-check" id="checkbox">
-      <input #checkbox class="form-check-input"  type="checkbox"  value="hello" id="checkBoxInput">
-      <label class="form-check-label" for="checkBoxInput" >
-        Don't show this again
-      </label>
-    </div>
-    <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Close</button>
+
+    <button type="button" class="btn btn-outline-light" (click)="c('Save click')">Close</button>
   </div>
 </ng-template>
 
-<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button>
+
