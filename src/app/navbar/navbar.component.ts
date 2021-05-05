@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import Web3 from 'web3';
 import {BrowserRefreshService} from '../browser-refresh.service';
+
 declare var window: any;
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',

@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import {BrowserRefreshService} from './browser-refresh.service';
+
 
 @Component({
   selector: 'app-root',

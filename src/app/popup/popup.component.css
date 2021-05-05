@@ -1,0 +1,44 @@
+.dark-modal .modal-content {
+  background-color: #292b2c;
+  color: white !important;
+}
+.modal-header .modal-body {
+  color:white !important;
+}
+#modal-basic-title{
+  color:white !important;
+
+}
+
+.close{
+  color: white !important;
+  border-color: transparent !important;
+}
+
+#modal-header, #mo{
+  background-color:#424242;
+}
+#body-text, #modal-footer{
+  color:white !important;
+  background-color: #424242;
+}
+.dark-modal .close {
+  color: white;
+}
+.light-blue-backdrop {
+  background-color: #5cb3fd;
+}
+
+.modal-header {
+  border-bottom-color: gray;
+}
+
+.modal-footer {
+  border-top-color: gray;
+}
+.btn-outline-success{
+
+  text-align:center;
+
+}
+
