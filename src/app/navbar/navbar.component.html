@@ -19,10 +19,20 @@
       <div class="d-lg-none w-100 p-2"></div>
       <ul class="navbar-nav" *ngIf="dataGet">
         <li class="nav-item pr-3">
+          <div class="c-medium">
+            <label class="capitalize">{{network}}</label>
+          </div>
+        </li>
+        <li class="nav-item pr-3">
           <div class="c-medium">Balance: <span class="c-white">{{balance}}ETH</span></div>
         </li>
       </ul>
       <ul class="navbar-nav" *ngIf="!dataGet">
+        <li class="nav-item pr-3">
+          <div class="c-medium">
+            <label class="capitalize">{{network}}</label>
+          </div>
+        </li>
         <li class="nav-item pr-3">
           <div class="c-medium">
             <a class="meta-text" href="#" *ngIf="!dataGet" (click)="connectMetaMask()">Connect Metamask</a>

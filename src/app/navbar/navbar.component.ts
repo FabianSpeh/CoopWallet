@@ -13,6 +13,7 @@ export class NavbarComponent implements OnInit {
   balance: number;
   accounts: any;
   web3js: any;
+  network: any;
   etherumEnabled: boolean;
   dataGet: boolean;
   ethEnabled = async () => {
@@ -22,6 +23,8 @@ export class NavbarComponent implements OnInit {
       this.web3js = new Web3(window.ethereum);
       this.accounts = await this.web3js.eth.getAccounts();
       this.balance = await this.web3js.eth.getBalance(this.accounts[0]);
+      this.network = await this.web3js.eth.net.getNetworkType();
+      console.log(this.network);
       console.log(this.accounts);
       const test = this.balance / 1000000000000000000;
       this.balance = test;
@@ -38,6 +41,7 @@ export class NavbarComponent implements OnInit {
   // tslint:disable-next-line:typedef
   async checkData(){
     this.etherumEnabled = await this.service.checkEtherumConection();
+    this.network = this.service.network;
   }
 
   async ngOnInit(): Promise<void> {
