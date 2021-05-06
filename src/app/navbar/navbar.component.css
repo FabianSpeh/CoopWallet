@@ -7,3 +7,8 @@ nav, .navbar-brand {
 nav a:hover {
   color: #FFFFFF !important;
 }
+.meta-text {
+  color: #bab8ff;
+}
+
+.capitalize { text-transform: capitalize; }
