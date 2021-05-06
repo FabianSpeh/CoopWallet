@@ -25,7 +25,7 @@
       <ul class="navbar-nav" *ngIf="!dataGet">
         <li class="nav-item pr-3">
           <div class="c-medium">
-            <button *ngIf="!dataGet" (click)="connectMetaMask()">Connect Metamask</button>
+            <a class="meta-text" href="#" *ngIf="!dataGet" (click)="connectMetaMask()">Connect Metamask</a>
           </div>
         </li>
       </ul>
