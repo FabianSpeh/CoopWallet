@@ -6,6 +6,7 @@ import {
   AfterViewInit
 } from '@angular/core';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import {BrowserRefreshService} from '../browser-refresh.service';
 
 
 
@@ -16,24 +17,31 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./popup.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class PopupComponent implements OnInit, AfterViewInit {
+export class PopupComponent implements OnInit{
   closeResult = '';
   dontShowAgain = false;
   @ViewChild('content') modalContent: any;
 
+  etherumEnabled: boolean;
 
-
-
-
-  constructor(private modalService: NgbModal) { }
-  ngOnInit(): void {
-
-
-
+  async checkData() {
+    this.etherumEnabled = await this.service.checkEtherumConection();
   }
-  ngAfterViewInit(): void{
+
+  async ngOnInit(): Promise<void> {
+    await this.checkData();
+    console.log(this.etherumEnabled);
+    if (!this.etherumEnabled) {
       this.modalService.open(this.modalContent, {ariaLabelledBy: 'modal-basic-title', size: 'xl'});
+    }
   }
+
+
+
+  constructor(private modalService: NgbModal, private service: BrowserRefreshService) {
+    this.etherumEnabled = false;
+  }
+
   open(content: any): void {
 
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'xl'}).result.then((result) => {
