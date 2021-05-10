@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable} from '@angular/core';
 import Web3 from 'web3';
 
 declare var window: any;
@@ -9,12 +9,12 @@ declare var window: any;
 })
 
 
-export class BrowserRefreshService implements OnDestroy{
+export class BrowserRefreshService {
   public etherumCheck = false;
   web3js: any;
   network: string;
   constructor() {
-    this.network = "";
+    this.network = '';
   }
 
   public checkEtherumConection = async () => {
@@ -35,8 +35,5 @@ export class BrowserRefreshService implements OnDestroy{
       this.etherumCheck =  false;
     }
     return this.etherumCheck;
-  }
-
-  ngOnDestroy(): void {
   }
 }
