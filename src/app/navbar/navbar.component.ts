@@ -14,9 +14,11 @@ export class NavbarComponent implements OnInit {
   accounts: any;
   web3js: any;
   network: any;
+  providerOnline: boolean;
   selectedAccount: string;
   selectedAccountShorten: string;
   chainId: any;
+  nonce: number;
   accountIndex = 0;
   etherumEnabled: boolean;
   dataGet: boolean;
@@ -25,6 +27,11 @@ export class NavbarComponent implements OnInit {
     if (window.ethereum) {
       await window.ethereum.enable();
       this.web3js = new Web3(window.ethereum);
+      try {
+        this.providerOnline = await this.web3js.eth.net.isListening();
+      } catch (e) {
+        console.log(e);
+      }
       this.accounts = await this.web3js.eth.getAccounts();
       this.balance = await this.web3js.eth.getBalance(this.accounts[this.accountIndex]);
       this.network = await this.web3js.eth.net.getNetworkType();
@@ -32,9 +39,8 @@ export class NavbarComponent implements OnInit {
       this.selectedAccount = this.accounts[this.accountIndex];
       this.web3js.defaultAccount = this.selectedAccount;
       this.selectedAccountShorten = this.selectedAccount.substring(0, 17) + '....';
-      console.log(this.network);
-      console.log(this.chainId);
-      console.log(this.accounts);
+      this.nonce = await this.web3js.eth.getTransactionCount(this.selectedAccount);
+
       const test = this.balance / 1000000000000000000;
       this.balance = test;
       return true;
@@ -47,6 +53,8 @@ export class NavbarComponent implements OnInit {
     this.dataGet = false;
     this.selectedAccount = '';
     this.selectedAccountShorten = '';
+    this.nonce = 0;
+    this.providerOnline = false;
   }
 
   // tslint:disable-next-line:typedef
@@ -60,8 +68,6 @@ export class NavbarComponent implements OnInit {
     if (this.etherumEnabled){
       await this.connectMetaMask();
     }
-
-    // TODO Get MetaMaskData if this.etherumEnabled is true and Change Navbar Layout to show these Stats
   }
 
   async connectMetaMask(): Promise<void> {
