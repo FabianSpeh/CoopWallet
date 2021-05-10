@@ -20,7 +20,24 @@
       <ul class="navbar-nav" *ngIf="dataGet">
         <li class="nav-item pr-3">
           <div class="c-medium">
+           <div ngbDropdown class="d-inline-block">
+             <a href="#" class="ng-binding dropdown-toggle dropdown-width" id="dropdownAccount" ngbDropdownToggle>Account: {{selectedAccountShorten}}</a>
+             <div ngbDropdownMenu aria-labelledby="dropdownAccount">
+               <div *ngFor="let account of accounts, let i = index">
+                 <a href="#" (click)="accountSwitch(i)" ngbDropdownItem> {{account}}</a>
+               </div>
+             </div>
+           </div>
+          </div>
+        </li>
+        <li class="nav-item pr-3">
+          <div class="c-medium">
             <label class="capitalize">{{network}}</label>
+          </div>
+        </li>
+        <li class="nav-item pr-3">
+          <div class="c-medium">
+            <label>Chain Id: {{chainId}}</label>
           </div>
         </li>
         <li class="nav-item pr-3">
@@ -34,6 +51,11 @@
         <li class="nav-item pr-3">
           <div class="c-medium">
             <label class="capitalize">{{network}}</label>
+          </div>
+        </li>
+        <li class="nav-item pr-3">
+          <div class="c-medium">
+            <label>Chain Id: {{chainId}}</label>
           </div>
         </li>
         <li class="nav-item pr-3">
