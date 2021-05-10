@@ -14,6 +14,7 @@ export class NavbarComponent implements OnInit {
   accounts: any;
   web3js: any;
   network: any;
+  providerOnline: boolean;
   selectedAccount: string;
   selectedAccountShorten: string;
   chainId: any;
@@ -26,6 +27,11 @@ export class NavbarComponent implements OnInit {
     if (window.ethereum) {
       await window.ethereum.enable();
       this.web3js = new Web3(window.ethereum);
+      try {
+        this.providerOnline = await this.web3js.eth.net.isListening();
+      } catch (e) {
+        console.log(e);
+      }
       this.accounts = await this.web3js.eth.getAccounts();
       this.balance = await this.web3js.eth.getBalance(this.accounts[this.accountIndex]);
       this.network = await this.web3js.eth.net.getNetworkType();
@@ -48,6 +54,7 @@ export class NavbarComponent implements OnInit {
     this.selectedAccount = '';
     this.selectedAccountShorten = '';
     this.nonce = 0;
+    this.providerOnline = false;
   }
 
   // tslint:disable-next-line:typedef
