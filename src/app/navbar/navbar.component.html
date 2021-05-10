@@ -36,12 +36,23 @@
           </div>
         </li>
         <li class="nav-item pr-3">
+          <div class="c-medium" *ngIf="providerOnline">
+            <label class="capitalize">Online <img src="assets/img/Online.png"></label>
+          </div>
+          <div class="c-medium" *ngIf="!providerOnline">
+            <label class="capitalize">Offline <img src="assets/img/Offline.png"></label>
+          </div>
+        </li>
+        <li class="nav-item pr-3">
           <div class="c-medium">
             <label>Chain Id: {{chainId}}</label>
           </div>
         </li>
         <li class="nav-item pr-3">
           <div class="c-medium">Balance: <span class="c-white">{{balance}}ETH</span></div>
+        </li>
+        <li class="nav-item pr-3">
+          <div class="c-medium"> Nonce: <span class="c-white"> {{nonce}} </span></div>
         </li>
       </ul>
       <ul class="navbar-nav" *ngIf="!dataGet">
