@@ -17,6 +17,7 @@ export class NavbarComponent implements OnInit {
   selectedAccount: string;
   selectedAccountShorten: string;
   chainId: any;
+  nonce: number;
   accountIndex = 0;
   etherumEnabled: boolean;
   dataGet: boolean;
@@ -32,9 +33,8 @@ export class NavbarComponent implements OnInit {
       this.selectedAccount = this.accounts[this.accountIndex];
       this.web3js.defaultAccount = this.selectedAccount;
       this.selectedAccountShorten = this.selectedAccount.substring(0, 17) + '....';
-      console.log(this.network);
-      console.log(this.chainId);
-      console.log(this.accounts);
+      this.nonce = await this.web3js.eth.getTransactionCount(this.selectedAccount);
+
       const test = this.balance / 1000000000000000000;
       this.balance = test;
       return true;
@@ -47,6 +47,7 @@ export class NavbarComponent implements OnInit {
     this.dataGet = false;
     this.selectedAccount = '';
     this.selectedAccountShorten = '';
+    this.nonce = 0;
   }
 
   // tslint:disable-next-line:typedef
@@ -60,8 +61,6 @@ export class NavbarComponent implements OnInit {
     if (this.etherumEnabled){
       await this.connectMetaMask();
     }
-
-    // TODO Get MetaMaskData if this.etherumEnabled is true and Change Navbar Layout to show these Stats
   }
 
   async connectMetaMask(): Promise<void> {
