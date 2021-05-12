@@ -28,7 +28,6 @@ export class BrowserRefreshService {
         } else {
           this.etherumCheck = false;
         }
-        console.log(test);
       }
     } catch (err) {
       console.log(err);

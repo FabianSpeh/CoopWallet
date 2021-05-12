@@ -30,7 +30,6 @@ export class PopupComponent implements OnInit{
 
   async ngOnInit(): Promise<void> {
     await this.checkData();
-    console.log(this.etherumEnabled);
     if (!this.etherumEnabled) {
       this.modalService.open(this.modalContent, {ariaLabelledBy: 'modal-basic-title', size: 'xl'});
     }

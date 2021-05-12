@@ -17,13 +17,13 @@
         </li>
       </ul>
       <div class="d-lg-none w-100 p-2"></div>
-      <ul class="navbar-nav" *ngIf="dataGet">
+      <ul class="navbar-nav" *ngIf="userService.dataGot">
         <li class="nav-item pr-3">
           <div class="c-medium">
            <div ngbDropdown class="d-inline-block">
-             <a href="#" class="ng-binding dropdown-toggle dropdown-width" id="dropdownAccount" ngbDropdownToggle>Account: {{selectedAccountShorten}}</a>
+             <a href="#" class="ng-binding dropdown-toggle dropdown-width" id="dropdownAccount" ngbDropdownToggle>Account: {{userService.selectedAccountShorten}}</a>
              <div ngbDropdownMenu aria-labelledby="dropdownAccount">
-               <div *ngFor="let account of accounts, let i = index">
+               <div *ngFor="let account of userService.accounts, let i = index">
                  <a href="#" (click)="accountSwitch(i)" ngbDropdownItem> {{account}}</a>
                </div>
              </div>
@@ -36,26 +36,26 @@
           </div>
         </li>
         <li class="nav-item pr-3">
-          <div class="c-medium" *ngIf="providerOnline">
+          <div class="c-medium" *ngIf="userService.providerOnline">
             <label class="capitalize">Online <img src="assets/img/Online.png"></label>
           </div>
-          <div class="c-medium" *ngIf="!providerOnline">
+          <div class="c-medium" *ngIf="!userService.providerOnline">
             <label class="capitalize">Offline <img src="assets/img/Offline.png"></label>
           </div>
         </li>
         <li class="nav-item pr-3">
           <div class="c-medium">
-            <label>Chain Id: {{chainId}}</label>
+            <label>Chain Id: {{userService.chainId}}</label>
           </div>
         </li>
         <li class="nav-item pr-3">
-          <div class="c-medium">Balance: <span class="c-white">{{balance}}ETH</span></div>
+          <div class="c-medium">Balance: <span class="c-white">{{userService.balance}}ETH</span></div>
         </li>
         <li class="nav-item pr-3">
-          <div class="c-medium"> Nonce: <span class="c-white"> {{nonce}} </span></div>
+          <div class="c-medium"> Nonce: <span class="c-white"> {{userService.nonce}} </span></div>
         </li>
       </ul>
-      <ul class="navbar-nav" *ngIf="!dataGet">
+      <ul class="navbar-nav" *ngIf="!userService.dataGot">
         <li class="nav-item pr-3">
           <div class="c-medium">
             <label class="capitalize">{{network}}</label>
@@ -63,12 +63,12 @@
         </li>
         <li class="nav-item pr-3">
           <div class="c-medium">
-            <label>Chain Id: {{chainId}}</label>
+            <label>Chain Id: {{userService.chainId}}</label>
           </div>
         </li>
         <li class="nav-item pr-3">
           <div class="c-medium">
-            <a class="meta-text" href="#" *ngIf="!dataGet" (click)="connectMetaMask()">Connect Metamask</a>
+            <a class="meta-text" href="#" *ngIf="!userService.dataGot" (click)="connectMetaMask()">Connect Metamask</a>
           </div>
         </li>
       </ul>

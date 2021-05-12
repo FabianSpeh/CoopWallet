@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import Web3 from 'web3';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {BrowserRefreshService} from '../browser-refresh.service';
+import {UserWalletDataService} from '../user-wallet-data.service';
 
 declare var window: any;
 
@@ -9,52 +9,17 @@ declare var window: any;
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit {
-  balance: number;
-  accounts: any;
-  web3js: any;
+export class NavbarComponent implements OnInit, OnDestroy {
   network: any;
-  providerOnline: boolean;
-  selectedAccount: string;
-  selectedAccountShorten: string;
-  chainId: any;
-  nonce: number;
   accountIndex = 0;
   etherumEnabled: boolean;
-  dataGet: boolean;
-  ethEnabled = async () => {
+  dataGot: boolean;
+  interval: any;
+  updateTime = 600000;
 
-    if (window.ethereum) {
-      await window.ethereum.enable();
-      this.web3js = new Web3(window.ethereum);
-      try {
-        this.providerOnline = await this.web3js.eth.net.isListening();
-      } catch (e) {
-        console.log(e);
-      }
-      this.accounts = await this.web3js.eth.getAccounts();
-      this.balance = await this.web3js.eth.getBalance(this.accounts[this.accountIndex]);
-      this.network = await this.web3js.eth.net.getNetworkType();
-      this.chainId = await this.web3js.eth.getChainId();
-      this.selectedAccount = this.accounts[this.accountIndex];
-      this.web3js.defaultAccount = this.selectedAccount;
-      this.selectedAccountShorten = this.selectedAccount.substring(0, 17) + '....';
-      this.nonce = await this.web3js.eth.getTransactionCount(this.selectedAccount);
-
-      const test = this.balance / 1000000000000000000;
-      this.balance = test;
-      return true;
-    }
-    return false;
-  }
-  constructor(private service: BrowserRefreshService) {
-    this.balance = 0;
+  constructor(private service: BrowserRefreshService, public userService: UserWalletDataService) {
     this.etherumEnabled = false;
-    this.dataGet = false;
-    this.selectedAccount = '';
-    this.selectedAccountShorten = '';
-    this.nonce = 0;
-    this.providerOnline = false;
+    this.dataGot = false;
   }
 
   // tslint:disable-next-line:typedef
@@ -68,21 +33,34 @@ export class NavbarComponent implements OnInit {
     if (this.etherumEnabled){
       await this.connectMetaMask();
     }
+    this.interval = setInterval(() => this.update(), this.updateTime);
+  }
+
+ async update(): Promise<void>{
+    console.log('Update Started');
+    await this.checkData();
+    if (this.etherumEnabled){
+      await this.connectMetaMask();
+    }
   }
 
   async connectMetaMask(): Promise<void> {
-    this.dataGet = await this.ethEnabled();
-    if (this.dataGet) {
+    this.dataGot = await this.userService.getData(this.accountIndex);
+    if (this.dataGot) {
       console.log('Connect to Metamask');
     }
   }
 
   async accountSwitch(index: number): Promise<void> {
     this.accountIndex = index;
-    this.dataGet = await this.ethEnabled();
-    if (this.dataGet) {
+    this.dataGot = await this.userService.getData(this.accountIndex);
+    if (this.dataGot) {
       console.log('Connect to Metamask');
     }
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.interval);
   }
 
 }
