@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import {BrowserRefreshService} from '../browser-refresh.service';
 import {UserWalletDataService} from '../user-wallet-data.service';
+import Web3 from 'web3';
 
 declare var window: any;
 
@@ -16,6 +17,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   dataGot: boolean;
   interval: any;
   updateTime = 600000;
+  web3js: any;
 
   constructor(private service: BrowserRefreshService, public userService: UserWalletDataService) {
     this.etherumEnabled = false;
@@ -34,6 +36,18 @@ export class NavbarComponent implements OnInit, OnDestroy {
       await this.connectMetaMask();
     }
     this.interval = setInterval(() => this.update(), this.updateTime);
+    if (window.ethereum) {
+      this.web3js = new Web3(window.ethereum);
+      // tslint:disable-next-line:only-arrow-functions typedef
+      this.web3js.eth.subscribe('newBlockHeaders', (error: any, result: any) => {
+        if (!error) {
+          this.update();
+          return;
+        }
+
+        console.error(error);
+      });
+    }
   }
 
  async update(): Promise<void>{
@@ -61,6 +75,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     clearInterval(this.interval);
+    this.web3js.eth.clearSubscriptions();
   }
 
 }
