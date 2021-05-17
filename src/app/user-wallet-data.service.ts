@@ -32,7 +32,7 @@ export class UserWalletDataService {
   public async getData(accountIndex: number): Promise<boolean>{
     this.accountIndex = accountIndex;
     if (window.ethereum) {
-      await window.ethereum.enable();
+      await window.ethereum.send('eth_requestAccounts');
       this.web3js = new Web3(window.ethereum);
       try {
         this.providerOnline = await this.web3js.eth.net.isListening();

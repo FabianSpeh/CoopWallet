@@ -39,13 +39,35 @@ export class NavbarComponent implements OnInit, OnDestroy {
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
       // tslint:disable-next-line:only-arrow-functions typedef
-      this.web3js.eth.subscribe('newBlockHeaders', (error: any, result: any) => {
+      /*this.web3js.eth.subscribe('newBlockHeaders', (error: any, result: any) => {
         if (!error) {
+          console.log("New BlockHeader");
           this.update();
           return;
         }
 
         console.error(error);
+      });*/
+
+      window.ethereum.on('accountsChanged', () => {
+        console.log('accountChanged');
+        this.accountIndex = 0;
+        this.update();
+      });
+
+      window.ethereum.on('networkChanged', () => {
+        console.log('networkChanged');
+        this.update();
+      });
+
+      window.ethereum.on('balanceChanged', () => {
+        console.log('balanceChanged');
+        this.update();
+      });
+
+      window.ethereum.on('chainChanged', () => {
+        console.log('chainChanged');
+        window.location.reload();
       });
     }
   }
