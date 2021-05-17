@@ -25,7 +25,7 @@ export class PopupComponent implements OnInit{
   etherumEnabled: boolean;
 
   async checkData() {
-    this.etherumEnabled = await this.service.checkEtherumConection();
+    this.etherumEnabled = await this.service.checkEthereumConnection();
   }
 
   async ngOnInit(): Promise<void> {
