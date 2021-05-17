@@ -58,15 +58,12 @@ export class UserWalletDataService {
         console.log(e);
       }
       this.accounts = await this.web3js.eth.getAccounts();
-      this.balance = await this.web3js.eth.getBalance(this.accounts[this.accountIndex]);
+      this.balance = await this.web3js.eth.getBalance(this.accounts[this.accountIndex]) / 1000000000000000000;
       this.chainId = await this.web3js.eth.getChainId();
       this.selectedAccount = this.accounts[this.accountIndex];
       this.web3js.defaultAccount = this.selectedAccount;
       this.selectedAccountShorten = this.selectedAccount.substring(0, 17) + '....';
       this.nonce = await this.web3js.eth.getTransactionCount(this.selectedAccount);
-
-      const test = this.balance / 1000000000000000000;
-      this.balance = test;
       this.dataGot = true;
       return this.dataGot;
     }
