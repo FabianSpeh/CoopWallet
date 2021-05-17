@@ -10,29 +10,41 @@ declare var window: any;
 
 
 export class BrowserRefreshService {
-  public etherumCheck = false;
+  /**
+   * Class to simply check after a BrowserRefresh if there is already a Connection to a ethereum Provider
+   * @param ethereumCheck - boolean which save current Status if there is already a connection
+   * @param network - saves the name of the current network
+   */
+  ethereumCheck = false;
   web3js: any;
   network: string;
+
+  /**
+   * Set up of network to be empty at start.
+   */
   constructor() {
     this.network = '';
   }
 
-  public checkEtherumConection = async () => {
+  /**
+   * Checks if there is already a connection to a ethereum provider and then gets the Network and save it.
+   */
+  public checkEthereumConnection = async () => {
     try {
       if (window.ethereum){
         this.web3js = new Web3(window.ethereum);
         const test =  await this.web3js.eth.getAccounts();
         this.network = await this.web3js.eth.net.getNetworkType();
         if (test.length >= 1){
-          this.etherumCheck = true;
+          this.ethereumCheck = true;
         } else {
-          this.etherumCheck = false;
+          this.ethereumCheck = false;
         }
       }
     } catch (err) {
       console.log(err);
-      this.etherumCheck =  false;
+      this.ethereumCheck =  false;
     }
-    return this.etherumCheck;
+    return this.ethereumCheck;
   }
 }

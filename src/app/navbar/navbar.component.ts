@@ -44,7 +44,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
    * Calls BrowserRefreshService to check if there is already a Connected provider to the Site
    */
   async checkData(): Promise<void>{
-    this.ethereumEnabled = await this.service.checkEtherumConection();
+    this.ethereumEnabled = await this.service.checkEthereumConnection();
     this.network = this.service.network;
   }
 
