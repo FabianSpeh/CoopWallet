@@ -50,7 +50,7 @@ export class UserWalletDataService {
   public async getData(accountIndex: number): Promise<boolean>{
     this.accountIndex = accountIndex;
     if (window.ethereum) {
-      await window.ethereum.send('eth_requestAccounts');
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
       this.web3js = new Web3(window.ethereum);
       try {
         this.providerOnline = await this.web3js.eth.net.isListening();
@@ -62,8 +62,8 @@ export class UserWalletDataService {
       this.chainId = await this.web3js.eth.getChainId();
       this.selectedAccount = this.accounts[this.accountIndex];
       this.web3js.defaultAccount = this.selectedAccount;
-      this.selectedAccountShorten = this.selectedAccount.substring(0, 17) + '....';
       this.nonce = await this.web3js.eth.getTransactionCount(this.selectedAccount);
+      this.selectedAccountShorten = this.selectedAccount.substring(0, 17) + '....';
       this.dataGot = true;
       return this.dataGot;
     }
