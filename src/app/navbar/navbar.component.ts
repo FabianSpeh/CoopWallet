@@ -128,6 +128,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.accountIndex = index;
     this.dataGot = await this.userService.getData(this.accountIndex);
     if (this.dataGot) {
+      this.change.detectChanges();
       console.log('Connect to Metamask');
     }
   }
