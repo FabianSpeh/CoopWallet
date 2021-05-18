@@ -36,7 +36,7 @@ export class WalletsComponent implements OnInit {
       return balance;
     } else {
       return this.convertBalanceString(balance.substring(0, balance.length - 3))
-             + ' ' + balance.substring(balance.length - 3, balance.length);
+        + ' ' + balance.substring(balance.length - 3, balance.length);
     }
   }
 
@@ -46,7 +46,6 @@ export class WalletsComponent implements OnInit {
 
   copyToClipboard(address: string): void {
     this.clipboardService.copyFromContent(address);
-    console.log("copied");
   }
 
   ngOnInit(): void {

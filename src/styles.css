@@ -19,9 +19,12 @@ body {
 .bg-accent {
   background-color: #57D9A3;
 }
+.bg-contrast {
+  background-color: #79E2F2;
+}
 
 /* Font Colors */
-.c-white  {
+a.c-white, .c-white  {
   color: #FFFFFF !important;
 }
 .c-medium {

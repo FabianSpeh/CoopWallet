@@ -1,77 +1,58 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-medium">
-  <div class="container-fluid mx-5">
-    <a class="navbar-brand c-white pr-3 d-flex align-items-center" routerLink="">
-      <img class="mr-3 logo" src="../../assets/img/Logo.png">
-      Wallet
+  <div class="container">
+
+    <a class="navbar-brand pr-3 d-flex c-medium" routerLink="/wallets" routerLinkActive="c-white">
+      <img class="mr-4 logo" src="../../assets/img/Logo.png">
+      <span>Wallet</span>
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+    <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
-        <li class="nav-item pr-3">
-          <a class="nav-link c-medium" routerLink="/transactions">Transactions</a>
+        <li class="nav-item mr-4">
+          <a class="nav-link pt-3 c-medium" routerLink="/transactions" routerLinkActive="c-white">Transactions</a>
         </li>
-        <li class="nav-item pr-3">
-          <a class="nav-link c-medium" routerLink="/addresses">Addresses</a>
-        </li>
-      </ul>
-      <div class="d-lg-none w-100 p-2"></div>
-      <ul class="navbar-nav" *ngIf="userService.dataGot">
-        <li class="nav-item pr-3">
-          <div class="c-medium">
-           <div ngbDropdown class="d-inline-block">
-             <a href="#" class="ng-binding dropdown-toggle dropdown-width" id="dropdownAccount" ngbDropdownToggle>Account: {{userService.selectedAccountShorten}}</a>
-             <div ngbDropdownMenu aria-labelledby="dropdownAccount">
-               <div *ngFor="let account of userService.accounts, let i = index">
-                 <a href="#" (click)="accountSwitch(i)" ngbDropdownItem> {{account}}</a>
-               </div>
-             </div>
-           </div>
-          </div>
-        </li>
-        <li class="nav-item pr-3">
-          <div class="c-medium">
-            <label class="capitalize">{{network}}</label>
-          </div>
-        </li>
-        <li class="nav-item pr-3">
-          <div class="c-medium" *ngIf="userService.providerOnline">
-            <label class="capitalize">Online <img src="assets/img/Online.png"></label>
-          </div>
-          <div class="c-medium" *ngIf="!userService.providerOnline">
-            <label class="capitalize">Offline <img src="assets/img/Offline.png"></label>
-          </div>
-        </li>
-        <li class="nav-item pr-3">
-          <div class="c-medium">
-            <label>Chain Id: {{userService.chainId}}</label>
-          </div>
-        </li>
-        <li class="nav-item pr-3">
-          <div class="c-medium">Balance: <span class="c-white">{{userService.balance}}ETH</span></div>
-        </li>
-        <li class="nav-item pr-3">
-          <div class="c-medium"> Nonce: <span class="c-white"> {{userService.nonce}} </span></div>
-        </li>
-      </ul>
-      <ul class="navbar-nav" *ngIf="!userService.dataGot">
-        <li class="nav-item pr-3">
-          <div class="c-medium">
-            <label class="capitalize">{{network}}</label>
-          </div>
-        </li>
-        <li class="nav-item pr-3">
-          <div class="c-medium">
-            <label>Chain Id: {{userService.chainId}}</label>
-          </div>
-        </li>
-        <li class="nav-item pr-3">
-          <div class="c-medium">
-            <a class="meta-text" href="#" *ngIf="!userService.dataGot" (click)="connectMetaMask()">Connect Metamask</a>
-          </div>
+        <li class="nav-item mr-4">
+          <a class="nav-link pt-3 c-medium" routerLink="/addresses" routerLinkActive="c-white">Addresses</a>
         </li>
       </ul>
     </div>
+
   </div>
 </nav>
+
+<div class="w-100 py-2 bg-black">
+  <div id="status" class="container d-flex justify-content-end c-medium">
+
+    <div *ngIf="userService.dataGot">
+
+      <div ngbDropdown class="d-inline-block mr-4">
+        <a href="#" class="ng-binding dropdown-toggle dropdown-width c-medium" id="dropdownAccount" ngbDropdownToggle>Account:
+          <span class="c-accent">{{userService.selectedAccountShorten}}</span></a>
+        <div ngbDropdownMenu aria-labelledby="dropdownAccount">
+          <div *ngFor="let account of userService.accounts, let i = index">
+            <a href="#" (click)="accountSwitch(i)" ngbDropdownItem>{{ account }}</a>
+          </div>
+        </div>
+      </div>
+      <span class="capitalize mr-4">{{ network }}</span>
+      <span *ngIf="userService.providerOnline" class="capitalize mr-4">Online <img class="mb-1" src="../../assets/img/Online.png"></span>
+      <span *ngIf="!userService.providerOnline" class="capitalize mr-4">Offline <img class="mb-1" src="../../assets/img/Offline.png"></span>
+      <span>Chain ID: <span class="c-white mr-4">{{ userService.chainId }}</span></span>
+      <span>Balance: <span class="c-white mr-4">{{ userService.balance }} ETH</span></span>
+      <span>Nonce: <span class="c-white"> {{userService.nonce}} </span></span>
+
+    </div>
+
+    <div *ngIf="!userService.dataGot">
+
+      <span class="capitalize mr-4">{{ network }}</span>
+      <span>Chain ID: <span class="c-white mr-4">{{ userService.chainId }}</span></span>
+      <a class="c-accent" href="#" *ngIf="!userService.dataGot" (click)="connectMetaMask()">Connect Metamask</a>
+
+    </div>
+
+  </div>
+
+</div>
