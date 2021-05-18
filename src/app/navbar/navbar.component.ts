@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Component, OnInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
 import {BrowserRefreshService} from '../browser-refresh.service';
 import {UserWalletDataService} from '../user-wallet-data.service';
 import Web3 from 'web3';
@@ -35,7 +35,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
    * @param service - Service which called after a browser refresh and check if there is already a Connection to a provider established
    * @param userService - Service which provides all relevant Data from the User Wallet.
    */
-  constructor(private service: BrowserRefreshService, public userService: UserWalletDataService) {
+  constructor(private service: BrowserRefreshService, public userService: UserWalletDataService, public change: ChangeDetectorRef) {
     this.ethereumEnabled = false;
     this.dataGot = false;
   }
@@ -114,6 +114,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   async connectMetaMask(): Promise<void> {
     this.dataGot = await this.userService.getData(this.accountIndex);
     if (this.dataGot) {
+      this.change.detectChanges();
       console.log('Connect to Metamask');
     }
   }
