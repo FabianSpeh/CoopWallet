@@ -1,6 +1,10 @@
 import {Component, ViewChild} from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {CookieService} from 'ngx-cookie-service';
+import Web3 from 'web3';
+import {catchError} from 'rxjs/operators';
+
+declare var window: any;
 
 
 
@@ -41,6 +45,7 @@ export class NgbdModalContentComponent {
   walletName: any;
   walletAddress: any;
   walletList: any;
+  web3js: any;
 
 
 
@@ -69,9 +74,9 @@ export class NgbdModalContentComponent {
   }
 
 
-  addCookies(): any {
+  async addCookies(): Promise<any> {
     // checks if Wallets Cookie already exists and retrieves it
-    if (this.cookieService.check('Wallets')){
+    if (this.cookieService.check('Wallets')) {
       this.walletList = JSON.parse(this.cookieService.get('Wallets'));
     }
     // takes wallet Name and wallet Address from Text Inputs
@@ -81,16 +86,30 @@ export class NgbdModalContentComponent {
     // adds new Wallet name/ Address to Array
     this.walletList.name.push(this.walletName);
     this.walletList.address.push(this.walletAddress);
+    let isAdress = false;
+    try {
+      if (window.ethereum) {
+        this.web3js = new Web3(window.ethereum);
+        await this.web3js.eth.getBalance(this.walletAddress);
+        isAdress = true;
+      }
+    } catch (e) {
+      isAdress = false;
+      console.log(e);
+      console.log('Wrong Adress');
+      console.log(this.walletAddress);
+    }
 
     // adds new Array to Cookies as Json
-    this.cookieService.set('Wallets', JSON.stringify(this.walletList));
-
+    if (isAdress) {
+      this.cookieService.set('Wallets', JSON.stringify(this.walletList));
     // debugging
-    for (let i = 0; i < this.walletList.name.length; i++){
+      for (let i = 0; i < this.walletList.name.length; i++) {
 
-      console.log('Name: ' + this.walletList.name[i] + ' Address: ' + this.walletList.address[i]);
+        console.log('Name: ' + this.walletList.name[i] + ' Address: ' + this.walletList.address[i]);
 
     }
+  }
 
   }
 
