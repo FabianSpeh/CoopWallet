@@ -1,9 +1,9 @@
 <div class="container py-5">
   <p class="c-white">wallets route works!</p>
   Guthaben:<br>
-  <p class="c-white">{{walletService.getBalance("0x283011659f9Cd638b4d99EFB264b198917f6Ff5D")}}</p>
+  <p class="c-white">{{walletService.balance}}</p>
   Anzahl Besitzer::<br>
-  <p class="c-white">{{walletService.getNumberOfOwners("0x283011659f9Cd638b4d99EFB264b198917f6Ff5D")}}</p>
+  <p class="c-white">{{walletService.ownerListNumber}}</p>
   Notwendige Unterstützer:<br>
-  <p class="c-white">{{walletService.getNumberOfConfirmations("0x283011659f9Cd638b4d99EFB264b198917f6Ff5D")}}</p>
+  <p class="c-white">{{walletService.numberOfConfirmations}}</p>
 </div>

@@ -14,6 +14,8 @@ export class MultisigWalletDataService {
   accountIndex = 0;
   providerOnline = false;
   contract_abi: any;
+  numberOfConfirmations: any;
+  ownerListNumber: any;
 
   constructor() {
     this.balance = 0;
@@ -22,56 +24,35 @@ export class MultisigWalletDataService {
   }
 
 
-  public async getBalance(address: any):Promise<number> {
+  public async getBalance(address: any): Promise<void> {
 
-    if (window.ethereum)
-    {
+    if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
       await window.ethereum.enable();
-
       this.balance = await this.web3js.eth.getBalance(address);
-
-      return this.balance / 1000000000000000000;
-
-    } else {
-      return Number.NaN;
+      console.log(this.balance);
+      this.balance = this.web3js.utils.fromWei(this.balance, 'ether');
     }
   }
 
-  public async getNumberOfConfirmations(address:any):Promise<number>
-  {
+  public async getNumberOfConfirmations(address: any): Promise<void> {
 
-    if (window.ethereum)
-    {
+    if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
       await window.ethereum.enable();
 
-      const MultiSigContract = await this.web3js.Contract(this.contract_abi, address)
-      const numberOfConfirmations = MultiSigContract.methods.required.call();
-
-      return numberOfConfirmations;
-    }
-    else
-    {
-      return Number.NaN;
+      const MultiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), address);
+      MultiSigContract.methods.required.call().call().then( (res: any) => this.numberOfConfirmations = res);
     }
   }
 
- async getNumberOfOwners(address:any):Promise<number>
-  {
-    if(window.ethereum)
-    {
+  async getNumberOfOwners(address: any): Promise<void> {
+    if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
       await window.ethereum.enable();
 
-      const MultiSigContract = await this.web3js.Contract(this.contract_abi, address)
-      const ownerList = MultiSigContract.methods.getOwners().call();
-
-      return ownerList.length;
-    }
-    else
-    {
-      return Number.NaN;
+      const MultiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), address);
+      MultiSigContract.methods.getOwners().call().then((res: any) => this.ownerListNumber = res.length);
     }
   }
 }

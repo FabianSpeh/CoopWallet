@@ -8,6 +8,7 @@ import {MultisigWalletDataService} from '../multisig-wallet-data.service';
 })
 export class WalletsComponent implements OnInit {
 
+  balance: any;
 
   constructor(public walletService: MultisigWalletDataService)
   {
@@ -16,9 +17,10 @@ export class WalletsComponent implements OnInit {
 
   }
 
-  ngOnInit(): void
-  {
-
+  async ngOnInit(): Promise<void> {
+    await this.walletService.getBalance('0x283011659f9Cd638b4d99EFB264b198917f6Ff5D');
+    await this.walletService.getNumberOfConfirmations('0x283011659f9Cd638b4d99EFB264b198917f6Ff5D');
+    await this.walletService.getNumberOfOwners('0x283011659f9Cd638b4d99EFB264b198917f6Ff5D');
   }
 
 }
