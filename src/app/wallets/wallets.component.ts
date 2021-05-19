@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ClipboardService} from 'ngx-clipboard';
+import {MultisigWalletDataService} from '../multisig-wallet-data.service';
 
 @Component({
   selector: 'app-wallets',
@@ -8,7 +9,7 @@ import {ClipboardService} from 'ngx-clipboard';
 })
 export class WalletsComponent implements OnInit {
 
-  constructor(private clipboardService: ClipboardService) {}
+  constructor(private clipboardService: ClipboardService, public walletService: MultisigWalletDataService) {}
 
   walletsData = [
     {
