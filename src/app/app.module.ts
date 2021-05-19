@@ -10,7 +10,7 @@ import { WalletsComponent } from './wallets/wallets.component';
 import { AddressesComponent } from './addresses/addresses.component';
 import { PopupComponent } from './popup/popup.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { BackgroundComponent } from './background/background.component';
 
 

@@ -21,6 +21,8 @@
     "@angular/platform-browser": "~11.2.12",
     "@angular/platform-browser-dynamic": "~11.2.12",
     "@angular/router": "~11.2.12",
+    "ngx-build-plus": "^11.0.0",
+    "ngx-clipboard": "^14.0.1",
     "@ng-bootstrap/ng-bootstrap": "^9.1.0",
     "bignumber.js": "^9.0.1",
     "bootstrap": "^4.5.0",
