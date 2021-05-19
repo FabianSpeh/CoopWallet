@@ -8,7 +8,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/wallets', pathMatch: 'full'},
   { path: 'transactions', component: TransactionsComponent },
   { path: 'addresses', component: AddressesComponent },
-  { path: 'wallets', component: WalletsComponent,  }
+  { path: 'wallets', component: WalletsComponent }
 ];
 
 @NgModule({

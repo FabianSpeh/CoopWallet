@@ -9,7 +9,9 @@
 .background-logo {
   width: 550px;
   height: 450px;
+  bottom: 100px;
+  position: absolute;
   content: "";
   background: url("../../assets/img/BackgroundLogo.png") no-repeat;
-  opacity: 0.3;
+  opacity: 0.2;
 }
