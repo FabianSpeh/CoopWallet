@@ -1,12 +1,13 @@
-import {Component, ElementRef, Input, ViewChild, Inject} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {CookieService} from 'ngx-cookie-service';
-import {WalletsComponent} from '../wallets/wallets.component';
+
 
 
 @Component({
   selector: 'app-ngbd-modal-content',
   template: `
+
     <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">Add a Wallet</h4>
     </div>
@@ -23,11 +24,11 @@ import {WalletsComponent} from '../wallets/wallets.component';
 
           </div>
         </div>
-        <p #errorMessage hidden="true" style="color: red">You need to specify a <b>Name</b> and an <b>Address</b>!</p>
+        <p #errorMessage hidden='true' style="color: red">You need to specify a <b>Name</b> and an <b>Address</b>!</p>
       </form>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn btn-outline-light"(click)="save()" >Add</button>
+      <button type="button" class="btn btn btn-outline-light" (click)="save()" >Add</button>
     </div>
   `,
   styleUrls: ['./modal-content.component.css']
@@ -117,4 +118,3 @@ export class ModalContentComponent {
   }
 
 }
-

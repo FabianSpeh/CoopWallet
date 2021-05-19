@@ -46,7 +46,7 @@ export class WalletsComponent implements OnInit {
 
   copyToClipboard(address: string): void {
     this.clipboardService.copyFromContent(address);
-    console.log("copied");
+    console.log('copied');
   }
 
   ngOnInit(): void {
