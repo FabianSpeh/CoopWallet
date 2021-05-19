@@ -82,6 +82,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       window.ethereum.on('networkChanged', () => {
         console.log('networkChanged');
         this.update();
+        window.location.reload();
       });
 
       window.ethereum.on('balanceChanged', () => {

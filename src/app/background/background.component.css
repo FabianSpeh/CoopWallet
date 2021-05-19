@@ -3,12 +3,15 @@
   height: 100vh;
   display: block;
   position: fixed;
+  z-index: -1;
 }
 
 .background-logo {
   width: 550px;
   height: 450px;
+  bottom: 100px;
+  position: absolute;
   content: "";
-  background: url("../../assets/img/BackgroundLogoWIP.png") no-repeat;
-  opacity: 0.3;
+  background: url("../../assets/img/BackgroundLogo.png") no-repeat;
+  opacity: 0.2;
 }

@@ -1,0 +1,41 @@
+.label{
+  color: white !important;
+
+}
+#label1{
+  color: white !important;
+}
+
+#nameInput{
+  padding-bottom:20px
+}
+.dark-modal .modal-content {
+  background-color: #292b2c;
+  color: white !important;
+}
+.modal-body {
+  background-color: #383F45;
+}
+.modal-header{
+  background-color: #383F45;
+}
+.modal-footer{
+  background-color: #383F45;
+}
+
+#body-text, #modal-footer{
+  color:white !important;
+  background-color: #424242;
+}
+
+.form-control{
+  background-color: #828282;
+  color: white !important;
+}
+.form-control::placeholder{
+  color:white !important;
+  opacity: 0.6;
+}
+
+
+

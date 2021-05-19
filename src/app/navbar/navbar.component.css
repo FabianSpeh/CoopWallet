@@ -1,12 +1,17 @@
 nav, .navbar-brand {
   font-family: Montserrat, serif;
-  font-size: 1.3em;
+  font-size: 1.5em;
   ;
 }
 
 nav a:hover {
   color: #FFFFFF !important;
 }
+
+#status {
+  font-size: 1.15em;
+}
+
 .meta-text {
   color: #bab8ff;
 }
