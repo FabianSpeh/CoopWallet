@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import Web3 from 'web3';
+import BigNumber from 'bignumber.js';
 
 declare var window: any;
 
@@ -19,7 +20,8 @@ export class UserWalletDataService {
    * @param accountIndex - Current index of the Selected account on the Site of the accounts array.
    * @param dataGot - Save if the Data has been extracted from the User Wallet
    */
-  balance: number;
+  balance: BigNumber;
+  showBalance: string;
   accounts: any;
   web3js: any;
   network: any;
@@ -35,7 +37,8 @@ export class UserWalletDataService {
    * Set up all initial data to be empty or 0
    */
   constructor() {
-    this.balance = 0;
+    this.balance = new BigNumber(0);
+    this.showBalance = '';
     this.dataGot = false;
     this.selectedAccount = '';
     this.selectedAccountShorten = '';
@@ -58,7 +61,10 @@ export class UserWalletDataService {
         console.log(e);
       }
       this.accounts = await this.web3js.eth.getAccounts();
-      this.balance = await this.web3js.eth.getBalance(this.accounts[this.accountIndex]) / 1000000000000000000;
+      this.balance = new BigNumber(await this.web3js.eth.getBalance(this.accounts[this.accountIndex]));
+      this.showBalance = this.web3js.utils.fromWei(this.balance.toString(), 'ether') + 'ETH';
+      // TODO Change HTML to use showBalance.
+      console.log(this.showBalance);
       this.chainId = await this.web3js.eth.getChainId();
       this.selectedAccount = this.accounts[this.accountIndex];
       this.web3js.defaultAccount = this.selectedAccount;
