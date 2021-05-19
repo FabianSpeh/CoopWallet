@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ClipboardService} from 'ngx-clipboard';
 import {MultisigWalletDataService} from '../multisig-wallet-data.service';
+import {CookieService} from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-wallets',
@@ -9,7 +10,7 @@ import {MultisigWalletDataService} from '../multisig-wallet-data.service';
 })
 export class WalletsComponent implements OnInit {
 
-  constructor(private clipboardService: ClipboardService, public walletService: MultisigWalletDataService) {}
+  constructor(public change: ChangeDetectorRef, private clipboardService: ClipboardService, public walletService: MultisigWalletDataService, private cookieService: CookieService) {}
 
   walletsData = [
     {
@@ -49,7 +50,31 @@ export class WalletsComponent implements OnInit {
     this.clipboardService.copyFromContent(address);
   }
 
-  ngOnInit(): void {
+  async readCookies(): Promise<void> {
+    const wallets = JSON.parse(this.cookieService.get('Wallets'));
+    console.log(wallets);
+    for (let i = 0; i < wallets.name.length; i++) {
+      let address = wallets.address[i];
+      await this.walletService.getBalance(address);
+      await this.walletService.getNumberOfConfirmations(address);
+      await this.walletService.getNumberOfOwners(address);
+      await this.walletService.getTransActionCount(address);
+      await this.walletService.getNetwork(address);
+      this.walletsData.push({
+        name: wallets.name[i],
+        address: wallets.address[i],
+        balance: this.walletService.balance.toString(),
+        confirmations: this.walletService.numberOfConfirmations.toString(),
+        owners: this.walletService.ownerListNumber.toString(),
+        pending: this.walletService.pendingNonce.toString(),
+        network: this.walletService.network.toString()
+      });
+    }
+    this.change.detectChanges();
+  }
+
+  async ngOnInit(): Promise<void> {
+    this.readCookies();
   }
 
 }

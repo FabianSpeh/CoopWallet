@@ -2,6 +2,7 @@
   font-size: 1.2em
 }
 
+.capitalize { text-transform: capitalize; }
 .address {
   cursor: pointer;
 }
