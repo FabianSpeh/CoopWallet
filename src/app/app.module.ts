@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { CookieService } from 'ngx-cookie-service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +16,8 @@ import { BackgroundComponent } from './background/background.component';
 
 // Service class
 import { MultisigWalletDataService } from './multisig-wallet-data.service';
+import {ModalContentComponent, NgbdModalContentComponent} from './modal-content/modal-content.component';
+
 
 @NgModule({
   declarations: [
@@ -25,7 +28,9 @@ import { MultisigWalletDataService } from './multisig-wallet-data.service';
     WalletsComponent,
     AddressesComponent,
     PopupComponent,
-    BackgroundComponent
+    BackgroundComponent,
+    ModalContentComponent,
+    NgbdModalContentComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +38,7 @@ import { MultisigWalletDataService } from './multisig-wallet-data.service';
     NgbModule,
     FormsModule
   ],
-  providers: [MultisigWalletDataService],
+  providers: [MultisigWalletDataService, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
