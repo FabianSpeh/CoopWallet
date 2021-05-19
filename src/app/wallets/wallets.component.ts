@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {MultisigWalletDataService} from '../multisig-wallet-data.service';
 
 @Component({
   selector: 'app-wallets',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WalletsComponent implements OnInit {
 
-  constructor() { }
 
-  ngOnInit(): void {
+  constructor(public walletService: MultisigWalletDataService)
+  {
+    //this.etherumEnabled = false;
+    //this.dataGot = false;
+
+  }
+
+  ngOnInit(): void
+  {
+
   }
 
 }
