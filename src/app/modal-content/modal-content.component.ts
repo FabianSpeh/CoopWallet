@@ -109,6 +109,7 @@ export class NgbdModalContentComponent {
         console.log('Name: ' + this.walletList.name[i] + ' Address: ' + this.walletList.address[i]);
 
     }
+      window.location.reload();
   }
 
   }
