@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { CookieService } from 'ngx-cookie-service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,6 +14,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { BackgroundComponent } from './background/background.component';
 
+import {ModalContentComponent, NgbdModalContentComponent} from './modal-content/modal-content.component';
+
 
 @NgModule({
   declarations: [
@@ -23,7 +26,9 @@ import { BackgroundComponent } from './background/background.component';
     WalletsComponent,
     AddressesComponent,
     PopupComponent,
-    BackgroundComponent
+    BackgroundComponent,
+    ModalContentComponent,
+    NgbdModalContentComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +36,7 @@ import { BackgroundComponent } from './background/background.component';
     NgbModule,
     FormsModule
   ],
-  providers: [],
+  providers: [ CookieService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
