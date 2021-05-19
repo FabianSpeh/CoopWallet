@@ -13,6 +13,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { BackgroundComponent } from './background/background.component';
 
+// Service class
+import { MultisigWalletDataService } from './multisig-wallet-data.service';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,7 @@ import { BackgroundComponent } from './background/background.component';
     NgbModule,
     FormsModule
   ],
-  providers: [],
+  providers: [MultisigWalletDataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
