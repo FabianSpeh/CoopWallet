@@ -2,19 +2,19 @@
 
 body {
   font-family: NunitoSans, serif;
-  background-color: #121212;
+  background-color: #24292E;
   color: #FFFFFF;
 }
 
 /* Background Colors */
 .bg-black {
-  background-color: #000000;
+  background-color: #080808;
 }
 .bg-surface {
-  background-color: #121212;
+  background-color: #24292E;
 }
 .bg-medium {
-  background-color: #303030;
+  background-color: #383F45;
 }
 .bg-accent {
   background-color: #57D9A3;
