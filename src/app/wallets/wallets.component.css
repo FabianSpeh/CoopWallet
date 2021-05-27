@@ -6,3 +6,6 @@
 .address {
   cursor: pointer;
 }
+tbody {
+  cursor: pointer;
+}

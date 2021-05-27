@@ -17,6 +17,7 @@ import { BackgroundComponent } from './background/background.component';
 // Service class
 import { MultisigWalletDataService } from './multisig-wallet-data.service';
 import {ModalContentComponent, NgbdModalContentComponent} from './modal-content/modal-content.component';
+import { WalletDetailsComponent } from './wallet-details/wallet-details.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import {ModalContentComponent, NgbdModalContentComponent} from './modal-content/
     PopupComponent,
     BackgroundComponent,
     ModalContentComponent,
-    NgbdModalContentComponent
+    NgbdModalContentComponent,
+    WalletDetailsComponent
   ],
   imports: [
     BrowserModule,
