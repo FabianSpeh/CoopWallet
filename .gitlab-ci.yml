@@ -13,7 +13,7 @@ install-job:
 build-job:
   stage: build
   tags:
-    - npm
+    - nodejs
   script:
     - node --version
     - npm install -g @angular/cli 
