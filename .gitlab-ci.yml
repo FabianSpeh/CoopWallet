@@ -1,13 +1,5 @@
 stages:
-  - install
   - build
-
-install-job:
-  stage: install
-  tags:
-    - npm
-  script:
-    - npm ci
 
 
 build-job:
@@ -15,5 +7,6 @@ build-job:
   tags:
     - nodejs
   script:
+    - npm ci
     - npm install -g @angular/cli@11.2.11
     - ng build
