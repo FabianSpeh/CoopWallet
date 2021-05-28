@@ -4,6 +4,7 @@ stages:
 
 install-job:
   stage: install
+  image: local-nodejs:12
   tags:
     - npm
   script:
@@ -12,6 +13,7 @@ install-job:
 
 build-job:
   stage: build
+  image: local-nodejs:12
   tags:
     - npm
   script:
