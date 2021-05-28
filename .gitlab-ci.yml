@@ -12,5 +12,7 @@ install-job:
 
 build-job:
   stage: build
+  tags:
+    - npm
   script:
     - ng build
