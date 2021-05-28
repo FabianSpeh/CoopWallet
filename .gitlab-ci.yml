@@ -15,4 +15,5 @@ build-job:
   tags:
     - npm
   script:
+    - npm install -g @angular/cli 
     - ng build
