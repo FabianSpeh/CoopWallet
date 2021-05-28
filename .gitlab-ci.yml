@@ -1,6 +1,5 @@
 job_1:
   stage: build
-  image: node:12-alpine
   tags:
     -  nodejs
   script:
