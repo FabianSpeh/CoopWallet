@@ -1,4 +1,4 @@
-job_1:
+build-job:
   stage: build
   tags:
     -  nodejs
