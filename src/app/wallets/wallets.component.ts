@@ -10,12 +10,13 @@ import {CookieService} from 'ngx-cookie-service';
 })
 export class WalletsComponent implements OnInit {
 
-  constructor(public change: ChangeDetectorRef, private clipboardService: ClipboardService, public walletService: MultisigWalletDataService, private cookieService: CookieService) {}
+  constructor(public change: ChangeDetectorRef, private clipboardService: ClipboardService, public walletService: MultisigWalletDataService,
+              private cookieService: CookieService) {}
 
   walletsData = [
     {
       name: 'Multisig Wallet',
-      address: '321AA43B764CD',
+      address: '0x321AA43B764CD',
       balance: '1000000',
       confirmations: '3',
       owners: '5',
@@ -24,7 +25,7 @@ export class WalletsComponent implements OnInit {
     },
     {
       name: 'secure Wallet',
-      address: '811FF43AB763D2',
+      address: '0x811FF43AB763D2',
       balance: '1',
       confirmations: '7',
       owners: '7',
@@ -43,7 +44,7 @@ export class WalletsComponent implements OnInit {
   }
 
   formatAddressString(address: string): string {
-    return '0x' + (address.length > 10 ? address.substring(0, 10) : address) + '..';
+    return (address.length > 10 ? address.substring(0, 14) : address) + '..';
   }
 
   copyToClipboard(address: string): void {

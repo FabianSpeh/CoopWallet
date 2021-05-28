@@ -14,10 +14,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let wallet of walletsData" routerLink="/wallets/details/{{ wallet.name }}">
-          <td>{{ wallet.name }}</td>
+        <tr *ngFor="let wallet of walletsData">
+          <td><span class="wallet-link py-3" routerLink="/wallets/details/{{ wallet.address }}">{{ wallet.name }}</span></td>
           <td>
-            <span class="address" ngbTooltip="{{wallet.address}}" placement="top-left" container="body">
+            <span class="address" ngbTooltip="{{ wallet.address }}" placement="top-left" container="body">
               <span triggers="click" [autoClose]="true" ngbTooltip="copied!" placement="top-left"
                     container="body" (click)="copyToClipboard(wallet.address)">
                 {{ this.formatAddressString(wallet.address) }}

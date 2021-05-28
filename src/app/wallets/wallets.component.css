@@ -2,10 +2,11 @@
   font-size: 1.2em
 }
 
-.capitalize { text-transform: capitalize; }
-.address {
-  cursor: pointer;
+.capitalize {
+  text-transform: capitalize;
 }
-tbody {
+
+.wallet-link:hover {
   cursor: pointer;
+  text-decoration: underline;
 }
