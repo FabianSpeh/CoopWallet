@@ -2,6 +2,6 @@ job_1:
   stage: build
   image: node:12-alpine
   tags:
-    -  #36 (bd1b2b0d)
+    -  36 (bd1b2b0d)
   script:
     - node --version
