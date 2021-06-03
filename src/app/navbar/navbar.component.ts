@@ -2,6 +2,7 @@ import {Component, OnInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
 import {BrowserRefreshService} from '../browser-refresh.service';
 import {UserWalletDataService} from '../user-wallet-data.service';
 import Web3 from 'web3';
+import {ClipboardService} from 'ngx-clipboard';
 
 declare var window: any;
 
@@ -34,11 +35,24 @@ export class NavbarComponent implements OnInit, OnDestroy {
    * Constructor to set up the services and give ethereumEnabled and data got initial false values
    * @param service - Service which called after a browser refresh and check if there is already a Connection to a provider established
    * @param userService - Service which provides all relevant Data from the User Wallet.
+   * @param change
+   * @param clipboardService - Service used to save an address to the clipboard if clicked
    */
-  constructor(private service: BrowserRefreshService, public userService: UserWalletDataService, public change: ChangeDetectorRef) {
+  constructor(private service: BrowserRefreshService, public userService: UserWalletDataService, public change: ChangeDetectorRef,
+              private clipboardService: ClipboardService) {
     this.ethereumEnabled = false;
     this.dataGot = false;
   }
+
+
+  /**
+   * Copies the given address to the users clipboard
+   * @param address - The address to be copied
+   */
+  copyToClipboard(address: string): void {
+    this.clipboardService.copyFromContent(address);
+  }
+
 
   /**
    * Calls BrowserRefreshService to check if there is already a Connected provider to the Site
