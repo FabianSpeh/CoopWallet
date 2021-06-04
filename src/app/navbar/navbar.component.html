@@ -27,14 +27,11 @@
 
     <div *ngIf="userService.dataGot">
 
-      <div ngbDropdown class="d-inline-block mr-4">
-        <a href="#" class="ng-binding dropdown-toggle dropdown-width c-medium" id="dropdownAccount" ngbDropdownToggle>Account:
-          <span class="c-accent">{{userService.selectedAccountShorten}}</span></a>
-        <div ngbDropdownMenu aria-labelledby="dropdownAccount">
-          <div *ngFor="let account of userService.accounts, let i = index">
-            <a href="#" (click)="accountSwitch(i)" ngbDropdownItem>{{ account }}</a>
-          </div>
-        </div>
+      <div class="d-inline-block mr-4 pointer" ngbTooltip="{{userService.selectedAccount}}" placement="bottom">
+          <span triggers="click" [autoClose]="true" ngbTooltip="copied!" placement="bottom"
+                container="body" (click)="copyToClipboard(userService.selectedAccount)">
+            Account: <span class="c-accent">{{userService.selectedAccountShorten}}</span>
+          </span>
       </div>
       <span class="capitalize mr-4">{{ network }}</span>
       <span *ngIf="userService.providerOnline" class="capitalize mr-4">Online <img class="mb-1" src="../../assets/img/Online.png"></span>

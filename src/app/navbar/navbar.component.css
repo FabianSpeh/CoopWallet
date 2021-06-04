@@ -16,4 +16,8 @@ nav a:hover {
   color: #bab8ff;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .capitalize { text-transform: capitalize; }

@@ -10,7 +10,8 @@ import {CookieService} from 'ngx-cookie-service';
 })
 export class WalletsComponent implements OnInit {
 
-  constructor(public change: ChangeDetectorRef, private clipboardService: ClipboardService, public walletService: MultisigWalletDataService, private cookieService: CookieService) {}
+  constructor(public change: ChangeDetectorRef, private clipboardService: ClipboardService, public walletService: MultisigWalletDataService,
+              private cookieService: CookieService) {}
 
   walletsData = [
     {
