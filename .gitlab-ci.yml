@@ -8,6 +8,7 @@ build-job:
     - nodejs
 
   script:
-    - yarn install
-    - yarn global add @angular/cli@11.2.11
-    - yarn ng build --prod
+    - npm install
+    - npm global add @angular/cli@11.2.11
+    - ng build --prod
+    - ng lint
