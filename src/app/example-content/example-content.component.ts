@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./example-content.component.css']
 })
 export class ExampleContentComponent implements OnInit {
-  show: boolean = false;
+  show = false;
 
   toggleShow(): void {
     this.show = !this.show;

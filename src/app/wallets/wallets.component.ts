@@ -44,7 +44,7 @@ export class WalletsComponent implements OnInit {
   }
 
   formatAddressString(address: string): string {
-    return '0x' + (address.length > 10 ? address.substring(0, 10) : address) + '..';
+    return (address.length > 10 ? address.substring(0, 10) : address) + '..';
   }
 
   copyToClipboard(address: string): void {
@@ -52,26 +52,29 @@ export class WalletsComponent implements OnInit {
   }
 
   async readCookies(): Promise<void> {
-    const wallets = JSON.parse(this.cookieService.get('Wallets'));
-    console.log(wallets);
-    for (let i = 0; i < wallets.name.length; i++) {
-      let address = wallets.address[i];
-      await this.walletService.getBalance(address);
-      await this.walletService.getNumberOfConfirmations(address);
-      await this.walletService.getNumberOfOwners(address);
-      await this.walletService.getTransActionCount(address);
-      await this.walletService.getNetwork(address);
-      this.walletsData.push({
-        name: wallets.name[i],
-        address: wallets.address[i],
-        balance: this.walletService.balance.toString(),
-        confirmations: this.walletService.numberOfConfirmations.toString(),
-        owners: this.walletService.ownerListNumber.toString(),
-        pending: this.walletService.pendingNonce.toString(),
-        network: this.walletService.network.toString()
-      });
+    const cookieExists: boolean = this.cookieService.check('Wallets');
+    if (cookieExists) {
+      const wallets = JSON.parse(this.cookieService.get('Wallets'));
+      console.log(wallets);
+      for (let i = 0; i < wallets.name.length; i++) {
+        const address = wallets.address[i];
+        await this.walletService.getBalance(address);
+        await this.walletService.getNumberOfConfirmations(address);
+        await this.walletService.getNumberOfOwners(address);
+        await this.walletService.getTransActionCount(address);
+        await this.walletService.getNetwork(address);
+        this.walletsData.push({
+          name: wallets.name[i],
+          address: wallets.address[i],
+          balance: this.walletService.balance.toString(),
+          confirmations: this.walletService.numberOfConfirmations.toString(),
+          owners: this.walletService.ownerListNumber.toString(),
+          pending: this.walletService.pendingNonce.toString(),
+          network: this.walletService.network.toString()
+        });
+      }
+      this.change.detectChanges();
     }
-    this.change.detectChanges();
   }
 
   async ngOnInit(): Promise<void> {

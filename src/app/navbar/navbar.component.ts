@@ -35,7 +35,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
    * Constructor to set up the services and give ethereumEnabled and data got initial false values
    * @param service - Service which called after a browser refresh and check if there is already a Connection to a provider established
    * @param userService - Service which provides all relevant Data from the User Wallet.
-   * @param change
+   * @param change - Dection of Change
    * @param clipboardService - Service used to save an address to the clipboard if clicked
    */
   constructor(private service: BrowserRefreshService, public userService: UserWalletDataService, public change: ChangeDetectorRef,
