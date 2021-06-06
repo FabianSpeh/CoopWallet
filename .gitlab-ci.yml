@@ -9,6 +9,6 @@ build-job:
 
   script:
     - npm install
-    - npm global add @angular/cli@11.2.11
+    - npm install -g @angular/cli@11.2.11
     - ng build --prod
     - ng lint
