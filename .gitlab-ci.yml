@@ -1,19 +1,5 @@
 stages:
-  - install
   - build
-
-install-job:
-  stage: install
-
-  tags:
-    - nodejs
-
-  script:
-    - yarn install
-    - yarn global add @angular/cli@11.2.11
-
-  cache:
-    key: "angular"
 
 build-job:
   stage: build
@@ -22,8 +8,6 @@ build-job:
     - nodejs
 
   script:
+    - yarn install
+    - yarn global add @angular/cli@11.2.11
     - yarn ng build --prod
-
-  cache:
-    key: "angular"
-    policy: pull
