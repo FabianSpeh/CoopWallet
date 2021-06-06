@@ -1,12 +1,28 @@
 stages:
+  - install
   - build
 
+install-job:
+  stage: install
 
-build-job:
-  stage: build
   tags:
     - nodejs
+
   script:
     - npm ci
     - npm install -g @angular/cli@11.2.11
+
+  cache:
+    key: "angular"
+
+build-job:
+  stage: build
+
+  tags:
+    - nodejs
+
+  script:
     - ng build
+
+  cache:
+    key: "angular"
