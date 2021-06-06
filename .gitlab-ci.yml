@@ -9,8 +9,8 @@ install-job:
     - nodejs
 
   script:
-    - npm ci
-    - npm install -g @angular/cli@11.2.11
+    - yarn install
+    - yarn install -g @angular/cli@11.2.11
 
   cache:
     key: "angular"
@@ -22,7 +22,8 @@ build-job:
     - nodejs
 
   script:
-    - ng build
+    - yarn ng build --prod
 
   cache:
     key: "angular"
+    policy: pull
