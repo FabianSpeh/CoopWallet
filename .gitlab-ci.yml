@@ -10,7 +10,7 @@ install-job:
 
   script:
     - yarn install
-    - yarn install -g @angular/cli@11.2.11
+    - yarn global add @angular/cli@11.2.11
 
   cache:
     key: "angular"
