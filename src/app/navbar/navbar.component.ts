@@ -28,7 +28,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ethereumEnabled: boolean;
   dataGot: boolean;
   interval: any;
-  updateTime = 600000;
+  updateTime = 10000;
   web3js: any;
 
   /**
