@@ -66,9 +66,12 @@ export class UserWalletDataService {
       if (!balanceInEther.includes('.')){
         balanceInEther = balanceInEther + '.00' + ' ';
       } else {
-          balanceInEther = balanceInEther.substring(0, (balanceInEther.indexOf('.') + 2));
+          let balanceInNumber = Number(balanceInEther);
+          balanceInNumber = Math.round((balanceInNumber + Number.EPSILON) * 100) / 100;
+          console.log(balanceInNumber);
+          balanceInEther = balanceInNumber.toString().substring(0, (balanceInNumber.toString().indexOf('.') + 3));
       }
-      this.showBalance = balanceInEther + 'ETH';
+      this.showBalance = balanceInEther + ' ETH';
       console.log(this.showBalance);
       this.chainId = await this.web3js.eth.getChainId();
       this.selectedAccount = this.accounts[this.accountIndex];
