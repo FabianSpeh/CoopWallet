@@ -16,4 +16,4 @@ build-job:
     - npm install -g @angular/cli@11.2.11
     - ng build
     - ng lint
-    - ng test
+    - ng test --watch=false
