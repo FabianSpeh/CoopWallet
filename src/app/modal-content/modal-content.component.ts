@@ -76,8 +76,9 @@ export class NgbdModalContentComponent {
 
   async addCookies(): Promise<any> {
     // checks if Wallets Cookie already exists and retrieves it
-    if (this.cookieService.check('Wallets')) {
-      this.walletList = JSON.parse(this.cookieService.get('Wallets'));
+    if (localStorage.getItem('Wallets') != null) {
+      // this.walletList = JSON.parse(this.cookieService.get('Wallets'));
+      this.walletList = JSON.parse(localStorage.getItem('Wallets') || '{}');
     }
     // takes wallet Name and wallet Address from Text Inputs
     this.walletName = this.walletNameElement.nativeElement.value;
@@ -102,7 +103,8 @@ export class NgbdModalContentComponent {
 
     // adds new Array to Cookies as Json
     if (isAdress) {
-      this.cookieService.set('Wallets', JSON.stringify(this.walletList));
+      // this.cookieService.set('Wallets', JSON.stringify(this.walletList));
+      localStorage.setItem('Wallets', JSON.stringify(this.walletList));
     // debugging
       for (let i = 0; i < this.walletList.name.length; i++) {
 
@@ -113,14 +115,6 @@ export class NgbdModalContentComponent {
   }
 
   }
-
-  // gets Wallets Array from Cookies
-  getCookies(): any {
-
-    this.walletList = JSON.parse(this.cookieService.get('Wallets'));
-    return this.walletList;
-  }
-
 }
 
 
