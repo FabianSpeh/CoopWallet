@@ -62,8 +62,13 @@ export class UserWalletDataService {
       }
       this.accounts = await this.web3js.eth.getAccounts();
       this.balance = new BigNumber(await this.web3js.eth.getBalance(this.accounts[this.accountIndex]));
-      this.showBalance = this.web3js.utils.fromWei(this.balance.toString(), 'ether') + 'ETH';
-      // TODO Change HTML to use showBalance.
+      let balanceInEther = this.web3js.utils.fromWei(this.balance.toString(), 'ether');
+      if (!balanceInEther.includes('.')){
+        balanceInEther = balanceInEther + '.00' + ' ';
+      } else {
+          balanceInEther = balanceInEther.substring(0, (balanceInEther.indexOf('.') + 2));
+      }
+      this.showBalance = balanceInEther + 'ETH';
       console.log(this.showBalance);
       this.chainId = await this.web3js.eth.getChainId();
       this.selectedAccount = this.accounts[this.accountIndex];
