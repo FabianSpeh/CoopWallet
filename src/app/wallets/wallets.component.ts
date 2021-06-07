@@ -52,7 +52,11 @@ export class WalletsComponent implements OnInit {
   }
 
   async readCookies(): Promise<void> {
-    const wallets = JSON.parse(this.cookieService.get('Wallets'));
+    // const wallets = JSON.parse(this.cookieService.get('Wallets'));
+    if (localStorage.getItem('Wallets') == null){
+    return;
+    }
+    const wallets = JSON.parse(localStorage.getItem('Wallets') || '{}');
     console.log(wallets);
     for (let i = 0; i < wallets.name.length; i++) {
       let address = wallets.address[i];
