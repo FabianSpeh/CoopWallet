@@ -33,7 +33,15 @@ export class MultisigWalletDataService {
       await window.ethereum.enable();
       this.balance = await this.web3js.eth.getBalance(address);
       console.log(this.balance);
-      this.balance = this.web3js.utils.fromWei(this.balance, 'ether');
+      let balanceInEther = this.web3js.utils.fromWei(this.balance, 'ether');
+      if (!balanceInEther.includes('.')){
+        balanceInEther = balanceInEther + '.00' + ' ';
+      } else {
+        let balanceInNumber = Number(balanceInEther);
+        balanceInNumber = Math.round((balanceInNumber + Number.EPSILON) * 10000) / 10000;
+        balanceInEther = balanceInNumber.toString().substring(0, (balanceInNumber.toString().indexOf('.') + 5));
+      }
+      this.balance = Number(balanceInEther);
     }
   }
 
