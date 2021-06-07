@@ -7,9 +7,6 @@ build-job:
   tags:
     - nodejs
 
-  before_script:
-    - export CHROME_BIN=/usr/bin/chromium-browser
-
   script:
     - npm install
     - npm install -g @angular/cli@11.2.11
