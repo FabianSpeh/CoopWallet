@@ -1,7 +1,7 @@
 <div class="container mt-5 pt-5 c-black">
     <div class="c-white"><h1>your multi-signature wallets</h1></div>
 
-    <table class="table table-dark">
+    <table class="table table-dark table-hover">
       <thead>
         <tr class="bg-accent c-black font-weight-bold">
           <th scope="col">Name</th>
@@ -15,9 +15,9 @@
       </thead>
       <tbody>
         <tr *ngFor="let wallet of walletsData">
-          <td>{{ wallet.name }}</td>
+          <td><span class="wallet-link py-3" routerLink="/wallets/details/{{ wallet.address }}">{{ wallet.name }}</span></td>
           <td>
-            <span class="address" ngbTooltip="{{wallet.address}}" placement="top-left" container="body">
+            <span class="address" ngbTooltip="{{ wallet.address }}" placement="top-left" container="body">
               <span triggers="click" [autoClose]="true" ngbTooltip="copied!" placement="top-left"
                     container="body" (click)="copyToClipboard(wallet.address)">
                 {{ this.formatAddressString(wallet.address) }}
