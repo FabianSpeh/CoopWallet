@@ -66,7 +66,7 @@ export class WalletsComponent implements OnInit {
         this.walletsData.push({
           name: wallets.name[i],
           address: wallets.address[i],
-          balance: this.walletService.balance.toString(),
+          balance: this.walletService.balance,
           confirmations: this.walletService.numberOfConfirmations.toString(),
           owners: this.walletService.ownerListNumber.toString(),
           pending: this.walletService.pendingNonce.toString(),
