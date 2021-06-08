@@ -3,17 +3,6 @@ import {ClipboardService} from 'ngx-clipboard';
 import {MultisigWalletDataService} from '../services/multisig-wallet-data.service';
 
 
-
-interface Wallet {
-  name: string;
-  address: string;
-  balance: string;
-  confirmations: string;
-  owners: string;
-  pending: string;
-  network: string;
-}
-
 @Component({
   selector: 'app-wallets',
   templateUrl: './wallets.component.html',
@@ -81,33 +70,9 @@ export class WalletsComponent implements OnInit {
     }
     const wallets = JSON.parse(localStorage.getItem('Wallets') || '{}');
     for (let i = 0; i < wallets.name.length; i++) {
-      this.getWalletJSON(wallets.name[i], wallets.address[i]).then((res) => { this.walletsData.push(res); });
+      this.walletService.getWalletJSON(wallets.name[i], wallets.address[i]).then((res) => { this.walletsData.push(res); });
     }
     this.change.detectChanges();
-  }
-
-  /**
-   * Returns a Wallet-Promise
-   * @param name: the local name of the wallet
-   * @param address: the address used to get the wallet information
-   */
-  getWalletJSON(name: string, address: string): Promise<Wallet> {
-    const wallet: Wallet = {
-      name, address, balance: '', confirmations: '', owners: '', pending: '', network: ''
-    };
-    return new Promise<Wallet>((resolve, reject) => {
-      this.walletService.getBalance(address)
-        .then( () => wallet.balance = this.walletService.balance.toString());
-      this.walletService.getNumberOfConfirmations(address)
-        .then( () => wallet.confirmations = this.walletService.numberOfConfirmations.toString());
-      this.walletService.getNumberOfOwners(address)
-        .then( () => wallet.owners = this.walletService.ownerListNumber.toString());
-      this.walletService.getTransActionCount(address)
-        .then( () => wallet.pending = this.walletService.pendingNonce.toString());
-      this.walletService.getNetwork(address)
-        .then( () => wallet.network = this.walletService.network.toString());
-      resolve(wallet);
-    });
   }
 
   async ngOnInit(): Promise<void> {
