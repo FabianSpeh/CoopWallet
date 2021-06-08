@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {MultisigWalletDataService, Wallet} from '../services/multisig-wallet-data.service';
 
 @Component({
   selector: 'app-wallet-details',
@@ -7,13 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WalletDetailsComponent implements OnInit {
 
-  constructor() { }
+  constructor(public walletService: MultisigWalletDataService) { }
 
   wallet: any;
   owners: any;
 
-  ngOnInit(): void {
-    this.wallet = this.loadWallet();
+  async ngOnInit(): Promise<void> {
+    this.wallet = await this.loadWallet();
     if (this.wallet !== undefined) {
       this.owners = this.loadOwnersOfWallet();
     }
@@ -23,19 +24,19 @@ export class WalletDetailsComponent implements OnInit {
    * Loads the Wallet that is referenced by the URL
    * TODO: implement functionality
    */
-  loadWallet(): object {
-    const address: string | undefined = location.href.split('/').pop();
-    // lookup wallet in local storage
-    const wallet: object = {
-      name: 'Multisig Wallet',
-      address,
-      balance: '1000000',
-      confirmations: '3',
-      owners: '5',
-      pending: '0',
-      network: 'Kovan'
-    };
-    return wallet;
+  async loadWallet(): Promise<Wallet> {
+    const address: string = (location.href.split('/').pop() as string);
+    let name = 'Unknown Wallet';
+    if (localStorage.getItem('Wallets') != null){
+      const wallets = JSON.parse(localStorage.getItem('Wallets') || '{}');
+      for (let i = 0; i < wallets.address.length; i++) {
+        if (wallets.address[i] === address) {
+          name = wallets.name[i];
+          break;
+        }
+      }
+    }
+    return await this.walletService.getWalletJSON(name, address);
   }
 
   /**
@@ -45,7 +46,7 @@ export class WalletDetailsComponent implements OnInit {
   loadOwnersOfWallet(): object {
     // lookup owners
     const owners: object = [
-      { name: 'Owner 1',
+      { name: 'Owner Owner',
         address: '0x18FwRPMHKAPdNpXmZ93h4r2apyFZbX3Ww4'
       },
       { name: 'Owner 2',
