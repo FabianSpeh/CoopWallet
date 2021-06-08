@@ -19,6 +19,10 @@ export class WalletDetailsComponent implements OnInit {
     }
   }
 
+  /**
+   * Loads the Wallet that is referenced by the URL
+   * TODO: implement functionality
+   */
   loadWallet(): object {
     const address: string | undefined = location.href.split('/').pop();
     // lookup wallet in local storage
@@ -34,6 +38,10 @@ export class WalletDetailsComponent implements OnInit {
     return wallet;
   }
 
+  /**
+   * Loads the owners of the Wallet
+   * TODO: implement functionality!
+   */
   loadOwnersOfWallet(): object {
     // lookup owners
     const owners: object = [

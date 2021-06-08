@@ -86,7 +86,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         console.error(error);
       });*/
 
-      /** Setting up of Various Event Listener to act own User Wallet Data Changes */
+      /** Setting up of Various Event Listener to act on User Wallet Data Changes */
       window.ethereum.on('accountsChanged', () => {
         console.log('accountChanged');
         this.accountIndex = 0;

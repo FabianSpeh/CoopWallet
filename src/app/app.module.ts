@@ -4,7 +4,6 @@ import { CookieService } from 'ngx-cookie-service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ExampleContentComponent } from './example-content/example-content.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { WalletsComponent } from './wallets/wallets.component';
@@ -23,7 +22,6 @@ import { WalletDetailsComponent } from './wallet-details/wallet-details.componen
 @NgModule({
   declarations: [
     AppComponent,
-    ExampleContentComponent,
     NavbarComponent,
     TransactionsComponent,
     WalletsComponent,
