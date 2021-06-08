@@ -15,7 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { BackgroundComponent } from './background/background.component';
 
 // Service class
-import { MultisigWalletDataService } from './multisig-wallet-data.service';
+import { MultisigWalletDataService } from './services/multisig-wallet-data.service';
 import {ModalContentComponent, NgbdModalContentComponent} from './modal-content/modal-content.component';
 import { WalletDetailsComponent } from './wallet-details/wallet-details.component';
 

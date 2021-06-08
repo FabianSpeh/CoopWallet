@@ -6,7 +6,7 @@ import {
   AfterViewInit
 } from '@angular/core';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-import {BrowserRefreshService} from '../browser-refresh.service';
+import {BrowserRefreshService} from '../services/browser-refresh.service';
 
 
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {BrowserRefreshService} from './browser-refresh.service';
+import {BrowserRefreshService} from './services/browser-refresh.service';
 import {Router} from '@angular/router';
 
 

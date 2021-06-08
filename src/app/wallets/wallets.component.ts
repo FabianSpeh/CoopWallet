@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ClipboardService} from 'ngx-clipboard';
-import {MultisigWalletDataService} from '../multisig-wallet-data.service';
+import {MultisigWalletDataService} from '../services/multisig-wallet-data.service';
 import {CookieService} from 'ngx-cookie-service';
 
 @Component({

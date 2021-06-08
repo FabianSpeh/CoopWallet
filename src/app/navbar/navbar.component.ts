@@ -1,6 +1,6 @@
 import {Component, OnInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
-import {BrowserRefreshService} from '../browser-refresh.service';
-import {UserWalletDataService} from '../user-wallet-data.service';
+import {BrowserRefreshService} from '../services/browser-refresh.service';
+import {UserWalletDataService} from '../services/user-wallet-data.service';
 import Web3 from 'web3';
 import {ClipboardService} from 'ngx-clipboard';
 
