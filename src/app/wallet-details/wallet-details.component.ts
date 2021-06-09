@@ -3,6 +3,7 @@ import {EditOwnerComponent} from '../edit-owner/edit-owner.component';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {OwnerAddressService} from '../owner-address.service';
+import {MultisigWalletDataService} from '../multisig-wallet-data.service';
 
 @Component({
   selector: 'app-wallet-details',
@@ -14,7 +15,7 @@ export class WalletDetailsComponent implements OnInit {
   owners: any;
   private ownerAddress: any;
   message: any;
-  constructor(private modalService: NgbModal, private ownerService: OwnerAddressService) {
+  constructor(private modalService: NgbModal, private ownerService: OwnerAddressService, public multisigService: MultisigWalletDataService) {
 
   }
 
@@ -43,23 +44,27 @@ export class WalletDetailsComponent implements OnInit {
     return wallet;
   }
 
-  loadOwnersOfWallet(): object {
-    // lookup owners
+  async loadOwnersOfWallet(): Promise<object> {
+    await this.multisigService.getOwnerArray(location.href.split('/').pop());
+    const ownerArray = this.multisigService.ownerArray;
     const ownersNew: object[] = [];
     let ownerList = this.getOwnersFromLocalStorage();
     console.log(ownerList);
-    for (let i = 0; i < ownerList.address.length; i++){
+    for (let i = 0; i < ownerList.address.length; i++) {
       ownersNew[i] = {name: ownerList.name[i], address: ownerList.address[i]};
     }
 
     const owners: object = [
-      { name: 'Owner 1',
+      {
+        name: 'Owner 1',
         address: '0x18FwRPMHKAPdNpXmZ93h4r2apyFZbX3Ww4'
       },
-      { name: 'Owner 2',
+      {
+        name: 'Owner 2',
         address: 'abcdefgh'
       },
-      { name: 'Owner 3',
+      {
+        name: 'Owner 3',
         address: '21321312321321321'
       }
     ];
