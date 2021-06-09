@@ -11,15 +11,16 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./wallets.component.css']
 })
 export class WalletsComponent implements OnInit {
+
+  constructor(private modalService: NgbModal, public change: ChangeDetectorRef, private clipboardService: ClipboardService, public walletService: MultisigWalletDataService,
+              private cookieService: CookieService) {}
   @ViewChild('walletName') walletNameElement: any;
   @ViewChild('walletAddress') walletAddressElement: any;
   @ViewChild('errorMessage') errorMessage: any;
   closeResult= "";
   walletsname = "";
+  editwalletname = '';
   walletsaddress = "";
-
-  constructor(private modalService: NgbModal, public change: ChangeDetectorRef, private clipboardService: ClipboardService, public walletService: MultisigWalletDataService,
-              private cookieService: CookieService) {}
 
   walletsData = [
     {
@@ -41,6 +42,8 @@ export class WalletsComponent implements OnInit {
       network: 'Kovan'
     }
   ];
+  // tslint:disable-next-line:typedef
+  name: any;
 
   convertBalanceString(balance: string): string {
     if (balance.length < 3) {
@@ -90,7 +93,6 @@ export class WalletsComponent implements OnInit {
     this.readCookies();
   }
 
-  ///Meine
   open(content: any) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title',size: 'lg',windowClass: 'dark-modal'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -109,28 +111,54 @@ export class WalletsComponent implements OnInit {
     }
   }
 
-  //async editingWallet(wallet : any, editWallet: any): Promise<void>{
-  editingWallet(wallet : any, editWallet: any) {
+  public editingWallet(wallet: any, editWallet: any) {
     this.walletsname = wallet.name ;
     this.walletsaddress = wallet.address;
+    this.editwalletname = this.walletsname;
+    this.open(editWallet);
+  }
+
+
+  public deleteWallet(name: string){
+    if (name === this.walletsname) {
+      if (localStorage.getItem('Wallets') == null) {
+        return;
+      } else {
+        const wallets = JSON.parse(localStorage.getItem('Wallets') || '{}');
+        for (let i = 0; i < wallets.name.length; i++) {
+          console.log(wallets.name[i] + " Hias" + name);
+          if (this.walletsname === wallets.name[i]) {
+
+            console.log("Test");
+            wallets.name.splice(i, 1);
+            wallets.address.splice(i, 1);
+          }
+        }
+        localStorage.setItem('Wallets', JSON.stringify(wallets));
+        window.location.reload();
+      }
+    } else{
+      console.log("Nothing");
+    }
+  }
+  public saveWallet(walletName: string){
+    const name = walletName;
     if (localStorage.getItem('Wallets') == null){
       return;
     }else{
       const wallets = JSON.parse(localStorage.getItem('Wallets') || '{}');
-      console.log(wallets);
       for (let i = 0; i < wallets.name.length; i++) {
-        let address = wallets.address[i];
-        if(this.walletsaddress === address){
-          wallets.name = this.walletsname;
-          console.log(wallets.name);
+        if(this.editwalletname === wallets.name[i]){
+          wallets.name[i] = name;
         }
+        }
+      console.log(wallets);
+      localStorage.setItem('Wallets', JSON.stringify(wallets));
       }
-    }
-
-    this.open(editWallet);
+    window.location.reload();
   }
 
-  deletingWallet(wallet : any, removeWallet: any) {
+  deletingWallet(wallet: any, removeWallet: any) {
     this.walletsname = wallet.name;
     this.walletsaddress = wallet.address;
 

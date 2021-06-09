@@ -54,7 +54,7 @@
     </form>
   </div>
   <div class="modal-footer bg-dark">
-    <button type="button" class="btn btn-secondary" (click)="modal.close('Save click')">Ok</button>
+    <button type="button" class="btn btn-secondary" (click)="modal.close('Save click'); saveWallet(walletsname.valueOf())">Ok</button>
     <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Cancel</button>
   </div>
 </ng-template>
@@ -75,11 +75,11 @@
       <label for="walletAddres">Address</label>
       <input id="walletAddres" class="form-control desableIt" name="walletsaddress" placeholder="wallet address" [(ngModel)]="walletsaddress" disabled>
       <label for="walletNameConfirm">Enter wallet name for confirmation</label>
-      <input id="walletNameConfirm" class="form-control bg-secondary" name="dp" ngbDatepicker #dp="ngbDatepicker" >
+      <input id="walletNameConfirm" class="form-control bg-secondary" name="dp" [(ngModel)]="name">
     </form>
   </div>
   <div class="modal-footer bg-dark">
-    <button type="button" class="btn btn-secondary" (click)="modal.close('Save click')">Ok</button>
+    <button type="button" class="btn btn-secondary" (click)="modal.close('Save click'); deleteWallet(name.valueOf())">Ok</button>
     <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Cancel</button>
   </div>
 </ng-template>
