@@ -23,24 +23,6 @@ export class WalletsComponent implements OnInit {
   // WalletsData contains the Wallets from local storage
   // Currently also holds dummy-data
   walletsData = [
-    {
-      name: 'Multisig Wallet',
-      address: '0x321AA43B764CD',
-      balance: '1000000',
-      confirmations: '3',
-      owners: '5',
-      pending: '0',
-      network: 'Kovan'
-    },
-    {
-      name: 'secure Wallet',
-      address: '0x811FF43AB763D2',
-      balance: '1',
-      confirmations: '7',
-      owners: '7',
-      pending: '1',
-      network: 'Kovan'
-    }
   ];
   // tslint:disable-next-line:typedef
   name: any;
