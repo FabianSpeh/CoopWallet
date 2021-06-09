@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ClipboardService} from 'ngx-clipboard';
 import {MultisigWalletDataService} from '../multisig-wallet-data.service';
-import {CookieService} from 'ngx-cookie-service';
+
 
 @Component({
   selector: 'app-wallets',
@@ -11,7 +11,7 @@ import {CookieService} from 'ngx-cookie-service';
 export class WalletsComponent implements OnInit {
 
   constructor(public change: ChangeDetectorRef, private clipboardService: ClipboardService, public walletService: MultisigWalletDataService,
-              private cookieService: CookieService) {}
+             ) {}
 
   walletsData = [
     {
@@ -65,6 +65,7 @@ export class WalletsComponent implements OnInit {
       await this.walletService.getNumberOfOwners(address);
       await this.walletService.getTransActionCount(address);
       await this.walletService.getNetwork(address);
+
       this.walletsData.push({
         name: wallets.name[i],
         address: wallets.address[i],

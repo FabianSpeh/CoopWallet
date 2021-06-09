@@ -1,8 +1,11 @@
-import {Component, Input, OnInit, AfterViewInit, ViewChild, ViewChildren} from '@angular/core';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {Component, OnInit, AfterViewInit, ViewChild, ViewChildren, } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {WalletDetailsComponent} from '../wallet-details/wallet-details.component';
 import {OwnerAddressService} from '../owner-address.service';
 
+
+
+declare var window: any;
 
 @Component({
   selector: 'app-edit-owner',
@@ -27,8 +30,6 @@ this.ownerList = {
   address: []
 };
 
-
-
   }
   ngOnInit(): void {
 
@@ -50,6 +51,7 @@ this.ownerList = {
 
     this.addOwnersToLocalStorage();
     this.activeModal.close();
+    window.location.reload();
     }
   }
 
@@ -61,15 +63,13 @@ this.ownerList = {
     this.ownerName = this.nameOfOwnerElement.nativeElement.value;
     for (let i = 0; i <= this.ownerList.address.length; i++){
       console.log(i);
-    if (this.ownerAddress === this.ownerList.address[i]){
+      if (this.ownerAddress === this.ownerList.address[i]){
 
       this.ownerList.name[i] = this.ownerName;
       localStorage.setItem('Owners', JSON.stringify(this.ownerList));
       return;
     }
-
     }
-
     this.ownerList.name.push(this.ownerName);
     this.ownerList.address.push(this.ownerAddress);
 
@@ -77,7 +77,6 @@ this.ownerList = {
 
 
   }
-
 
 
 }

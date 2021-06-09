@@ -1,9 +1,10 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {EditOwnerComponent} from '../edit-owner/edit-owner.component';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {OwnerAddressService} from '../owner-address.service';
 import {MultisigWalletDataService} from '../multisig-wallet-data.service';
+import {UserWalletDataService} from '../user-wallet-data.service';
 
 @Component({
   selector: 'app-wallet-details',
@@ -15,15 +16,17 @@ export class WalletDetailsComponent implements OnInit {
   owners: any;
   private ownerAddress: any;
   message: any;
-  constructor(private modalService: NgbModal, private ownerService: OwnerAddressService, public multisigService: MultisigWalletDataService) {
+  constructor(private modalService: NgbModal,
+              private ownerService: OwnerAddressService,
+              public multisigService: MultisigWalletDataService,
+              public dataService: UserWalletDataService) {}
 
-  }
 
-
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.wallet = this.loadWallet();
     if (this.wallet !== undefined) {
-      this.owners = this.loadOwnersOfWallet();
+      this.owners = await this.loadOwnersOfWallet();
+
     }
     this.ownerService.currentAddress.subscribe(address => this.ownerAddress = address);
   }
@@ -45,32 +48,30 @@ export class WalletDetailsComponent implements OnInit {
   }
 
   async loadOwnersOfWallet(): Promise<object> {
+
     await this.multisigService.getOwnerArray(location.href.split('/').pop());
     const ownerArray = this.multisigService.ownerArray;
-    const ownersNew: object[] = [];
-    let ownerList = this.getOwnersFromLocalStorage();
-    console.log(ownerList);
-    for (let i = 0; i < ownerList.address.length; i++) {
-      ownersNew[i] = {name: ownerList.name[i], address: ownerList.address[i]};
+
+    const ownersCode: object[] = [];
+    for (let i = 0; i < ownerArray.length; i++){
+      ownersCode[i] = {name: 'Owner ' + i, address: ownerArray[i]};
+    }
+    if (this.getOwnersFromLocalStorage() !== undefined){
+      const ownerList = this.getOwnersFromLocalStorage();
+      for (let i = 0; i < ownerArray.length; i++){
+        for (let j = 0; j < ownerList.address.length; j++){
+
+           if (ownerArray[i] === ownerList.address[j]){
+
+            ownersCode[i] = {name: ownerList.name[j], address: ownerList.address[j]};
+          }
+
+        }
+
+      }
     }
 
-    const owners: object = [
-      {
-        name: 'Owner 1',
-        address: '0x18FwRPMHKAPdNpXmZ93h4r2apyFZbX3Ww4'
-      },
-      {
-        name: 'Owner 2',
-        address: 'abcdefgh'
-      },
-      {
-        name: 'Owner 3',
-        address: '21321312321321321'
-      }
-    ];
-    console.log(owners);
-    console.log(ownersNew);
-    return ownersNew;
+    return ownersCode;
   }
 
   open(owner: any): any {
@@ -80,8 +81,15 @@ export class WalletDetailsComponent implements OnInit {
   }
 
   getOwnersFromLocalStorage(): any {
-   let ownerList = JSON.parse(localStorage.getItem('Owners') || '{}');
-   return ownerList;
+    if (localStorage.getItem('Owners') == null) {
+      return;
+
+    }
+
+    const ownerList = JSON.parse(localStorage.getItem('Owners') || '{}' );
+    return ownerList;
+
   }
+
 
 }
