@@ -10,3 +10,57 @@
   cursor: pointer;
   text-decoration: underline;
 }
+
+
+/************************** Edit button styling *******************************/
+.btn-special1{
+  padding: 2px 10px;
+  font-size: 13px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+.btn-special1:hover{
+  background-color: aquamarine;
+}
+
+/*************** Delete Button ******************/
+.btn-special2{
+  padding: 2px ;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+label {
+  margin-top: 12px;
+  margin-bottom: 3px;
+  color: white;
+  display: block;
+  font: 1rem 'Fira Sans', sans-serif;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/******************* Input Element *********************/
+input{
+  color: white;
+}
+
+input:focus{
+  box-shadow: 0px 0px 5px #74b9ff;
+  color: white;
+}
+::placeholder{
+  color: white;
+  font-weight: bold;
+}
+
+.modal-title{
+  font-weight: bolder;
+}
+
+.desableIt{
+  background-color:  #2c3e50;
+}
+.desableIt:hover{
+  cursor: not-allowed;
+}

@@ -1,7 +1,9 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {ClipboardService} from 'ngx-clipboard';
 import {MultisigWalletDataService} from '../multisig-wallet-data.service';
 import {CookieService} from 'ngx-cookie-service';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-wallets',
@@ -9,8 +11,14 @@ import {CookieService} from 'ngx-cookie-service';
   styleUrls: ['./wallets.component.css']
 })
 export class WalletsComponent implements OnInit {
+  @ViewChild('walletName') walletNameElement: any;
+  @ViewChild('walletAddress') walletAddressElement: any;
+  @ViewChild('errorMessage') errorMessage: any;
+  closeResult= "";
+  walletsname = "";
+  walletsaddress = "";
 
-  constructor(public change: ChangeDetectorRef, private clipboardService: ClipboardService, public walletService: MultisigWalletDataService,
+  constructor(private modalService: NgbModal, public change: ChangeDetectorRef, private clipboardService: ClipboardService, public walletService: MultisigWalletDataService,
               private cookieService: CookieService) {}
 
   walletsData = [
@@ -82,4 +90,54 @@ export class WalletsComponent implements OnInit {
     this.readCookies();
   }
 
+  ///Meine
+  open(content: any) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title',size: 'lg',windowClass: 'dark-modal'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+  //async editingWallet(wallet : any, editWallet: any): Promise<void>{
+  editingWallet(wallet : any, editWallet: any) {
+    this.walletsname = wallet.name ;
+    this.walletsaddress = wallet.address;
+    if (localStorage.getItem('Wallets') == null){
+      return;
+    }else{
+      const wallets = JSON.parse(localStorage.getItem('Wallets') || '{}');
+      console.log(wallets);
+      for (let i = 0; i < wallets.name.length; i++) {
+        let address = wallets.address[i];
+        if(this.walletsaddress === address){
+          wallets.name = this.walletsname;
+          console.log(wallets.name);
+        }
+      }
+    }
+
+    this.open(editWallet);
+  }
+
+  deletingWallet(wallet : any, removeWallet: any) {
+    this.walletsname = wallet.name;
+    this.walletsaddress = wallet.address;
+
+    this.open(removeWallet);
+  }
+
+  selectWallet() {
+    this.modalService
+  }
 }
