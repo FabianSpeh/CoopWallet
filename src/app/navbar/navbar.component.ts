@@ -1,6 +1,6 @@
 import {Component, OnInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
-import {BrowserRefreshService} from '../browser-refresh.service';
-import {UserWalletDataService} from '../user-wallet-data.service';
+import {BrowserRefreshService} from '../services/browser-refresh.service';
+import {UserWalletDataService} from '../services/user-wallet-data.service';
 import Web3 from 'web3';
 import {ClipboardService} from 'ngx-clipboard';
 
@@ -86,7 +86,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         console.error(error);
       });*/
 
-      /** Setting up of Various Event Listener to act own User Wallet Data Changes */
+      /** Setting up of Various Event Listener to act on User Wallet Data Changes */
       window.ethereum.on('accountsChanged', () => {
         console.log('accountChanged');
         this.accountIndex = 0;

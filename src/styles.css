@@ -6,6 +6,10 @@ body {
   color: #FFFFFF;
 }
 
+.address {
+  cursor: pointer;
+}
+
 /* Background Colors */
 .bg-black {
   background-color: #080808;
