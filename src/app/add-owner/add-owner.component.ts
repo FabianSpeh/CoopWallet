@@ -26,10 +26,9 @@ export class AddOwnerComponent {
     else{
       const address = this.addressOfOwnerElement.nativeElement.value;
       const contractAddress = '0x283011659f9Cd638b4d99EFB264b198917f6Ff5D'
-      console.log("Die Adresse ist:");
-      console.log(address);
+
       this.walletService.addOwner(address, contractAddress);
-      //this.walletService.removeOwner(address,contractAddress);
+      this.walletService.removeOwner(address,contractAddress);
 
       this.activeModal.close();
     }

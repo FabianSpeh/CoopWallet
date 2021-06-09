@@ -111,8 +111,9 @@ export class MultisigWalletDataService {
   }
 
   /**
-   * Method adds a owner to the multisig contract
-   * @param address: The owers adress which should be added
+   * Method adds an owner to the multisig contract
+   * @param ownerAddress: The owners adress which should be added
+   * @param contractAddress: The address of the multisigwallet contract
    */
   async addOwner(ownerAddress: any, contractAddress: any): Promise<void> {
     if (window.ethereum) {
@@ -124,16 +125,20 @@ export class MultisigWalletDataService {
       const currentAccountAdress = accounts[0];
 
       // Get the the contract of the multisigwallet
-      const MultiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), contractAddress);
+      const multiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), contractAddress);
 
-      // Alternate the contract state by adding a new address to the owner list
-      await MultiSigContract.methods.addOwner(ownerAddress).send({from: currentAccountAdress}).then((res: any) => this.lastTransactionSuccess = res);
+      // Converting the addOwner and the owner address which should be added
+      const data = multiSigContract.methods.addOwner(ownerAddress).encodeABI();
+
+      // Sending the addOwner() method to the contract
+      await multiSigContract.methods.submitTransaction(contractAddress, 0, data).send({from: currentAccountAdress}).then((res: any) => this.lastTransactionSuccess = res);
     }
   }
 
   /**
    * Method removes a owner to the multisig contract
-   * @param address: The owers adress which should be removed
+   * @param ownerAddress: The owners adress which should be removed
+   * @param contractAddress: The address of the multisigwallet contract
    */
   async removeOwner(ownerAddress: any, contractAddress: any): Promise<void>{
     if (window.ethereum) {
@@ -145,10 +150,13 @@ export class MultisigWalletDataService {
       const currentAccountAdress = accounts[0];
 
       // Get the the contract of the multisigwallet
-      const MultiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), contractAddress);
+      const multiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), contractAddress);
+
+      // Converting the removeOwner and the owner address which should be removed
+      const data = multiSigContract.methods.removeOwner(ownerAddress).encodeABI();
 
       // Alternate the contract state by adding a new address to the owner list
-      await MultiSigContract.methods.removeOwner(ownerAddress).send({from: currentAccountAdress}).then((res: any) => this.lastTransactionSuccess = res);
+      await multiSigContract.methods.submitTransaction(contractAddress, 0, data).send({from: currentAccountAdress}).then((res: any) => this.lastTransactionSuccess = res);
     }
   }
 }
