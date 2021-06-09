@@ -68,6 +68,10 @@ export class WalletDetailsComponent implements OnInit {
     const modalRef = this.modalService.open(AddOwnerComponent);
   }
 
+  removeOwner(ownerAddress: any): any {
+    this.walletService.removeOwner(ownerAddress, '');
+  }
+
 
 
 }
