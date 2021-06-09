@@ -1,9 +1,7 @@
 import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {ClipboardService} from 'ngx-clipboard';
 import {MultisigWalletDataService} from '../services/multisig-wallet-data.service';
-import {CookieService} from 'ngx-cookie-service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-wallets',
@@ -12,15 +10,15 @@ import { FormsModule } from '@angular/forms';
 })
 export class WalletsComponent implements OnInit {
 
-  constructor(private modalService: NgbModal, public change: ChangeDetectorRef, private clipboardService: ClipboardService, public walletService: MultisigWalletDataService,
-              private cookieService: CookieService) {}
+  constructor(private modalService: NgbModal, public change: ChangeDetectorRef, private clipboardService: ClipboardService,
+              public walletService: MultisigWalletDataService) {}
   @ViewChild('walletName') walletNameElement: any;
   @ViewChild('walletAddress') walletAddressElement: any;
   @ViewChild('errorMessage') errorMessage: any;
-  closeResult= "";
-  walletsname = "";
+  closeResult = '';
+  walletsname = '';
   editwalletname = '';
-  walletsaddress = "";
+  walletsaddress = '';
 
   // WalletsData contains the Wallets from local storage
   // Currently also holds dummy-data
@@ -90,8 +88,8 @@ export class WalletsComponent implements OnInit {
     this.readCookies();
   }
 
-  open(content: any) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title',size: 'lg',windowClass: 'dark-modal'}).result.then((result) => {
+  open(content: any): void {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', windowClass: 'dark-modal'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -108,7 +106,7 @@ export class WalletsComponent implements OnInit {
     }
   }
 
-  public editingWallet(wallet: any, editWallet: any) {
+  public editingWallet(wallet: any, editWallet: any): void {
     this.walletsname = wallet.name ;
     this.walletsaddress = wallet.address;
     this.editwalletname = this.walletsname;
@@ -116,17 +114,14 @@ export class WalletsComponent implements OnInit {
   }
 
 
-  public deleteWallet(name: string){
+  public deleteWallet(name: string): void{
     if (name === this.walletsname) {
       if (localStorage.getItem('Wallets') == null) {
         return;
       } else {
         const wallets = JSON.parse(localStorage.getItem('Wallets') || '{}');
         for (let i = 0; i < wallets.name.length; i++) {
-          console.log(wallets.name[i] + " Hias" + name);
           if (this.walletsname === wallets.name[i]) {
-
-            console.log("Test");
             wallets.name.splice(i, 1);
             wallets.address.splice(i, 1);
           }
@@ -135,17 +130,17 @@ export class WalletsComponent implements OnInit {
         window.location.reload();
       }
     } else{
-      console.log("Nothing");
+      console.log('Nothing');
     }
   }
-  public saveWallet(walletName: string){
+  public saveWallet(walletName: string): void{
     const name = walletName;
     if (localStorage.getItem('Wallets') == null){
       return;
     }else{
       const wallets = JSON.parse(localStorage.getItem('Wallets') || '{}');
       for (let i = 0; i < wallets.name.length; i++) {
-        if(this.editwalletname === wallets.name[i]){
+        if (this.editwalletname === wallets.name[i]){
           wallets.name[i] = name;
         }
         }
@@ -155,14 +150,10 @@ export class WalletsComponent implements OnInit {
     window.location.reload();
   }
 
-  deletingWallet(wallet: any, removeWallet: any) {
+  deletingWallet(wallet: any, removeWallet: any): void {
     this.walletsname = wallet.name;
     this.walletsaddress = wallet.address;
 
     this.open(removeWallet);
-  }
-
-  selectWallet() {
-    this.modalService
   }
 }
