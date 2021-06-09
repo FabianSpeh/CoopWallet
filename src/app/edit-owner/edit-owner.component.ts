@@ -1,7 +1,7 @@
 import {Component, OnInit, AfterViewInit, ViewChild, ViewChildren, } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {WalletDetailsComponent} from '../wallet-details/wallet-details.component';
-import {OwnerAddressService} from '../owner-address.service';
+import {OwnerAddressService} from '../services/owner-address.service';
 
 
 

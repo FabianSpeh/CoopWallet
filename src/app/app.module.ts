@@ -18,7 +18,7 @@ import { MultisigWalletDataService } from './services/multisig-wallet-data.servi
 import {ModalContentComponent, NgbdModalContentComponent} from './modal-content/modal-content.component';
 import { WalletDetailsComponent } from './wallet-details/wallet-details.component';
 import {EditOwnerComponent} from './edit-owner/edit-owner.component';
-import {OwnerAddressService} from './owner-address.service';
+import {OwnerAddressService} from './services/owner-address.service';
 
 
 @NgModule({

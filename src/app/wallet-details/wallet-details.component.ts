@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {EditOwnerComponent} from '../edit-owner/edit-owner.component';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {OwnerAddressService} from '../owner-address.service';
+import {OwnerAddressService} from '../services/owner-address.service';
 import {MultisigWalletDataService, Wallet} from '../services/multisig-wallet-data.service';
 import {UserWalletDataService} from '../services/user-wallet-data.service';
 
