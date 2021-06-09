@@ -114,7 +114,7 @@ export class MultisigWalletDataService {
    * Method adds a owner to the multisig contract
    * @param address: The owers adress which should be added
    */
-  async addOwner(address: any, contractAddress: any): Promise<void> {
+  async addOwner(ownerAddress: any, contractAddress: any): Promise<void> {
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
       await window.ethereum.enable();
@@ -127,7 +127,7 @@ export class MultisigWalletDataService {
       const MultiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), contractAddress);
 
       // Alternate the contract state by adding a new address to the owner list
-      await MultiSigContract.methods.addOwner(this.web3js.utils.toChecksumAddress(address)).send({from: currentAccountAdress}).then((res: any) => this.lastTransactionSuccess = res);
+      await MultiSigContract.methods.addOwner(ownerAddress).send({from: currentAccountAdress}).then((res: any) => this.lastTransactionSuccess = res);
     }
   }
 

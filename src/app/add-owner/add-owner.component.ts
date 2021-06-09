@@ -30,6 +30,8 @@ export class AddOwnerComponent {
       console.log(address);
       this.walletService.addOwner(address, contractAddress);
       //this.walletService.removeOwner(address,contractAddress);
+
+      this.activeModal.close();
     }
 
   }
