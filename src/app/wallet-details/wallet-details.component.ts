@@ -1,5 +1,9 @@
-import {Component, OnInit} from '@angular/core';
 import {MultisigWalletDataService, Wallet} from '../services/multisig-wallet-data.service';
+import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AddOwnerComponent} from '../add-owner/add-owner.component';
+
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-wallet-details',
@@ -8,7 +12,7 @@ import {MultisigWalletDataService, Wallet} from '../services/multisig-wallet-dat
 })
 export class WalletDetailsComponent implements OnInit {
 
-  constructor(public walletService: MultisigWalletDataService) { }
+  constructor(public walletService: MultisigWalletDataService, private modalService: NgbModal) { }
 
   wallet: any;
   owners: any;
@@ -58,5 +62,12 @@ export class WalletDetailsComponent implements OnInit {
     ];
     return owners;
   }
+
+
+  openAddOwnerPopup(): any {
+    const modalRef = this.modalService.open(AddOwnerComponent);
+  }
+
+
 
 }

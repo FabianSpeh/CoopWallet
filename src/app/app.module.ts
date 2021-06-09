@@ -13,6 +13,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { BackgroundComponent } from './background/background.component';
 
+import {AddOwnerComponent} from './add-owner/add-owner.component';
+
+
 // Service class
 import { MultisigWalletDataService } from './services/multisig-wallet-data.service';
 import {ModalContentComponent, NgbdModalContentComponent} from './modal-content/modal-content.component';
