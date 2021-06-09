@@ -29,6 +29,7 @@ export class MultisigWalletDataService {
   ownerListNumber: any;
   pendingNonce: any;
   network: any;
+  ownerArray: any;
 
   constructor() {
     this.balance = '';
@@ -121,5 +122,17 @@ export class MultisigWalletDataService {
       resolve(wallet);
     });
   }
+
+  async getOwnerArray(address: any): Promise<void> {
+    if (window.ethereum){
+      this.web3js = new Web3(window.ethereum);
+      await window.ethereum.enable();
+
+      const MultiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), address);
+      await MultiSigContract.methods.getOwners().call().then((res: any) => this.ownerArray = res);
+      console.log(this.ownerArray);
+    }
+  }
+
 
 }

@@ -3,8 +3,8 @@ import {EditOwnerComponent} from '../edit-owner/edit-owner.component';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {OwnerAddressService} from '../owner-address.service';
-import {MultisigWalletDataService} from '../multisig-wallet-data.service';
-import {UserWalletDataService, Wallet} from '../services/user-wallet-data.service';
+import {MultisigWalletDataService, Wallet} from '../services/multisig-wallet-data.service';
+import {UserWalletDataService} from '../services/user-wallet-data.service';
 
 @Component({
   selector: 'app-wallet-details',
@@ -20,6 +20,9 @@ export class WalletDetailsComponent implements OnInit {
 
   wallet: any;
   owners: any;
+  private ownerAddress: any;
+  message: any;
+
 
 
   async ngOnInit(): Promise<void> {
