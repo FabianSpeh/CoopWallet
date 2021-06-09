@@ -3,10 +3,9 @@ stages:
 
 build-job:
   stage: build
-
-  tags:
-    - nodejs
-
+  image: browserless/chrome
+  before_script:
+    - export CHROME_BIN=/usr/bin/google-chrome
   script:
     - npm install
     - npm install -g @angular/cli@11.2.11
