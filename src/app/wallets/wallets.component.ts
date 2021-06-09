@@ -22,8 +22,7 @@ export class WalletsComponent implements OnInit {
 
   // WalletsData contains the Wallets from local storage
   // Currently also holds dummy-data
-  walletsData = [
-  ];
+  walletsData: any[] = [];
   // tslint:disable-next-line:typedef
   name: any;
 
