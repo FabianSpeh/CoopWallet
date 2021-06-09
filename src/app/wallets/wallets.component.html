@@ -16,8 +16,8 @@
       <tbody>
         <tr *ngFor="let wallet of walletsData">
           <td><span class="wallet-link py-3" routerLink="/wallets/details/{{ wallet.address }}">{{ wallet.name }}</span><br>
-            <button class="btn btn-lg btn-secondary btn-special1" (click)="editingWallet(wallet, editWallet)">Edit Wallet</button>
-            <button class="btn btn-lg btn-danger btn-special2" (click)="deletingWallet(wallet, removeWallet)">Remove</button></td>
+            <button class="btn btn-sm btn-outline-light mr-2 my-1" (click)="editingWallet(wallet, editWallet)">Edit Wallet</button>
+            <button class="btn btn-sm btn-outline-danger mr-2 my-1" (click)="deletingWallet(wallet, removeWallet)">Remove</button></td>
           <td>
             <span class="address" ngbTooltip="{{ wallet.address }}" placement="top-left" container="body">
               <span triggers="click" [autoClose]="true" ngbTooltip="copied!" placement="top-left"
@@ -46,7 +46,7 @@
 <ng-template #editWallet let-modal class="modal-container">
   <div class="modal-header bg-accent ">
     <h4 class="modal-title" id="modal-basic-title">Edit wallet</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <button type="button" class="close " aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -59,8 +59,8 @@
     </form>
   </div>
   <div class="modal-footer bg-dark">
-    <button type="button" class="btn btn-secondary" (click)="modal.close('Save click'); saveWallet(walletsname.valueOf())">Ok</button>
-    <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Cancel</button>
+    <button type="button" class="btn btn-outline-light mr-2 my-1" (click)="modal.close('Save click'); saveWallet(walletsname.valueOf())">Ok</button>
+    <button type="button" class="btn btn-outline-danger mr-2 my-1" (click)="modal.close('Save click')">Cancel</button>
   </div>
 </ng-template>
 
@@ -84,8 +84,8 @@
     </form>
   </div>
   <div class="modal-footer bg-dark">
-    <button type="button" class="btn btn-secondary" (click)="modal.close('Save click'); deleteWallet(name.valueOf())">Ok</button>
-    <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Cancel</button>
+    <button type="button" class="btn btn-outline-light mr-2 my-1" (click)="modal.close('Save click'); deleteWallet(name.valueOf())">Ok</button>
+    <button type="button" class="btn btn-outline-danger mr-2 my-1" (click)="modal.close('Save click')">Cancel</button>
   </div>
 </ng-template>
 
