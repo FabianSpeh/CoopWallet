@@ -25,11 +25,11 @@ export class AddOwnerComponent {
     }
     else{
       const address = this.addressOfOwnerElement.nativeElement.value;
-      //const address = "0x8f10827D40b5BFc0D89136D00F0E4DF1b80000";
+      const contractAddress = '0x283011659f9Cd638b4d99EFB264b198917f6Ff5D'
       console.log("Die Adresse ist:");
       console.log(address);
-      this.walletService.addOwner(address);
-      //this.walletService.removeOwner('0x283011659f9Cd638b4d99EFB264b198917f6Ff5D','0x283011659f9Cd638b4d99EFB264b198917f6Ff5D');
+      this.walletService.addOwner(address, contractAddress);
+      //this.walletService.removeOwner(address,contractAddress);
     }
 
   }
