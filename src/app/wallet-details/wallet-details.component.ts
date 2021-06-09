@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {EditOwnerComponent} from '../edit-owner/edit-owner.component';
+
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-wallet-details',
@@ -7,10 +10,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WalletDetailsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private modalService: NgbModal) { }
 
   wallet: any;
   owners: any;
+
 
   ngOnInit(): void {
     this.wallet = this.loadWallet();
@@ -18,6 +22,7 @@ export class WalletDetailsComponent implements OnInit {
       this.owners = this.loadOwnersOfWallet();
     }
   }
+
 
   loadWallet(): object {
     const address: string | undefined = location.href.split('/').pop();
@@ -49,5 +54,10 @@ export class WalletDetailsComponent implements OnInit {
     ];
     return owners;
   }
+
+  open(): any {
+    const modalRef = this.modalService.open(EditOwnerComponent);
+  }
+
 
 }
