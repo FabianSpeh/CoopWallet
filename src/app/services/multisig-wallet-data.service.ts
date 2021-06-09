@@ -3,6 +3,16 @@ import Web3 from 'web3';
 
 declare var window: any;
 
+export interface Wallet {
+  name: string;
+  address: string;
+  balance: string;
+  confirmations: string;
+  owners: string;
+  pending: string;
+  network: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -85,4 +95,29 @@ export class MultisigWalletDataService {
       await this.web3js.eth.net.getNetworkType(address).then((res: any) => this.network = res);
     }
   }
+
+  /**
+   * Returns a Wallet-Promise
+   * @param name: the local name of the wallet
+   * @param address: the address used to get the wallet information
+   */
+  public getWalletJSON(name: string, address: string): Promise<Wallet> {
+    const wallet: Wallet = {
+      name, address, balance: '', confirmations: '', owners: '', pending: '', network: ''
+    };
+    return new Promise<Wallet>((resolve, reject) => {
+      this.getBalance(address)
+        .then( () => wallet.balance = this.balance.toString());
+      this.getNumberOfConfirmations(address)
+        .then( () => wallet.confirmations = this.numberOfConfirmations.toString());
+      this.getNumberOfOwners(address)
+        .then( () => wallet.owners = this.ownerListNumber.toString());
+      this.getTransActionCount(address)
+        .then( () => wallet.pending = this.pendingNonce.toString());
+      this.getNetwork(address)
+        .then( () => wallet.network = this.network.toString());
+      resolve(wallet);
+    });
+  }
+
 }
