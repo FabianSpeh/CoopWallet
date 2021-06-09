@@ -19,8 +19,6 @@ export class WalletDetailsComponent implements OnInit {
   }
 
 
-
-
   ngOnInit(): void {
     this.wallet = this.loadWallet();
     if (this.wallet !== undefined) {
@@ -47,6 +45,13 @@ export class WalletDetailsComponent implements OnInit {
 
   loadOwnersOfWallet(): object {
     // lookup owners
+    const ownersNew: object[] = [];
+    let ownerList = this.getOwnersFromLocalStorage();
+    console.log(ownerList);
+    for (let i = 0; i < ownerList.address.length; i++){
+      ownersNew[i] = {name: ownerList.name[i], address: ownerList.address[i]};
+    }
+
     const owners: object = [
       { name: 'Owner 1',
         address: '0x18FwRPMHKAPdNpXmZ93h4r2apyFZbX3Ww4'
@@ -58,19 +63,20 @@ export class WalletDetailsComponent implements OnInit {
         address: '21321312321321321'
       }
     ];
-    return owners;
+    console.log(owners);
+    console.log(ownersNew);
+    return ownersNew;
   }
 
   open(owner: any): any {
     const modalRef = this.modalService.open(EditOwnerComponent);
     this.ownerAddress = owner.address;
     this.ownerService.changeMessage(owner.address);
-
   }
 
   getOwnersFromLocalStorage(): any {
-
-
+   let ownerList = JSON.parse(localStorage.getItem('Owners') || '{}');
+   return ownerList;
   }
 
 }
