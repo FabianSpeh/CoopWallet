@@ -2,6 +2,7 @@ import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core'
 import {EditOwnerComponent} from '../edit-owner/edit-owner.component';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {OwnerAddressService} from '../owner-address.service';
 
 @Component({
   selector: 'app-wallet-details',
@@ -9,11 +10,15 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./wallet-details.component.css']
 })
 export class WalletDetailsComponent implements OnInit {
-
-  constructor(private modalService: NgbModal) { }
-
   wallet: any;
   owners: any;
+  private ownerAddress: any;
+  message: any;
+  constructor(private modalService: NgbModal, private ownerService: OwnerAddressService) {
+
+  }
+
+
 
 
   ngOnInit(): void {
@@ -21,6 +26,7 @@ export class WalletDetailsComponent implements OnInit {
     if (this.wallet !== undefined) {
       this.owners = this.loadOwnersOfWallet();
     }
+    this.ownerService.currentAddress.subscribe(address => this.ownerAddress = address);
   }
 
 
@@ -46,18 +52,25 @@ export class WalletDetailsComponent implements OnInit {
         address: '0x18FwRPMHKAPdNpXmZ93h4r2apyFZbX3Ww4'
       },
       { name: 'Owner 2',
-        address: '0x18FwRPMHKAPdNpXmZ93h4r2apyFZbX3Ww5'
+        address: 'abcdefgh'
       },
       { name: 'Owner 3',
-        address: '0x18FwRPMHKAPdNpXmZ93h4r2apyFZbX3Ww6'
+        address: '21321312321321321'
       }
     ];
     return owners;
   }
 
-  open(): any {
+  open(owner: any): any {
     const modalRef = this.modalService.open(EditOwnerComponent);
+    this.ownerAddress = owner.address;
+    this.ownerService.changeMessage(owner.address);
+
   }
 
+  getOwnersFromLocalStorage(): any {
+
+
+  }
 
 }

@@ -19,6 +19,7 @@ import { MultisigWalletDataService } from './multisig-wallet-data.service';
 import {ModalContentComponent, NgbdModalContentComponent} from './modal-content/modal-content.component';
 import { WalletDetailsComponent } from './wallet-details/wallet-details.component';
 import {EditOwnerComponent} from './edit-owner/edit-owner.component';
+import {OwnerAddressService} from './owner-address.service';
 
 
 @NgModule({
@@ -42,7 +43,7 @@ import {EditOwnerComponent} from './edit-owner/edit-owner.component';
     NgbModule,
     FormsModule
   ],
-  providers: [MultisigWalletDataService, CookieService, WalletDetailsComponent],
+  providers: [MultisigWalletDataService, CookieService, WalletDetailsComponent, OwnerAddressService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
