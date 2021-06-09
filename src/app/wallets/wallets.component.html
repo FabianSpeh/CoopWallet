@@ -24,7 +24,12 @@
               </span>
             </span>
           </td>
-          <td>{{ this.convertBalanceString(wallet.balance) }} ETH</td>
+          <td>
+            <span class="address" ngbTooltip="{{walletService.fullbalance}}" placement="top-left" container="body">
+              <span>{{ this.convertBalanceString(wallet.balance) }} ETH
+              </span>
+            </span>
+          </td>
           <td>{{ wallet.confirmations }}</td>
           <td>{{ wallet.owners }}</td>
           <td>{{ wallet.pending }}</td>
