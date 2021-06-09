@@ -17,7 +17,7 @@
         <tr *ngFor="let wallet of walletsData">
           <td><span class="wallet-link py-3" routerLink="/wallets/details/{{ wallet.address }}">{{ wallet.name }}</span><br>
             <button class="btn btn-lg btn-secondary btn-special1" (click)="editingWallet(wallet, editWallet)">Edit Wallet</button>
-            <button class="btn btn-lg btn-danger btn-special2" (click)="deletingWallet(wallet, removeWallet)">remove</button></td>
+            <button class="btn btn-lg btn-danger btn-special2" (click)="deletingWallet(wallet, removeWallet)">Remove</button></td>
           <td>
             <span class="address" ngbTooltip="{{ wallet.address }}" placement="top-left" container="body">
               <span triggers="click" [autoClose]="true" ngbTooltip="copied!" placement="top-left"
