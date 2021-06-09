@@ -4,6 +4,7 @@ import {CookieService} from 'ngx-cookie-service';
 import Web3 from 'web3';
 import {catchError} from 'rxjs/operators';
 
+
 declare var window: any;
 
 
