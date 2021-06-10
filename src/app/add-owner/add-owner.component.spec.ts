@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AddOwnerComponent } from './add-owner.component';
 
-describe('EditOwnerComponent', () => {
+describe('AddOwnerComponent', () => {
   let component: AddOwnerComponent;
   let fixture: ComponentFixture<AddOwnerComponent>;
 
