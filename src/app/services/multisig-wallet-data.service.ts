@@ -145,7 +145,9 @@ export class MultisigWalletDataService {
       const data = multiSigContract.methods.addOwner(ownerAddress).encodeABI();
 
       // Sending the addOwner() method to the contract
-      await multiSigContract.methods.submitTransaction(contractAddress, 0, data).send({from: currentAccountAdress}).then((res: any) => this.lastTransactionSuccess = res);
+      await multiSigContract.methods
+      .submitTransaction(contractAddress, 0, data)
+      .send({from: currentAccountAdress}).then((res: any) => this.lastTransactionSuccess = res);
     }
   }
 
@@ -167,10 +169,14 @@ export class MultisigWalletDataService {
       const multiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), contractAddress);
 
       // Converting the removeOwner and the owner address which should be removed
-      const data = multiSigContract.methods.removeOwner(ownerAddress).encodeABI();
+      const data = multiSigContract
+      .methods
+      .removeOwner(ownerAddress).encodeABI();
 
       // Alternate the contract state by adding a new address to the owner list
-      await multiSigContract.methods.submitTransaction(contractAddress, 0, data).send({from: currentAccountAdress}).then((res: any) => this.lastTransactionSuccess = res);
+      await multiSigContract
+      .methods
+      .submitTransaction(contractAddress, 0, data).send({from: currentAccountAdress}).then((res: any) => this.lastTransactionSuccess = res);
     }
   }
   async getOwnerArray(address: any): Promise<void> {
