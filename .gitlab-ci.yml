@@ -1,5 +1,3 @@
-default:
-  image: atlassianlabs/docker-node-jdk-chrome-firefox
 
 stages:
   - build
@@ -7,10 +5,11 @@ stages:
 build-job:
   stage: build
 
-
+  tags:
+    - nodejs
 
   script:
-    - npm install
+    - npm ci
     - npm install -g @angular/cli@11.2.11
     - ng build
     - ng lint
