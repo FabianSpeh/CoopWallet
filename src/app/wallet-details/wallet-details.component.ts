@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {EditOwnerComponent} from '../edit-owner/edit-owner.component';
+import {MultisigWalletDataService, Wallet} from '../services/multisig-wallet-data.service';
+import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AddOwnerComponent} from '../add-owner/add-owner.component';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {EditOwnerComponent} from '../edit-owner/edit-owner.component';
 import {OwnerAddressService} from '../services/owner-address.service';
-import {MultisigWalletDataService, Wallet} from '../services/multisig-wallet-data.service';
 import {UserWalletDataService} from '../services/user-wallet-data.service';
 
 @Component({
@@ -103,4 +104,12 @@ export class WalletDetailsComponent implements OnInit {
   }
 
 
+
+  openAddOwnerPopup(): any {
+    const modalRef = this.modalService.open(AddOwnerComponent);
+  }
+
+  removeOwner(ownerAddress: any, contractAddress: any): any {
+    this.walletService.removeOwner(ownerAddress, contractAddress);
+  }
 }
