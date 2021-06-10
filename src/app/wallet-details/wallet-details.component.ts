@@ -3,8 +3,6 @@ import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core'
 import {AddOwnerComponent} from '../add-owner/add-owner.component';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-
-import {Component, OnInit} from '@angular/core';
 import {EditOwnerComponent} from '../edit-owner/edit-owner.component';
 import {OwnerAddressService} from '../services/owner-address.service';
 import {UserWalletDataService} from '../services/user-wallet-data.service';
