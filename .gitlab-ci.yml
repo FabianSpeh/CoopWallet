@@ -1,11 +1,13 @@
+default:
+  image: atlassianlabs/docker-node-jdk-chrome-firefox
+
 stages:
   - build
 
 build-job:
   stage: build
 
-  tags:
-    - nodejs
+
 
   script:
     - npm install
