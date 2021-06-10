@@ -19,17 +19,15 @@
     </thead>
     <tbody>
     <tr *ngFor="let owner of owners">
-      <td class="">
-        <div >{{ owner.name }}</div>
+      <td class="d-flex justify-content-between align-items-baseline">
+        <div class="mr-2">{{ owner.name }}</div>
+        <div class="w-100">
+          <button class="btn btn-sm btn-outline-light mr-2 my-1"(click)="open(owner)">Edit</button>
+          <button class="btn btn-sm btn-outline-light mr-2 my-1">Replace</button>
+          <button class="btn btn-sm btn-outline-danger mr-2 my-1">Remove</button>
+        </div>
       </td>
-      <td class="">
-        <span class="address">{{ owner.address }}</span>
-      </td>
-      <td class="d-flex align-items-baseline justify-content-end ">
-        <button class="btn btn-sm btn-outline-light mr-2 my-1">Edit</button>
-        <button class="btn btn-sm btn-outline-light mr-2 my-1">Replace</button>
-        <button class="btn btn-sm btn-outline-danger my-1">Remove</button>
-      </td>
+      <td><span class="address">{{ owner.address }}</span></td>
     </tr>
     </tbody>
   </table>

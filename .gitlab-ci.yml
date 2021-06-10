@@ -1,12 +1,14 @@
 stages:
   - build
 
-
 build-job:
   stage: build
+
   tags:
     - nodejs
+
   script:
-    - npm ci
+    - npm install
     - npm install -g @angular/cli@11.2.11
     - ng build
+    - ng lint

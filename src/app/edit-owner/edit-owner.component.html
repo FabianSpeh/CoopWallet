@@ -1,0 +1,18 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Change Owners Name</h4>
+</div>
+<div class="modal-body">
+  <form>
+    <div class="form-group">
+      <label for="nameOfOwner" id="label1" class="label">Name</label>
+      <div class="input-group" id="nameInput">
+        <input #nameOfOwner id="nameOfOwner" type="email" class="form-control" placeholder="Name of Owner">
+      </div>
+      <p #errorMessage hidden='true' style="color: red">You need to specify a <b>Name</b>!</p>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn btn-outline-light" (click)="change()" >Change</button>
+  <button type="button" class="btn btn btn-outline-danger" (click)="this.activeModal.close('Close click')" >Close</button>
+</div>
