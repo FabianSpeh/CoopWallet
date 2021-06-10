@@ -4,11 +4,12 @@ stages:
 build-job:
   stage: build
 
-  tags:
-    - nodejs
+  image: atlassianlabs/docker-node-jdk-chrome-firefox
+
 
   script:
     - npm install
     - npm install -g @angular/cli@11.2.11
     - ng build
     - ng lint
+    - npm run test:ci
