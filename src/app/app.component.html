@@ -3,4 +3,4 @@
 <app-popup></app-popup>
 <app-background></app-background>
 <router-outlet></router-outlet>
-<app-modal-content-component *ngIf="router.url == '/wallets'"></app-modal-content-component>
+<app-modal-content-component *ngIf="router.url == '/wallets' && userService.dataGot"></app-modal-content-component>
