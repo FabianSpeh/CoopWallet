@@ -12,6 +12,6 @@ import {BackgroundComponent} from './background/background.component';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  public title = 'dapp';
+  public title = 'Coop Wallet';
   constructor(public router: Router){}
 }
