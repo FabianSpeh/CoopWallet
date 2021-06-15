@@ -1,10 +1,11 @@
-import {Component, OnInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, OnDestroy, ChangeDetectorRef, NgModule} from '@angular/core';
 import {BrowserRefreshService} from '../services/browser-refresh.service';
 import {UserWalletDataService} from '../services/user-wallet-data.service';
 import Web3 from 'web3';
 import {ClipboardService} from 'ngx-clipboard';
 
 declare var window: any;
+
 
 @Component({
   selector: 'app-navbar',
