@@ -1,0 +1,18 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Add new owner</h4>
+</div>
+<div class="modal-body">
+  <form>
+    <div class="form-group">
+      <label for="addressOfOwner" id="label1" class="label">Address:</label>
+      <div class="input-group" id="nameInput">
+        <input #addressOfOwner id="nameOfOwner" type="email" class="form-control" placeholder="Address of owner">
+      </div>
+      <p #errorMessage hidden='true' style="color: red">You need to specify a <b>Address</b>!</p>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn btn-outline-light" (click)="add()" >Add</button>
+  <button type="button" class="btn btn btn-outline-danger" (click)="this.activeModal.close('Close click')" >Close</button>
+</div>

@@ -15,7 +15,9 @@
       </thead>
       <tbody>
         <tr *ngFor="let wallet of walletsData">
-          <td><span class="wallet-link py-3" routerLink="/wallets/details/{{ wallet.address }}">{{ wallet.name }}</span></td>
+          <td><span class="wallet-link py-3" routerLink="/wallets/details/{{ wallet.address }}">{{ wallet.name }}</span><br>
+            <button class="btn btn-sm btn-outline-light mr-2 my-1" (click)="editingWallet(wallet, editWallet)">Edit Wallet</button>
+            <button class="btn btn-sm btn-outline-danger mr-2 my-1" (click)="deletingWallet(wallet, removeWallet)">Remove</button></td>
           <td>
             <span class="address" ngbTooltip="{{ wallet.address }}" placement="top-left" container="body">
               <span triggers="click" [autoClose]="true" ngbTooltip="copied!" placement="top-left"
@@ -24,7 +26,12 @@
               </span>
             </span>
           </td>
-          <td>{{ this.convertBalanceString(wallet.balance) }} ETH</td>
+          <td>
+            <span class="address" ngbTooltip="{{walletService.fullbalance}}" placement="top-left" container="body">
+              <span>{{ this.convertBalanceString(wallet.balance) }} ETH
+              </span>
+            </span>
+          </td>
           <td>{{ wallet.confirmations }}</td>
           <td>{{ wallet.owners }}</td>
           <td>{{ wallet.pending }}</td>
@@ -34,3 +41,51 @@
     </table>
 
 </div>
+
+<!-- Template for editing Wallet-->
+<ng-template #editWallet let-modal class="modal-container">
+  <div class="modal-header bg-accent ">
+    <h4 class="modal-title" id="modal-basic-title">Edit wallet</h4>
+    <button type="button" class="close " aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-dark">
+    <form class="form-group" id="editWallet">
+      <label for="walletname">Name</label>
+      <input id="walletname" class="form-control bg-secondary" name="walletsname" placeholder="wallet Name" [(ngModel)]="walletsname">
+      <label for="walletAddress">Address</label>
+      <input id="walletAddress" class="form-control desableIt" name="walletsaddress" placeholder="wallet address" [(ngModel)]="walletsaddress" disabled>
+    </form>
+  </div>
+  <div class="modal-footer bg-dark">
+    <button type="button" class="btn btn-outline-light mr-2 my-1" (click)="modal.close('Save click'); saveWallet(walletsname.valueOf())">Ok</button>
+    <button type="button" class="btn btn-outline-danger mr-2 my-1" (click)="modal.close('Save click')">Cancel</button>
+  </div>
+</ng-template>
+
+
+<!-- Template for removing a wallet -->
+<ng-template #removeWallet let-modal class="modal-container">
+  <div class="modal-header bg-accent ">
+    <h4 class="modal-title" id="modal-basic-title">Remove wallet</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-dark">
+    <form class="form-group">
+      <label for="walletnam">Name</label>
+      <input id="walletnam" class="form-control desableIt" name="walletsname" placeholder="wallet Name" [(ngModel)]="walletsname" disabled>
+      <label for="walletAddres">Address</label>
+      <input id="walletAddres" class="form-control desableIt" name="walletsaddress" placeholder="wallet address" [(ngModel)]="walletsaddress" disabled>
+      <label for="walletNameConfirm">Enter wallet name for confirmation</label>
+      <input id="walletNameConfirm" class="form-control bg-secondary" name="dp" [(ngModel)]="name">
+    </form>
+  </div>
+  <div class="modal-footer bg-dark">
+    <button type="button" class="btn btn-outline-light mr-2 my-1" (click)="modal.close('Save click'); deleteWallet(name.valueOf())">Ok</button>
+    <button type="button" class="btn btn-outline-danger mr-2 my-1" (click)="modal.close('Save click')">Cancel</button>
+  </div>
+</ng-template>
+

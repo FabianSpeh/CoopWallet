@@ -13,10 +13,15 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { BackgroundComponent } from './background/background.component';
 
+import {AddOwnerComponent} from './add-owner/add-owner.component';
+
+
 // Service class
 import { MultisigWalletDataService } from './services/multisig-wallet-data.service';
 import {ModalContentComponent, NgbdModalContentComponent} from './modal-content/modal-content.component';
 import { WalletDetailsComponent } from './wallet-details/wallet-details.component';
+import {EditOwnerComponent} from './edit-owner/edit-owner.component';
+import {OwnerAddressService} from './services/owner-address.service';
 
 
 @NgModule({
@@ -30,7 +35,8 @@ import { WalletDetailsComponent } from './wallet-details/wallet-details.componen
     BackgroundComponent,
     ModalContentComponent,
     NgbdModalContentComponent,
-    WalletDetailsComponent
+    WalletDetailsComponent,
+    EditOwnerComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +44,7 @@ import { WalletDetailsComponent } from './wallet-details/wallet-details.componen
     NgbModule,
     FormsModule
   ],
-  providers: [MultisigWalletDataService, CookieService],
+  providers: [MultisigWalletDataService, CookieService, WalletDetailsComponent, OwnerAddressService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
