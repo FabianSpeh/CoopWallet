@@ -9,7 +9,7 @@ import { TransactionsComponent } from './transactions/transactions.component';
 import { WalletsComponent } from './wallets/wallets.component';
 import { AddressesComponent } from './addresses/addresses.component';
 import { PopupComponent } from './popup/popup.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbActiveModal, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { BackgroundComponent } from './background/background.component';
 import {AddOwnerComponent} from './add-owner/add-owner.component';
@@ -44,7 +44,7 @@ import {OwnerAddressService} from './services/owner-address.service';
     NgbModule,
     FormsModule
   ],
-  providers: [MultisigWalletDataService, CookieService, WalletDetailsComponent, OwnerAddressService],
+  providers: [MultisigWalletDataService, CookieService, WalletDetailsComponent, OwnerAddressService, NgbActiveModal],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

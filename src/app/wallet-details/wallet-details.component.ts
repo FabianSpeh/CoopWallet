@@ -2,7 +2,7 @@ import {MultisigWalletDataService, Wallet} from '../services/multisig-wallet-dat
 import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {AddOwnerComponent} from '../add-owner/add-owner.component';
 
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {EditOwnerComponent} from '../edit-owner/edit-owner.component';
 import {OwnerAddressService} from '../services/owner-address.service';
 import {UserWalletDataService} from '../services/user-wallet-data.service';
@@ -10,7 +10,8 @@ import {UserWalletDataService} from '../services/user-wallet-data.service';
 @Component({
   selector: 'app-wallet-details',
   templateUrl: './wallet-details.component.html',
-  styleUrls: ['./wallet-details.component.css']
+  styleUrls: ['./wallet-details.component.css'],
+  providers: [NgbActiveModal]
 })
 export class WalletDetailsComponent implements OnInit {
 
