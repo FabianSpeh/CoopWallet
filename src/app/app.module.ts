@@ -12,7 +12,6 @@ import { PopupComponent } from './popup/popup.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { BackgroundComponent } from './background/background.component';
-
 import {AddOwnerComponent} from './add-owner/add-owner.component';
 
 
@@ -36,7 +35,8 @@ import {OwnerAddressService} from './services/owner-address.service';
     ModalContentComponent,
     NgbdModalContentComponent,
     WalletDetailsComponent,
-    EditOwnerComponent
+    EditOwnerComponent,
+    AddOwnerComponent
   ],
   imports: [
     BrowserModule,
