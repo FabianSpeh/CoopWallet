@@ -1,15 +1,48 @@
+cache:
+  paths:
+    - node_modules/
+
+default:
+  image: atlassianlabs/docker-node-jdk-chrome-firefox
+
 
 stages:
+  - install
+  - test
   - build
 
-build-job:
-  stage: build
+install_job:
+  stage: install
 
   tags:
-    - nodejs
+    - dapp
 
   script:
     - npm ci
-    - npm install -g @angular/cli@11.2.11
+
+lint_job:
+  stage: test
+
+  tags:
+    - dapp
+
+  script:
+    - npm run lint
+
+karma_job:
+  stage: test
+
+  tags:
+    - dapp
+
+  script:
+    - npm run test:ci
+
+build_job:
+  stage: build
+
+  tags:
+    - dapp
+
+  script:
     - ng build
-    - ng lint
