@@ -39,7 +39,10 @@
       <span *ngIf="userService.providerOnline" class="capitalize mr-4">Online <img class="mb-1" src="../../assets/img/Online.png"></span>
       <span *ngIf="!userService.providerOnline" class="capitalize mr-4">Offline <img class="mb-1" src="../../assets/img/Offline.png"></span>
       <span>Chain ID: <span class="c-white mr-4">{{ userService.chainId }}</span></span>
-      <span>Balance: <span class="c-white mr-4">{{ userService.showBalance }}</span></span>
+      <div class="d-inline-block mr-4 pointer" ngbTooltip="{{userService.fullBalance}}" placement="bottom">
+        <span>Balance: <span class="c-white mr-4">{{ userService.showBalance }}</span></span>
+      </div>
+
       <span>Nonce: <span class="c-white"> {{userService.nonce}} </span></span>
 
     </div>

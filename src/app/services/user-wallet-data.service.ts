@@ -32,12 +32,14 @@ export class UserWalletDataService {
   nonce: number;
   accountIndex = 0;
   dataGot: boolean;
+  fullBalance: string;
 
   /**
    * Set up all initial data to be empty or 0
    */
   constructor() {
     this.balance = new BigNumber(0);
+    this.fullBalance = '';
     this.showBalance = '';
     this.dataGot = false;
     this.selectedAccount = '';
@@ -62,8 +64,16 @@ export class UserWalletDataService {
       }
       this.accounts = await this.web3js.eth.getAccounts();
       this.balance = new BigNumber(await this.web3js.eth.getBalance(this.accounts[this.accountIndex]));
-      this.showBalance = this.web3js.utils.fromWei(this.balance.toString(), 'ether') + 'ETH';
-      // TODO Change HTML to use showBalance.
+      let balanceInEther = this.web3js.utils.fromWei(this.balance.toString(), 'ether');
+      if (!balanceInEther.includes('.')){
+        balanceInEther = balanceInEther + '.00' + ' ';
+      } else {
+          let balanceInNumber = Number(balanceInEther);
+          balanceInNumber = Math.round((balanceInNumber + Number.EPSILON) * 10000) / 10000;
+          balanceInEther = balanceInNumber.toString().substring(0, (balanceInNumber.toString().indexOf('.') + 5));
+      }
+      this.showBalance = balanceInEther + ' ETH';
+      this.fullBalance = this.web3js.utils.fromWei(this.balance.toString(), 'ether') + ' ETH';
       console.log(this.showBalance);
       this.chainId = await this.web3js.eth.getChainId();
       this.selectedAccount = this.accounts[this.accountIndex];
