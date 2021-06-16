@@ -9,7 +9,7 @@ default:
 stages:
   - install
   - test
-  - buildtest
+  - build
 
 install_job:
   stage: install
@@ -51,13 +51,16 @@ karma_job:
   only:
     - merge_requests
 
-buildtest_job:
-  stage: buildtest
+build_job:
+  stage: build
 
   tags:
     - dapp
 
   script:
     - npm run build
+
+  only:
+    - master
 
 
