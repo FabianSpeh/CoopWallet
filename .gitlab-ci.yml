@@ -23,7 +23,6 @@ install_job:
 
   only:
     - merge_requests
-    - pushes
     - master
 
 lint_job:
