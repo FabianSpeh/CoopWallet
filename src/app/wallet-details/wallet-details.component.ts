@@ -11,7 +11,7 @@ import {UserWalletDataService} from '../services/user-wallet-data.service';
   selector: 'app-wallet-details',
   templateUrl: './wallet-details.component.html',
   styleUrls: ['./wallet-details.component.css'],
-  providers: [NgbActiveModal]
+  providers: [NgbActiveModal, NgbModal]
 })
 export class WalletDetailsComponent implements OnInit {
 
@@ -28,10 +28,16 @@ export class WalletDetailsComponent implements OnInit {
 
 
   async ngOnInit(): Promise<void> {
+    const wallet: Wallet = {
+      name: '', address: '', balance: '', confirmations: '', owners: '', pending: '', network: ''
+    };
+    this.wallet =  wallet;
     this.wallet =  await this.loadWallet();
     if (this.wallet !== undefined) {
       this.owners = await this.loadOwnersOfWallet();
 
+    } else {
+      this.wallet =  wallet;
     }
     this.ownerService.currentAddress.subscribe(address => this.ownerAddress = address);
   }
@@ -44,7 +50,7 @@ export class WalletDetailsComponent implements OnInit {
   async loadWallet(): Promise<Wallet> {
     const address: string = (location.href.split('/').pop() as string);
     let name = 'Unknown Wallet';
-    if (localStorage.getItem('Wallets') != null){
+    if (localStorage.getItem('Wallets') !== null){
       const wallets = JSON.parse(localStorage.getItem('Wallets') || '{}');
       for (let i = 0; i < wallets.address.length; i++) {
         if (wallets.address[i] === address) {
