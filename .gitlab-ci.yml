@@ -19,6 +19,7 @@ install_job:
 
   script:
     - npm ci
+    - npm install -g @angular/cli@11.2.11
 
   only:
     - merge_requests
@@ -57,7 +58,6 @@ buildtest_job:
     - dapp
 
   script:
-    - npm install -g @angular/cli@11.2.11
-    - ng build
+    - npm run build
 
 
