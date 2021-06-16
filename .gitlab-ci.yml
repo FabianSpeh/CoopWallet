@@ -9,7 +9,7 @@ default:
 stages:
   - install
   - test
-  - build
+  - buildtest
 
 install_job:
   stage: install
@@ -20,6 +20,11 @@ install_job:
   script:
     - npm ci
 
+  only:
+    - merge_requests
+    - pushes
+    - master
+
 lint_job:
   stage: test
 
@@ -28,6 +33,10 @@ lint_job:
 
   script:
     - npm run lint
+
+  only:
+    - merge_requests
+    - pushes
 
 karma_job:
   stage: test
@@ -38,11 +47,17 @@ karma_job:
   script:
     - npm run test:ci
 
-build_job:
-  stage: build
+  only:
+    - merge_requests
+
+buildtest_job:
+  stage: buildtest
 
   tags:
     - dapp
 
   script:
+    - npm install -g @angular/cli@11.2.11
     - ng build
+
+
