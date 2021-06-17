@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {NavbarComponent} from './navbar/navbar.component';
 import {PopupComponent} from './popup/popup.component';
 import {BackgroundComponent} from './background/background.component';
+import {UserWalletDataService} from './services/user-wallet-data.service';
 
 
 @Component({
