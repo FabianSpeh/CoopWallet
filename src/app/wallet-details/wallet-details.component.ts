@@ -7,6 +7,14 @@ import {EditOwnerComponent} from '../edit-owner/edit-owner.component';
 import {OwnerAddressService} from '../services/owner-address.service';
 import {UserWalletDataService} from '../services/user-wallet-data.service';
 
+// Test Interface;
+// muss erweitert werden;
+// falls Service für Transaktionen zuständig ist, sollte es in den Service verschoben werden.
+export interface Transaction {
+  id: number;
+  destination: string;
+}
+
 @Component({
   selector: 'app-wallet-details',
   templateUrl: './wallet-details.component.html',
@@ -19,18 +27,31 @@ export class WalletDetailsComponent implements OnInit {
               public multisigService: MultisigWalletDataService,
               public dataService: UserWalletDataService) { }
 
+  // The wallet of the current details page:
   wallet: any;
+
+  // Array of the corresponding owners:
   owners: any;
+
+  // Array of the corresponding transactions:
+  transactions: Transaction[] = [{id: 1, destination: '0x2C9C744CDE819753C26b0286248ea1eaFfb42ce8'}];
+  numberOfTransactions: any;
+  currentPage: any;
+  lastPage: any;
+
   private ownerAddress: any;
   message: any;
 
-
-
+  // Variables for toggling the owner table
   ownersTableVisible = false;
   @ViewChild('toggleOwnersButton') toggleOwnersButton: ElementRef | undefined;
 
+  // Variables for toggling the transactions table
+  transactionsTableVisible = false;
+  @ViewChild('toggleTransactionsButton') toggleTransactionsButton: ElementRef | undefined;
+
   /**
-   * Toggles the Text of the owner button from Hide to Show and vice versa
+   * Toggles the text of the owner button from Hide to Show and vice versa
    */
   toggleOwnersButtonText(): void {
     const button: HTMLElement | null = document.getElementById('toggleOwnersButton');
@@ -42,15 +63,39 @@ export class WalletDetailsComponent implements OnInit {
       }
       this.ownersTableVisible = !this.ownersTableVisible;
     }
+  }
 
+  /**
+   * Toggles the text of the transaction button from Hide to Show and vice versa
+   */
+  toggleTransactionsButtonText(): void {
+    const button: HTMLElement | null = document.getElementById('toggleTransactionsButton');
+    if (button != null) {
+      if (this.transactionsTableVisible) {
+        button.innerText = 'Show';
+      } else {
+        button.innerText = 'Hide';
+      }
+      this.transactionsTableVisible = !this.transactionsTableVisible;
+    }
+  }
 
+  loadPage(page: any): void {
+    if (page > 0 && page <= this.lastPage) {
+      this.currentPage = page;
+      // TODO: Load the ``page``th 10 transactions into ``transactions``
+    }
   }
 
   async ngOnInit(): Promise<void> {
     this.wallet =  await this.loadWallet();
     if (this.wallet !== undefined) {
       this.owners = await this.loadOwnersOfWallet();
-
+      // TODO: Anzahl der Transaktionen des Multisigs laden:
+      this.numberOfTransactions = 75;
+      this.currentPage = 1;
+      this.lastPage = Math.ceil(this.numberOfTransactions / 10);
+      // TODO: Die 10 letzten Transaktionen laden und in ``transactions`` ablegen
     }
     this.ownerService.currentAddress.subscribe(address => this.ownerAddress = address);
   }
@@ -76,7 +121,6 @@ export class WalletDetailsComponent implements OnInit {
 
   /**
    * Loads the owners of the Wallet
-   * TODO: implement functionality!
    */
   async loadOwnersOfWallet(): Promise<object> {
 
