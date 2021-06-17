@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { BackgroundComponent } from './background/background.component';
 
 import {AddOwnerComponent} from './add-owner/add-owner.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 // Service class
@@ -39,6 +40,7 @@ import {OwnerAddressService} from './services/owner-address.service';
     EditOwnerComponent
   ],
   imports: [
+    FontAwesomeModule,
     BrowserModule,
     AppRoutingModule,
     NgbModule,

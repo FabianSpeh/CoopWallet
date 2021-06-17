@@ -40,5 +40,46 @@
       </tbody>
     </table>
   </div>
+   <!----------- Token löschen  auflisten ---------->
+  <div class="d-flex justify-content-between mt-5 border px-2 pt-2">
+    <h2 > Tokens </h2>
+    <div>
+      <button class="btn btn btn-outline-light mr-2" (click)="openAddOwnerPopup()">Add</button>
+      <button class="btn btn btn-outline-light" type="button" data-toggle="collapse" data-target="#tokensTable"
+              aria-expanded="false" aria-controls="tokensTable" (click)="this.toggleTokensButtonIcon()" id="toggleTokensButton"> <i id="icon" class="fas fa-arrow-down"></i></button>
+    </div>
+  </div>
+
+  <div id="tokensTable" class="collapse">
+    <table class="table table-dark table-hover table-striped table-bordered" >
+      <thead>
+      <tr class="bg-accent c-black font-weight-bold bg-accent">
+        <th scope="col"> Name</th>
+        <th scope="col"> Multisig balance</th>
+        <th scope="col"> Account balance</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr > <!-- *ngFor="let owner of owners" -->
+        <td class="d-flex justify-content-between">
+          <div>Wallet</div>
+          <div>
+            <button class="btn btn-sm btn-outline-light mr-2 my-1">Replace</button>
+            <button class="btn btn-sm btn-outline-danger my-1" >Remove</button> <!-- (click) = "removeOwner(owner.address, wallet.address)" -->
+          </div>
+        </td>
+        <td>
+          test
+        </td>
+        <td>
+          test
+        </td>
+
+      </tr>
+      </tbody>
+    </table>
+  </div>
 
 </div>
+
+

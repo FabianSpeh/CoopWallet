@@ -131,4 +131,22 @@ export class WalletDetailsComponent implements OnInit {
   removeOwner(ownerAddress: any, contractAddress: any): any {
     this.walletService.removeOwner(ownerAddress, contractAddress);
   }
+
+  /*--------------- Token auflisten und Token löschen ---------------- */
+  toggleTokensButtonIcon(): void {
+    const button: HTMLElement | null = document.getElementById('icon');
+    if (button != null) {
+      if (this.ownersTableVisible) {
+        button.classList.remove("fas", "fa-arrow-up");
+        button.classList.add("fas", "fa-arrow-down");
+      } else {
+        button.classList.remove("fas", "fa-arrow-down");
+        button.classList.add("fas", "fa-arrow-up");
+      }
+      this.ownersTableVisible = !this.ownersTableVisible;
+    }
+
+
+  }
+
 }
