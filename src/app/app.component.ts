@@ -14,5 +14,5 @@ import {UserWalletDataService} from './services/user-wallet-data.service';
 })
 export class AppComponent {
   public title = 'Coop Wallet';
-  constructor(public router: Router){}
+  constructor(public router: Router, public userService: UserWalletDataService){}
 }
