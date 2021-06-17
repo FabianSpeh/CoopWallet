@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {MultisigWalletDataService, Wallet} from '../services/multisig-wallet-data.service';
 
 @Component({
@@ -13,6 +13,26 @@ export class WalletDetailsComponent implements OnInit {
   wallet: any;
   owners: any;
 
+  ownersTableVisible = false;
+  @ViewChild('toggleOwnersButton') toggleOwnersButton: ElementRef | undefined;
+
+  /**
+   * Toggles the Text of the owner button from Hide to Show and vice versa
+   */
+  toggleOwnersButtonText(): void {
+    const button: HTMLElement | null = document.getElementById('toggleOwnersButton');
+    if (button != null) {
+      if (this.ownersTableVisible) {
+        button.innerText = 'Show';
+      } else {
+        button.innerText = 'Hide';
+      }
+      this.ownersTableVisible = !this.ownersTableVisible;
+    }
+
+
+  }
+
   async ngOnInit(): Promise<void> {
     this.wallet = await this.loadWallet();
     if (this.wallet !== undefined) {
@@ -22,7 +42,6 @@ export class WalletDetailsComponent implements OnInit {
 
   /**
    * Loads the Wallet that is referenced by the URL
-   * TODO: implement functionality
    */
   async loadWallet(): Promise<Wallet> {
     const address: string = (location.href.split('/').pop() as string);

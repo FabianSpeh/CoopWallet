@@ -8,33 +8,37 @@
     <h2 class="c-white">Owners <span class="small c-medium">(total: {{ wallet.owners }})</span></h2>
     <div>
       <button class="btn btn btn-outline-light mr-2">Add</button>
-      <button class="btn btn btn-outline-light" type="button" data-toggle="collapse" data-target="#ownerTable" aria-expanded="true" aria-controls="ownerTable">Show</button>
+      <button class="btn btn btn-outline-light" type="button" data-toggle="collapse" data-target="#ownerTable"
+              aria-expanded="false" aria-controls="ownerTable" (click)="this.toggleOwnersButtonText()"
+              id="toggleOwnersButton">Show</button>
     </div>
   </div>
 
-  <table class="table table-dark table-hover navbar-collapse" id="ownerTable">
-    <thead>
-    <tr class="bg-accent c-black font-weight-bold">
-      <th scope="col">Name</th>
-      <th scope="col">Address</th>
-      <th scope="col"></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let owner of owners">
-      <td class="">
-        <div >{{ owner.name }}</div>
-      </td>
-      <td class="">
-        <span class="address">{{ owner.address }}</span>
-      </td>
-      <td class="d-flex align-items-baseline justify-content-end ">
-        <button class="btn btn-sm btn-outline-light mr-2 my-1">Edit</button>
-        <button class="btn btn-sm btn-outline-light mr-2 my-1">Replace</button>
-        <button class="btn btn-sm btn-outline-danger my-1">Remove</button>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+  <div id="ownerTable" class="collapse">
+    <table class="table table-dark table-hover" >
+      <thead>
+      <tr class="bg-accent c-black font-weight-bold">
+        <th scope="col">Name</th>
+        <th scope="col">Address</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let owner of owners">
+        <td class="">
+          <div >{{ owner.name }}</div>
+        </td>
+        <td class="">
+          <span class="address">{{ owner.address }}</span>
+        </td>
+        <td class="d-flex align-items-baseline justify-content-end ">
+          <button class="btn btn-sm btn-outline-light mr-2 my-1">Edit</button>
+          <button class="btn btn-sm btn-outline-light mr-2 my-1">Replace</button>
+          <button class="btn btn-sm btn-outline-danger my-1">Remove</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 
 </div>
