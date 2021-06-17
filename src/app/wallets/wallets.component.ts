@@ -1,6 +1,8 @@
 import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {ClipboardService} from 'ngx-clipboard';
 import {MultisigWalletDataService} from '../services/multisig-wallet-data.service';
+import {UserWalletDataService} from '../services/user-wallet-data.service';
+
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -11,7 +13,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 export class WalletsComponent implements OnInit {
 
   constructor(private modalService: NgbModal, public change: ChangeDetectorRef, private clipboardService: ClipboardService,
-              public walletService: MultisigWalletDataService) {}
+              public walletService: MultisigWalletDataService, public userService: UserWalletDataService) {}
   @ViewChild('walletName') walletNameElement: any;
   @ViewChild('walletAddress') walletAddressElement: any;
   @ViewChild('errorMessage') errorMessage: any;

@@ -1,5 +1,5 @@
 import {MultisigWalletDataService, Wallet} from '../services/multisig-wallet-data.service';
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {AddOwnerComponent} from '../add-owner/add-owner.component';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -26,6 +26,26 @@ export class WalletDetailsComponent implements OnInit {
 
 
 
+  ownersTableVisible = false;
+  @ViewChild('toggleOwnersButton') toggleOwnersButton: ElementRef | undefined;
+
+  /**
+   * Toggles the Text of the owner button from Hide to Show and vice versa
+   */
+  toggleOwnersButtonText(): void {
+    const button: HTMLElement | null = document.getElementById('toggleOwnersButton');
+    if (button != null) {
+      if (this.ownersTableVisible) {
+        button.innerText = 'Show';
+      } else {
+        button.innerText = 'Hide';
+      }
+      this.ownersTableVisible = !this.ownersTableVisible;
+    }
+
+
+  }
+
   async ngOnInit(): Promise<void> {
     this.wallet =  await this.loadWallet();
     if (this.wallet !== undefined) {
@@ -38,7 +58,6 @@ export class WalletDetailsComponent implements OnInit {
 
   /**
    * Loads the Wallet that is referenced by the URL
-   * TODO: implement functionality
    */
   async loadWallet(): Promise<Wallet> {
     const address: string = (location.href.split('/').pop() as string);

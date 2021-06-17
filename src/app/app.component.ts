@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {BrowserRefreshService} from './services/browser-refresh.service';
 import {Router} from '@angular/router';
+import {UserWalletDataService} from './services/user-wallet-data.service';
 
 
 @Component({
@@ -10,5 +11,5 @@ import {Router} from '@angular/router';
 })
 export class AppComponent {
   title = 'dapp';
-  constructor(public router: Router){}
+  constructor(public router: Router, public userService: UserWalletDataService){}
 }
