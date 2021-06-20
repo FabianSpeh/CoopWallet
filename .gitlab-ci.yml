@@ -57,7 +57,7 @@ build_job:
     - dapp
 
   script:
-    - npm run build
+    - npm run buildProd
 
   only:
     - master
