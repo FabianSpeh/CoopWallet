@@ -59,5 +59,7 @@ build_job:
   script:
     - npm run buildProd
 
+  only:
+    - master
 
 
