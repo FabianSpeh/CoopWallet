@@ -13,6 +13,7 @@ import {UserWalletDataService} from '../services/user-wallet-data.service';
 export interface Transaction {
   id: number;
   destination: string;
+  flag: 'none' | 'both' | '...';
 }
 
 @Component({
@@ -34,8 +35,9 @@ export class WalletDetailsComponent implements OnInit {
   owners: any;
 
   // Array of the corresponding transactions:
-  transactions: Transaction[] = [{id: 1, destination: '0x2C9C744CDE819753C26b0286248ea1eaFfb42ce8'}];
+  transactions: Transaction[] = [{id: 1, destination: '0x2C9C744CDE819753C26b0286248ea1eaFfb42ce8', flag: 'both'}];
   numberOfTransactions: any;
+  pageSize = 10;
   currentPage: any;
   lastPage: any;
 
@@ -80,11 +82,19 @@ export class WalletDetailsComponent implements OnInit {
     }
   }
 
+  /**
+   * calls loadTransactions with the correct values and updates this.currentPage
+   * @param page - the "page" that should be loaded. Number of entries in one page is specified in pageSize
+   */
   loadPage(page: any): void {
     if (page > 0 && page <= this.lastPage) {
       this.currentPage = page;
-      // TODO: Load the ``page``th 10 transactions into ``transactions``
+      this.loadTransactions((page - 1) * this.pageSize, page * this.pageSize);
     }
+  }
+
+  loadTransactions(from: number, to: number): void {
+    // TODO: Load the corrsponding transactions into ``transactions``
   }
 
   async ngOnInit(): Promise<void> {
@@ -93,9 +103,8 @@ export class WalletDetailsComponent implements OnInit {
       this.owners = await this.loadOwnersOfWallet();
       // TODO: Anzahl der Transaktionen des Multisigs laden:
       this.numberOfTransactions = 75;
-      this.currentPage = 1;
-      this.lastPage = Math.ceil(this.numberOfTransactions / 10);
-      // TODO: Die 10 letzten Transaktionen laden und in ``transactions`` ablegen
+      this.lastPage = Math.ceil(this.numberOfTransactions / this.pageSize);
+      this.loadPage(1);
     }
     this.ownerService.currentAddress.subscribe(address => this.ownerAddress = address);
   }

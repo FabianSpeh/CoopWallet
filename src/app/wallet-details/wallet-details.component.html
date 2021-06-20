@@ -51,6 +51,7 @@
     </div>
   </div>
 
+
   <div id="transactionsTable" class="collapse">
     <table class="table table-dark table-hover">
       <thead>
@@ -61,6 +62,7 @@
         <th scope="col">Data/Subject</th>
         <th scope="col">Confirmations</th>
         <th scope="col">Executed</th>
+        <th scope="col"></th>
       </tr>
       </thead>
       <tbody>
@@ -71,10 +73,14 @@
         <td></td>
         <td></td>
         <td></td>
+        <td class="d-flex justify-content-end">
+          <button class="btn btn-sm btn-outline-light mr-2 my-1" *ngIf="transaction.flag == 'both'">Confirm</button>
+          <button class="btn btn-sm btn-outline-danger my-1" *ngIf="transaction.flag == 'both'">Revoke</button>
+        </td>
       </tr>
       </tbody>
     </table>
-    <nav aria-label="Page navigation example">
+    <nav aria-label="Transaction Table Navigation" class="d-flex justify-content-end ">
       <ul class="pagination">
         <li class="page-item">
           <span class="page-link bg-surface c-white" (click)="this.loadPage(this.currentPage - 1)">Previous</span>
