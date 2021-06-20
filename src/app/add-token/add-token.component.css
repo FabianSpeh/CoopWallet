@@ -7,7 +7,8 @@
 }
 
 #nameInput{
-  padding-bottom:20px
+  padding-bottom:10px;
+
 }
 .dark-modal .modal-content {
   background-color: #292b2c;
@@ -34,10 +35,24 @@
 }
 .form-control::placeholder{
   color:white !important;
-  opacity: 0.6;
+  opacity: 0.4;
+}
+#addressOfToken::placeholder{
+opacity:0.8!important;
 }
 
+.btn-outline-danger{
+  color: white !important;
+}
+#Symbol{
+  background-color: #24292E;
+}
 
+#nameOfToken{
+  background-color: #24292E;
+}
 
-
+#Decimals{
+  background-color: #24292E;
+}
 

@@ -23,6 +23,7 @@ import {ModalContentComponent, NgbdModalContentComponent} from './modal-content/
 import { WalletDetailsComponent } from './wallet-details/wallet-details.component';
 import {EditOwnerComponent} from './edit-owner/edit-owner.component';
 import {OwnerAddressService} from './services/owner-address.service';
+import { AddTokenComponent } from './add-token/add-token.component';
 
 
 @NgModule({
@@ -37,7 +38,9 @@ import {OwnerAddressService} from './services/owner-address.service';
     ModalContentComponent,
     NgbdModalContentComponent,
     WalletDetailsComponent,
-    EditOwnerComponent
+    EditOwnerComponent,
+    AddTokenComponent,
+    AddOwnerComponent
   ],
   imports: [
     FontAwesomeModule,

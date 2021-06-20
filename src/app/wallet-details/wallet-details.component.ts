@@ -1,6 +1,7 @@
 import {MultisigWalletDataService, Wallet} from '../services/multisig-wallet-data.service';
 import {AfterViewInit, Component, Input, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {AddOwnerComponent} from '../add-owner/add-owner.component';
+import {AddTokenComponent} from '../add-token/add-token.component';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {EditOwnerComponent} from '../edit-owner/edit-owner.component';
@@ -128,6 +129,10 @@ export class WalletDetailsComponent implements OnInit {
     const modalRef = this.modalService.open(AddOwnerComponent);
   }
 
+  openAddTokenPopup(): any {
+    const modalRef = this.modalService.open(AddTokenComponent);
+  }
+
   removeOwner(ownerAddress: any, contractAddress: any): any {
     this.walletService.removeOwner(ownerAddress, contractAddress);
   }
@@ -137,11 +142,11 @@ export class WalletDetailsComponent implements OnInit {
     const button: HTMLElement | null = document.getElementById('icon');
     if (button != null) {
       if (this.ownersTableVisible) {
-        button.classList.remove("fas", "fa-arrow-up");
-        button.classList.add("fas", "fa-arrow-down");
+        button.classList.remove('fas', 'fa-arrow-up');
+        button.classList.add('fas', 'fa-arrow-down');
       } else {
-        button.classList.remove("fas", "fa-arrow-down");
-        button.classList.add("fas", "fa-arrow-up");
+        button.classList.remove('fas', 'fa-arrow-down');
+        button.classList.add('fas', 'fa-arrow-up');
       }
       this.ownersTableVisible = !this.ownersTableVisible;
     }
