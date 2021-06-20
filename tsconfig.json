@@ -16,7 +16,6 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "es2020",
-    "buildProd": "ng build --base-href=/swtp-ss21/",
     "lib": [
       "es2018",
       "dom"
