@@ -6,26 +6,26 @@
     <div class="form-group">
       <label for="addressOfToken" id="label1" class="label">Address:</label>
       <div class="input-group" id="addressInput">
-        <input  id="addressOfToken" type="text" class="form-control" (change)="detectInputChange($event)" placeholder="Address of Token">
+        <input  id="addressOfToken" type="text" class="form-control" (input)="detectInputChange($event)" placeholder="Address of Token">
       </div>
       <label for="nameOfToken" id="label2" class="label mt-2">Token Name:</label>
       <div class="input-group" id="nameInput">
-        <input  id="nameOfToken" readonly type="text" class="form-control" placeholder="Name of Token">
+        <input #nameOfToken id="nameOfToken" type="text" class="form-control" placeholder="Name of Token">
       </div>
       <label for="Symbol" id="label3" class="label">Symbol Name:</label>
       <div class="input-group" id="symbolInput">
-        <input  id="Symbol" readonly type="text" class="form-control symbolInput" placeholder="Symbol of Token">
+        <input #Symbol id="Symbol" readonly type="text" class="form-control symbolInput" placeholder="Symbol of Token">
       </div>
       <label for="Symbol" id="label4" class="label mt-2">Decimals</label>
       <div class="input-group" id="decimalsInput">
-        <input  id="Decimals" readonly type="text" class="form-control symbolInput" placeholder="Number of Decimals">
+        <input #Decimals id="Decimals" readonly type="text" class="form-control symbolInput" placeholder="Number of Decimals">
       </div>
 
     </div>
   </form>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn btn-outline-light">Add</button>
+  <button type="button" class="btn btn btn-outline-light" (click)="add()">Add</button>
   <button type="button" class="btn btn btn-outline-danger" (click)="this.activeModal.close('Close click')" >Close</button>
 </div>
 

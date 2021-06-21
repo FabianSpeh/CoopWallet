@@ -7,6 +7,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {EditOwnerComponent} from '../edit-owner/edit-owner.component';
 import {OwnerAddressService} from '../services/owner-address.service';
 import {UserWalletDataService} from '../services/user-wallet-data.service';
+import {RemoveTokenComponent} from '../remove-token/remove-token.component';
 
 @Component({
   selector: 'app-wallet-details',
@@ -131,6 +132,10 @@ export class WalletDetailsComponent implements OnInit {
 
   openAddTokenPopup(): any {
     const modalRef = this.modalService.open(AddTokenComponent);
+  }
+
+  openRemoveTokenPopup(): any {
+    const modalRef = this.modalService.open(RemoveTokenComponent);
   }
 
   removeOwner(ownerAddress: any, contractAddress: any): any {
