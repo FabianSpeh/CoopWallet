@@ -23,9 +23,6 @@ currentWallet: any;
   @ViewChild('Decimals') decimalsOfToken: any;
 
 
-
-
-
   ngOnInit(): void {
 
   }
@@ -37,10 +34,13 @@ currentWallet: any;
  async detectInputChange(event: any): Promise<void>{
 
   this.tokenAddress = event.target.value;
+  try {
   if (this.tokenService.web3.utils.isAddress(this.tokenAddress)) {
+
       const tokenName = await this.tokenService.getTokenName(this.tokenAddress);
       const tokenSymbol = await this.tokenService.getTokenSymbol(this.tokenAddress);
       const tokenDecimals = await this.tokenService.getTokenDecimals(this.tokenAddress);
+
 
       this.nameOfToken.nativeElement.value = tokenName;
       this.symbolofToken.nativeElement.value = tokenSymbol;
@@ -53,7 +53,8 @@ currentWallet: any;
         this.decimalsOfToken.nativeElement.value = '';
       }
 
-    }
+    } catch (error) {alert('Enter a valid address!'); }
+  }
     add(): void{
     if (this.tokenService.web3.utils.isAddress(this.tokenAddress)) {
       this.tokenService.saveTokenToLocalStorage(this.tokenAddress, this.currentWallet);
