@@ -10,7 +10,8 @@ declare var window: any;
 @Component({
   selector: 'app-edit-owner',
   templateUrl: './edit-owner.component.html',
-  styleUrls: ['./edit-owner.component.css']
+  styleUrls: ['./edit-owner.component.css'],
+  providers: [NgbActiveModal]
 })
 export class EditOwnerComponent implements AfterViewInit, OnInit {
 

@@ -6,7 +6,8 @@ import {MultisigWalletDataService} from '../services/multisig-wallet-data.servic
 @Component({
   selector: 'app-add-owner',
   templateUrl: './add-owner.component.html',
-  styleUrls: ['./add-owner.component.css']
+  styleUrls: ['./add-owner.component.css'],
+  providers: [NgbActiveModal]
 })
 export class AddOwnerComponent {
 

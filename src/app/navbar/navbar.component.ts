@@ -1,10 +1,11 @@
-import {Component, OnInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, OnDestroy, ChangeDetectorRef, NgModule} from '@angular/core';
 import {BrowserRefreshService} from '../services/browser-refresh.service';
 import {UserWalletDataService} from '../services/user-wallet-data.service';
 import Web3 from 'web3';
 import {ClipboardService} from 'ngx-clipboard';
 
 declare var window: any;
+
 
 @Component({
   selector: 'app-navbar',
@@ -75,16 +76,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.interval = setInterval(() => this.update(), this.updateTime);
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
-      // Old Method of checking for new User Data
-      /*this.web3js.eth.subscribe('newBlockHeaders', (error: any, result: any) => {
-        if (!error) {
-          console.log("New BlockHeader");
-          this.update();
-          return;
-        }
-
-        console.error(error);
-      });*/
 
       /** Setting up of Various Event Listener to act on User Wallet Data Changes */
       window.ethereum.on('accountsChanged', () => {
@@ -153,7 +144,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
    */
   ngOnDestroy(): void {
     clearInterval(this.interval);
-    this.web3js.eth.clearSubscriptions();
   }
 
 }
