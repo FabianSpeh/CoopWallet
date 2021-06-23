@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild, OnDestroy} from '@angular/core';
 import {ClipboardService} from 'ngx-clipboard';
 import {MultisigWalletDataService} from '../services/multisig-wallet-data.service';
 import {UserWalletDataService} from '../services/user-wallet-data.service';
@@ -11,10 +11,12 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './wallets.component.html',
   styleUrls: ['./wallets.component.css']
 })
-export class WalletsComponent implements OnInit {
+export class WalletsComponent implements OnInit, OnDestroy {
 
   interval: any;
+  interval2: any;
   updateTime = 100;
+  updateTime2 = 10000;
 
   constructor(private modalService: NgbModal, public change: ChangeDetectorRef, private clipboardService: ClipboardService,
               public walletService: MultisigWalletDataService, public userService: UserWalletDataService,
@@ -85,10 +87,11 @@ export class WalletsComponent implements OnInit {
     await this.checkData();
     await this.readCookies();
     this.interval = setInterval(() => this.update(), this.updateTime);
+    this.interval2 = setInterval(() => this.update2(), this.updateTime2);
   }
 
   /**
-   * Update Method to Update all the Data from the MultisigWallets
+   * Check if User is logged in an then get Data from Cookies and Multisig
    */
   async update(): Promise<void>{
     await this.checkData();
@@ -96,6 +99,21 @@ export class WalletsComponent implements OnInit {
       if (this.walletsData.length === 0) {
         console.log('test');
         await this.readCookies();
+      }
+    }
+  }
+
+  /**
+   * Update Method to Update all the Data from the MultisigWallets
+   */
+  async update2(): Promise<void>{
+    await this.checkData();
+    if (this.ethereumEnabled){
+      if (this.walletsData.length !== 0) {
+        for (const wallet of this.walletsData) {
+          wallet.balance = this.walletService.getBalance(wallet.address);
+        }
+        this.change.detectChanges();
       }
     }
   }
@@ -166,5 +184,13 @@ export class WalletsComponent implements OnInit {
     this.walletsaddress = wallet.address;
 
     this.open(removeWallet);
+  }
+
+  /**
+   * Cleanup of the Interval and subscriptions.
+   */
+  ngOnDestroy(): void {
+    clearInterval(this.interval);
+    clearInterval(this.interval2);
   }
 }
