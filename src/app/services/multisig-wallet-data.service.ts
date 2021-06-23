@@ -292,7 +292,16 @@ export class MultisigWalletDataService {
       // Get the multisig contract with the given address
       const multiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), contractAddress);
 
-      await multiSigContract.methods.confirmTransaction(15).send({from: currentAccountAddress});
+      await multiSigContract.methods.confirmTransaction(transactionID).send({from: currentAccountAddress});
+
+      const confirmationsCount = await multiSigContract.methods.getConfirmationCount(15).call();
+      const requiredConfirmations = await multiSigContract.methods.required.call().call();
+
+      // Automaticly execute the transaction if enough owner confirmed the transaction
+      if (confirmationsCount >= requiredConfirmations)
+      {
+        await multiSigContract.methods.executeTransaction(transactionID).send({from: currentAccountAddress});
+      }
     }
   }
 
