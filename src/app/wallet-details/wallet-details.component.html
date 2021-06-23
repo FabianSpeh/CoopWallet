@@ -68,43 +68,23 @@
       <tbody>
       <tr *ngFor="let transaction of transactions">
         <td>{{ transaction.id }}</td>
-        <td>{{ transaction.destination }}</td>
-        <td>...</td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>{{ this.getNameOfWallet(transaction.destination) }}</td>
+        <td>{{ transaction.value }}</td>
+        <td>{{ this.getDataSubject(transaction.data) }} ({{transaction.insertAbiAction}})</td>
+        <td>
+          <div *ngFor="let owner of transaction.ownersWhoConfirmed">{{ this.getOwnerName(owner) }}</div>
+        </td>
+        <td>{{ transaction.isExecuted }}</td>
         <td class="d-flex justify-content-end">
-          <button class="btn btn-sm btn-outline-light mr-2 my-1" *ngIf="transaction.flag == 'both'">Confirm</button>
-          <button class="btn btn-sm btn-outline-danger my-1" *ngIf="transaction.flag == 'both'">Revoke</button>
+          <button class="btn btn-sm btn-outline-light mr-2 my-1" *ngIf="transaction.ownerAction == 'CONFIRMATION'">Confirm</button>
+          <button class="btn btn-sm btn-outline-danger my-1" *ngIf="transaction.ownerAction == 'REVOKE'">Revoke</button>
         </td>
       </tr>
       </tbody>
     </table>
-    <nav aria-label="Transaction Table Navigation" class="d-flex justify-content-end ">
-      <ul class="pagination">
-        <li class="page-item">
-          <span class="page-link bg-surface c-white" (click)="this.loadPage(this.currentPage - 1)">Previous</span>
-        </li>
-        <li class="page-item">
-          <span class="page-link bg-medium c-white">{{ this.currentPage }}</span>
-        </li>
-        <li class="page-item" *ngIf="this.currentPage + 1 <= this.lastPage">
-          <span class="page-link bg-surface c-white" (click)="this.loadPage(this.currentPage + 1)">{{ this.currentPage + 1 }}</span>
-        </li>
-        <li class="page-item" *ngIf="this.currentPage + 2 <= this.lastPage">
-          <span class="page-link bg-surface c-white" (click)="this.loadPage(this.currentPage + 2)">{{ this.currentPage + 2 }}</span>
-        </li>
-        <li class="page-item" tabindex="-1" *ngIf="this.currentPage + 4 <= this.lastPage">
-          <span class="page-link bg-surface c-white">...</span>
-        </li>
-        <li class="page-item" *ngIf="this.currentPage + 3 <= this.lastPage">
-          <span class="page-link bg-surface c-white" (click)="this.loadPage(this.lastPage)">{{ this.lastPage }}</span>
-        </li>
-        <li class="page-item">
-          <span class="page-link bg-surface c-white" (click)="this.loadPage(this.currentPage + 1)">Next</span>
-        </li>
-      </ul>
-    </nav>
+    <div class="d-flex justify-content-end ">
+      <button class="btn btn-sm btn-outline-light" (click)="this.loadNext()">load next</button>
+    </div>
   </div>
 
 

@@ -7,13 +7,15 @@ import {EditOwnerComponent} from '../edit-owner/edit-owner.component';
 import {OwnerAddressService} from '../services/owner-address.service';
 import {UserWalletDataService} from '../services/user-wallet-data.service';
 
-// Test Interface;
-// muss erweitert werden;
-// falls Service für Transaktionen zuständig ist, sollte es in den Service verschoben werden.
 export interface Transaction {
-  id: number;
+  id: string;
   destination: string;
-  flag: 'none' | 'both' | '...';
+  value: string;
+  data: string;
+  insertAbiAction: string;
+  ownersWhoConfirmed: string[];
+  ownerAction: string;
+  isExecuted: string;
 }
 
 @Component({
@@ -35,9 +37,9 @@ export class WalletDetailsComponent implements OnInit {
   owners: any;
 
   // Array of the corresponding transactions:
-  transactions: Transaction[] = [{id: 1, destination: '0x2C9C744CDE819753C26b0286248ea1eaFfb42ce8', flag: 'both'}];
+  transactions: Transaction[] = [];
   numberOfTransactions: any;
-  pageSize = 10;
+  pageSize = 3;
   currentPage: any;
   lastPage: any;
 
@@ -82,29 +84,34 @@ export class WalletDetailsComponent implements OnInit {
     }
   }
 
-  /**
-   * calls loadTransactions with the correct values and updates this.currentPage
-   * @param page - the "page" that should be loaded. Number of entries in one page is specified in pageSize
-   */
-  loadPage(page: any): void {
-    if (page > 0 && page <= this.lastPage) {
-      this.currentPage = page;
-      this.loadTransactions((page - 1) * this.pageSize, page * this.pageSize);
+
+  async loadNext(): Promise<void> {
+    this.currentPage++;
+    const page = this.currentPage;
+    const startIndex = this.numberOfTransactions - (page - 1) * this.pageSize;
+    let endIndex = this.numberOfTransactions - this.pageSize - (page - 1) * this.pageSize;
+
+    if (endIndex < 0) {
+      endIndex = 0;
     }
+    await this.loadTransactions(endIndex, startIndex);
   }
 
-  loadTransactions(from: number, to: number): void {
-    // TODO: Load the corrsponding transactions into ``transactions``
+  async loadTransactions(from: number, to: number): Promise<void> {
+    const newTransactions = await this.walletService.getTransactions(this.wallet.address, from, to);
+    for (let i = this.pageSize - 1; i >= 0; i--) {
+      this.transactions.push(newTransactions[i]);
+    }
+
   }
 
   async ngOnInit(): Promise<void> {
     this.wallet =  await this.loadWallet();
     if (this.wallet !== undefined) {
       this.owners = await this.loadOwnersOfWallet();
-      // TODO: Anzahl der Transaktionen des Multisigs laden:
-      this.numberOfTransactions = 75;
-      this.lastPage = Math.ceil(this.numberOfTransactions / this.pageSize);
-      this.loadPage(1);
+      this.numberOfTransactions = await this.walletService.getAllTransactionCount(this.wallet.address);
+      this.currentPage = 0;
+      await this.loadNext();
     }
     this.ownerService.currentAddress.subscribe(address => this.ownerAddress = address);
   }
@@ -164,6 +171,41 @@ export class WalletDetailsComponent implements OnInit {
     this.ownerService.changeMessage(owner.address);
   }
 
+  getNameOfWallet(address: string): string {
+    if (localStorage.getItem('Wallets') != null){
+      const wallets = JSON.parse(localStorage.getItem('Wallets') || '{}');
+      for (let i = 0; i < wallets.address.length; i++) {
+        if (wallets.address[i] === address) {
+          return wallets.name[i];
+        }
+      }
+      return address.substring(0, 12) + '...';
+    } else {
+      return address.substring(0, 12) + '...';
+    }
+  }
+
+  getDataSubject(data: string): string {
+    return data.substring(0, 12) + '...';
+  }
+
+  getOwnerName(address: string): string {
+    if (localStorage.getItem('Owners') != null) {
+      const owners = JSON.parse(localStorage.getItem('Owners') || '{}');
+      for (let i = 0; i < owners.address.length; i++) {
+        if (owners.address[i] === address) {
+          return owners.name[i];
+        }
+      }
+
+      return address.substring(0, 12) + '...';
+
+    } else {
+      return address.substring(0, 12) + '...';
+    }
+
+  }
+
   getOwnersFromLocalStorage(): any {
     if (localStorage.getItem('Owners') == null) {
       return;
@@ -182,11 +224,6 @@ export class WalletDetailsComponent implements OnInit {
   removeOwner(ownerAddress: any, contractAddress: any): any {
     this.walletService.removeOwner(ownerAddress, contractAddress);
   }
-
-  getTransactions(): any {
-    this.walletService.getTransactions('0x283011659f9Cd638b4d99EFB264b198917f6Ff5D');
-  }
-
 
   confirmTransaction(contractAddress: any, transactionID: any): any {
     this.walletService.confirmTransaction(contractAddress, transactionID);

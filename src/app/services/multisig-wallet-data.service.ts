@@ -193,7 +193,7 @@ export class MultisigWalletDataService {
   /**
    * Get all transactions
    */
-  async getTransactions(contractAddress: any): Promise<void> {
+  async getTransactions(contractAddress: any, from: number, to: number): Promise<any[]> {
 
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
@@ -207,13 +207,14 @@ export class MultisigWalletDataService {
       const multiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), contractAddress);
 
       // Get the indeces of the transactions
-      const transactionIndeces = await multiSigContract.methods.getTransactionIds(0, 16, true, true).call();
+      const transactionIndeces = await multiSigContract.methods.getTransactionIds(from, to, true, true).call();
 
       const transactionInformationList = [];
 
 
       // tslint:disable-next-line:forin
-      for (const index in transactionIndeces) {
+      for (const key in transactionIndeces) {
+        let index = transactionIndeces[key];
 
         // Get the transaction
         const transaction = await multiSigContract.methods.transactions(index).call();
@@ -275,8 +276,18 @@ export class MultisigWalletDataService {
 
         transactionInformationList.push(singleTransactionInformation);
       }
-      const jsonString = JSON.stringify(transactionInformationList);
-      console.log(jsonString);
+
+      return(transactionInformationList);
+    }
+    return [];
+  }
+
+  async getAllTransactionCount(address: any): Promise<void> {
+    if (window.ethereum) {
+      this.web3js = new Web3(window.ethereum);
+      await window.ethereum.enable();
+      const MultiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), address);
+      return await MultiSigContract.methods.getTransactionCount(true, true).call();
     }
   }
 
