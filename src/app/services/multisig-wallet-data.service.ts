@@ -289,4 +289,20 @@ export class MultisigWalletDataService {
     }
   }
 
+  async revokeTransaction(contractAddress: any, transactionID: any): Promise<void> {
+    if (window.ethereum) {
+      this.web3js = new Web3(window.ethereum);
+      await window.ethereum.enable();
+
+      // Get the address from the current account
+      const accounts = await this.web3js.eth.getAccounts();
+      const currentAccountAddress = accounts[0];
+
+      // Get the multisig contract with the given address
+      const multiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), contractAddress);
+
+      await multiSigContract.methods.revokeConfirmation(15).send({from: currentAccountAddress});
+    }
+  }
+
 }
