@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
+import {Component,  ViewChild} from '@angular/core';
 import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {TokensService} from '../services/tokens.service';
 
@@ -9,7 +9,7 @@ import {TokensService} from '../services/tokens.service';
   templateUrl: './add-token.component.html',
   styleUrls: ['./add-token.component.css']
 })
-export class AddTokenComponent implements OnInit, AfterViewInit {
+export class AddTokenComponent {
 tokenAddress: any;
 currentWallet: any;
   constructor(public activeModal: NgbActiveModal, public tokenService: TokensService) {
@@ -21,15 +21,6 @@ currentWallet: any;
   @ViewChild('nameOfToken') nameOfToken: any;
   @ViewChild('Symbol') symbolofToken: any;
   @ViewChild('Decimals') decimalsOfToken: any;
-
-
-  ngOnInit(): void {
-
-  }
-
-  ngAfterViewInit(): void {
-
-  }
 
  async detectInputChange(event: any): Promise<void>{
 

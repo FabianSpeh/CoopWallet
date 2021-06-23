@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -7,13 +7,8 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './remove-token.component.html',
   styleUrls: ['./remove-token.component.css']
 })
-export class RemoveTokenComponent implements OnInit {
+export class RemoveTokenComponent {
   constructor(public activeModal: NgbActiveModal) {
 
   }
-
-  ngOnInit(): void {
-  }
-
-
 }
