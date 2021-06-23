@@ -70,14 +70,16 @@
         <td>{{ transaction.id }}</td>
         <td>{{ this.getNameOfWallet(transaction.destination) }}</td>
         <td>{{ transaction.value }}</td>
-        <td>{{ this.getDataSubject(transaction.data) }} ({{transaction.insertAbiAction}})</td>
+        <td>{{ this.getDataSubject(transaction.data) }}
+          <button class="btn btn-sm btn-outline-light mr-2 my-1" *ngIf="transaction.insertAbiAction == 'YES'">Confirm</button>
+        </td>
         <td>
           <div *ngFor="let owner of transaction.ownersWhoConfirmed">{{ this.getOwnerName(owner) }}</div>
         </td>
         <td>{{ transaction.isExecuted }}</td>
         <td class="d-flex justify-content-end">
-          <button class="btn btn-sm btn-outline-light mr-2 my-1" *ngIf="transaction.ownerAction == 'CONFIRMATION'">Confirm</button>
-          <button class="btn btn-sm btn-outline-danger my-1" *ngIf="transaction.ownerAction == 'REVOKE'">Revoke</button>
+          <button class="btn btn-sm btn-outline-light mr-2 my-1" *ngIf="transaction.ownerAction == 'CONFIRMATION'" (click)="confirmTransaction(wallet.address, transaction.id)">Confirm</button>
+          <button class="btn btn-sm btn-outline-danger my-1" *ngIf="transaction.ownerAction == 'REVOKE'" (click)="revokeTransaction(wallet.address, transaction.id)">Revoke</button>
         </td>
       </tr>
       </tbody>

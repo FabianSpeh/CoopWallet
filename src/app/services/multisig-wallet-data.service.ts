@@ -328,7 +328,7 @@ export class MultisigWalletDataService {
       // Get the multisig contract with the given address
       const multiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), contractAddress);
 
-      await multiSigContract.methods.revokeConfirmation(15).send({from: currentAccountAddress});
+      await multiSigContract.methods.revokeConfirmation(transactionID).send({from: currentAccountAddress});
     }
   }
 
