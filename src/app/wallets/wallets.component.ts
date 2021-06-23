@@ -13,6 +13,9 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 })
 export class WalletsComponent implements OnInit {
 
+  interval: any;
+  updateTime = 100;
+
   constructor(private modalService: NgbModal, public change: ChangeDetectorRef, private clipboardService: ClipboardService,
               public walletService: MultisigWalletDataService, public userService: UserWalletDataService,
               public refreshservice: BrowserRefreshService) {}
@@ -81,6 +84,20 @@ export class WalletsComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     await this.checkData();
     await this.readCookies();
+    this.interval = setInterval(() => this.update(), this.updateTime);
+  }
+
+  /**
+   * Update Method to Update all the Data from the MultisigWallets
+   */
+  async update(): Promise<void>{
+    await this.checkData();
+    if (this.ethereumEnabled){
+      if (this.walletsData.length === 0) {
+        console.log('test');
+        await this.readCookies();
+      }
+    }
   }
 
   open(content: any): void {

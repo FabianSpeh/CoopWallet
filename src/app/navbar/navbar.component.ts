@@ -115,7 +115,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   async connectMetaMask(): Promise<void> {
     this.dataGot = await this.userService.getData(this.accountIndex);
     if (this.dataGot) {
-      window.location.reload();
+      this.change.detectChanges();
     }
   }
 
