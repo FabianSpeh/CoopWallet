@@ -186,7 +186,30 @@ export class WalletDetailsComponent implements OnInit {
   }
 
   getDataSubject(data: string): string {
-    return data.substring(0, 12) + '...';
+    var methodInformation = data.slice(2, 10);
+    var transportInformation = data.slice(11);
+
+    switch (methodInformation)
+    {
+      // Deals with the case, if the method is addOwner()
+      case "7065cb48":
+        var owner = '0x' + transportInformation;
+        return "Method: addOwner()";
+
+      // Deals with the case, if the method is removeOwner()
+      case "173825d9":
+        return "Method: removeOwner()";
+
+      // Deals with the case, if the method is changeDailyLimit()
+      case  "cea08621":
+        return "Method: changeDailyLimit()";
+
+      case "ba51a6df":
+        return "Method: changeRequirement()";
+
+      default:
+        return data.substring(0, 12) + '...';
+    }
   }
 
   getOwnerName(address: string): string {
