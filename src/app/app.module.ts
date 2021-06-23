@@ -13,6 +13,7 @@ import {NgbActiveModal, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { BackgroundComponent } from './background/background.component';
 import {AddOwnerComponent} from './add-owner/add-owner.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 // Service class
@@ -21,6 +22,8 @@ import {ModalContentComponent, NgbdModalContentComponent} from './modal-content/
 import { WalletDetailsComponent } from './wallet-details/wallet-details.component';
 import {EditOwnerComponent} from './edit-owner/edit-owner.component';
 import {OwnerAddressService} from './services/owner-address.service';
+import { AddTokenComponent } from './add-token/add-token.component';
+import { RemoveTokenComponent } from './remove-token/remove-token.component';
 
 
 @NgModule({
@@ -36,9 +39,12 @@ import {OwnerAddressService} from './services/owner-address.service';
     NgbdModalContentComponent,
     WalletDetailsComponent,
     EditOwnerComponent,
-    AddOwnerComponent
+    AddTokenComponent,
+    AddOwnerComponent,
+    RemoveTokenComponent
   ],
   imports: [
+    FontAwesomeModule,
     BrowserModule,
     AppRoutingModule,
     NgbModule,

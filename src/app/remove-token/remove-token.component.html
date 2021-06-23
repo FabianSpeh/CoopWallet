@@ -1,0 +1,11 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Remove token</h4>
+</div>
+<div class="modal-body">
+  <!-- Will take the name of the token as a parameter, which will render dynamically -->
+<span>Are you sure you want to remove this token?</span>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn btn-outline-light">Confirm</button>
+  <button type="button" class="btn btn btn-outline-danger" (click)="this.activeModal.close('Close click')" >Close</button>
+</div>
