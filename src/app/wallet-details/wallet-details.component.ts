@@ -103,13 +103,28 @@ export class WalletDetailsComponent implements OnInit {
 
   }
 
-
-
   openAddOwnerPopup(): any {
     const modalRef = this.modalService.open(AddOwnerComponent);
   }
 
   removeOwner(ownerAddress: any, contractAddress: any): any {
     this.walletService.removeOwner(ownerAddress, contractAddress);
+  }
+
+  getTransactions(): any {
+    this.walletService.getTransactions("0x283011659f9Cd638b4d99EFB264b198917f6Ff5D");
+  }
+
+
+  confirmTransaction(contractAddress: any, transactionID: any): any {
+    this.walletService.confirmTransaction(contractAddress,transactionID);
+  }
+
+  revokeTransaction(contractAddress: any, transactionID: any): any {
+    this.walletService.revokeTransaction(contractAddress,transactionID);
+  }
+
+  openInsertAbiPopup(): any {
+    //const modalRef = this.modalService.open(InsertAbiComponent);
   }
 }
