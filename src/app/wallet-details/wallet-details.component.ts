@@ -3,11 +3,12 @@ import {AfterViewInit, Component, Input, OnInit, ViewChild, ElementRef} from '@a
 import {AddOwnerComponent} from '../add-owner/add-owner.component';
 import {AddTokenComponent} from '../add-token/add-token.component';
 
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {EditOwnerComponent} from '../edit-owner/edit-owner.component';
 import {OwnerAddressService} from '../services/owner-address.service';
 import {UserWalletDataService} from '../services/user-wallet-data.service';
-import {RemoveTokenComponent} from '../remove-token/remove-token.component';
+import {TokensService} from '../services/tokens.service';
+
 
 @Component({
   selector: 'app-wallet-details',
@@ -19,12 +20,24 @@ export class WalletDetailsComponent implements OnInit {
   constructor(public walletService: MultisigWalletDataService, private modalService: NgbModal,
               private ownerService: OwnerAddressService,
               public multisigService: MultisigWalletDataService,
-              public dataService: UserWalletDataService) { }
+              public dataService: UserWalletDataService,
+              public tokenService: TokensService) { }
+
 
   wallet: any;
   owners: any;
   private ownerAddress: any;
   message: any;
+  tokens: any;
+  closeResult = '';
+  tokenAddress: any;
+  token: any;
+  nameToken = '';
+  tokensDecimals = '';
+  tokensSymbol = '';
+  addressToken = '';
+  walletAddress: any;
+
 
 
 
@@ -55,6 +68,7 @@ export class WalletDetailsComponent implements OnInit {
 
     }
     this.ownerService.currentAddress.subscribe(address => this.ownerAddress = address);
+    this.loadTokensFromLocalStorage();
   }
 
 
@@ -133,16 +147,19 @@ export class WalletDetailsComponent implements OnInit {
   openAddTokenPopup(): any {
     const modalRef = this.modalService.open(AddTokenComponent);
   }
-
+/*
   openRemoveTokenPopup(): any {
     const modalRef = this.modalService.open(RemoveTokenComponent);
   }
-
+*/
   removeOwner(ownerAddress: any, contractAddress: any): any {
     this.walletService.removeOwner(ownerAddress, contractAddress);
   }
 
   /*--------------- Token auflisten und Token löschen ---------------- */
+  /**
+   * Toggles the font awesome of the token button from Hide to Show and vice versa
+   */
   toggleTokensButtonIcon(): void {
     const button: HTMLElement | null = document.getElementById('icon');
     if (button != null) {
@@ -159,4 +176,62 @@ export class WalletDetailsComponent implements OnInit {
 
   }
 
+  /**
+   * download the tokens of a Wallet and store it in a variable
+   */
+  loadTokensFromLocalStorage(): void{
+     const walletsAddress = this.tokenService.tokenWalletList;
+     for ( let i = 0; i < walletsAddress.length; i++) {
+       if ( walletsAddress[i].walletAddress === this.wallet.address){
+         this.tokens = this.tokenService.getTokensOfWallet(this.wallet.address);
+         console.log(this.tokens);
+       }
+     }
+  }
+
+  async openModal(content: any): Promise<void>{
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+  async autofill(event: any, address: any): Promise<void>{
+
+    this.token = event.valueOf();
+    const wallAd = this.tokenService.tokenWalletList;
+    for ( const elt of wallAd) {
+      if ( elt.walletAddress === address){
+        this.tokens = this.tokenService.getTokensOfWallet(this.wallet.address);
+        this.walletAddress = elt.walletAddress;
+      }
+    }
+    for ( const elt of this.tokens){
+      if ( elt.name === this.token){
+        this.nameToken = elt.name;
+        this.tokensDecimals = elt.decimals;
+        this.tokensSymbol = elt.symbol;
+        this.addressToken = elt.address;
+        console.log(this.nameToken, this.tokensDecimals, this.tokensSymbol, this.addressToken);
+      }
+    }
+    console.log(address);
+    console.log(this.token);
+  }
+
+  async removeTokens(): Promise<void>{
+    this.tokenService.removeTokenFromWallet(this.addressToken, this.walletAddress);
+    console.log('deleted');
+  }
 }

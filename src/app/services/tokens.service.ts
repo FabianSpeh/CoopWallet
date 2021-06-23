@@ -144,5 +144,11 @@ export class TokensService {
     });
   }
 
+  public async getBalance(tokenAddress: string, walletAddress: string ): Promise<any> {
+    if ( this.web3 !== undefined){
+      const tokenContract = new this.web3.eth.Contract(this.tokenContractABI, tokenAddress);
+      return await tokenContract.methods.getBalance(walletAddress).call();
+    }
+  }
 
 }
