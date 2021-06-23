@@ -46,13 +46,10 @@ export class MultisigWalletDataService {
       this.web3js = new Web3(window.ethereum);
       await window.ethereum.enable();
       this.balance = await this.web3js.eth.getBalance(address);
-      console.log(this.balance);
       let balanceInEther = this.web3js.utils.fromWei(this.balance, 'ether');
       this.fullbalance = balanceInEther + ' ETH';
       if (!balanceInEther.includes('.')){
-        console.log(balanceInEther);
         balanceInEther = balanceInEther + '.00' + ' ';
-        console.log(balanceInEther + 'after');
       } else {
         let balanceInNumber = Number(balanceInEther);
         balanceInNumber = Math.round((balanceInNumber + Number.EPSILON) * 10000) / 10000;
@@ -69,7 +66,6 @@ export class MultisigWalletDataService {
       await window.ethereum.enable();
       const MultiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), address);
       await MultiSigContract.methods.required.call().call().then( (res: any) => this.numberOfConfirmations = res);
-      console.log(this.numberOfConfirmations);
     }
   }
 
@@ -80,7 +76,6 @@ export class MultisigWalletDataService {
 
       const MultiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), address);
       await MultiSigContract.methods.getOwners().call().then((res: any) => this.ownerListNumber = res.length);
-      console.log(this.ownerListNumber);
     }
   }
 
@@ -186,7 +181,6 @@ export class MultisigWalletDataService {
 
       const MultiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), address);
       await MultiSigContract.methods.getOwners().call().then((res: any) => this.ownerArray = res);
-      console.log(this.ownerArray);
     }
   }
 

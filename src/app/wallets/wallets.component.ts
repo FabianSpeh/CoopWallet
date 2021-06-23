@@ -113,7 +113,7 @@ export class WalletsComponent implements OnInit {
         window.location.reload();
       }
     } else{
-      console.log('Nothing');
+        // Nothing do to maybe check for possibility later
     }
   }
   public saveWallet(walletName: string): void{
@@ -127,7 +127,6 @@ export class WalletsComponent implements OnInit {
           wallets.name[i] = name;
         }
         }
-      console.log(wallets);
       localStorage.setItem('Wallets', JSON.stringify(wallets));
       }
     window.location.reload();

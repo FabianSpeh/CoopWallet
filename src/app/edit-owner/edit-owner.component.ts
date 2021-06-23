@@ -63,7 +63,6 @@ this.ownerList = {
     }
     this.ownerName = this.nameOfOwnerElement.nativeElement.value;
     for (let i = 0; i <= this.ownerList.address.length; i++){
-      console.log(i);
       if (this.ownerAddress === this.ownerList.address[i]){
 
       this.ownerList.name[i] = this.ownerName;

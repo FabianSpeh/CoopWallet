@@ -107,7 +107,6 @@ export class NgbdModalContentComponent {
       }
     } catch (e) {
       isAdress = false;
-      console.log(e);
       console.log('Wrong Adress');
       console.log(this.walletAddress);
     }
@@ -117,11 +116,12 @@ export class NgbdModalContentComponent {
       // this.cookieService.set('Wallets', JSON.stringify(this.walletList));
       localStorage.setItem('Wallets', JSON.stringify(this.walletList));
     // debugging
-      for (let i = 0; i < this.walletList.name.length; i++) {
-
-        console.log('Name: ' + this.walletList.name[i] + ' Address: ' + this.walletList.address[i]);
-
-    }
+    /**  for (let i = 0; i < this.walletList.name.length; i++) {
+     *
+     *   console.log('Name: ' + this.walletList.name[i] + ' Address: ' + this.walletList.address[i]);
+     *
+     * }
+     */
       window.location.reload();
   }
 

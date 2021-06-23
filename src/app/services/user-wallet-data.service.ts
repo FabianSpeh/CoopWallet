@@ -74,7 +74,6 @@ export class UserWalletDataService {
       }
       this.showBalance = balanceInEther + ' ETH';
       this.fullBalance = this.web3js.utils.fromWei(this.balance.toString(), 'ether') + ' ETH';
-      console.log(this.showBalance);
       this.chainId = await this.web3js.eth.getChainId();
       this.selectedAccount = this.accounts[this.accountIndex];
       this.web3js.defaultAccount = this.selectedAccount;

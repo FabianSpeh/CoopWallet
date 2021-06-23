@@ -115,11 +115,9 @@ export class TokensService {
     if (tokenWallet !== undefined) {
       const token = tokenWallet.tokens.find((e: Token) => e.address === tokenAddress);
       if (token !== undefined) {
-        console.log('Token already exists. Overwriting.');
         tokenWallet.tokens = tokenWallet.tokens.filter((e: Token) => e.address !== tokenAddress);
       }
       await this.getTokenJSON(tokenAddress).then((res) => { tokenWallet.tokens.push(res); });
-      console.log('Saved token in token list for ', walletAddress, ': ', tokenWallet );
       localStorage.setItem('Tokens', JSON.stringify(this.tokenWalletList));
     } else {
       this.tokenWalletList.push({walletAddress, tokens: []} as TokenWallet);
