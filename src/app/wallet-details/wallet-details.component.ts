@@ -181,8 +181,8 @@ export class WalletDetailsComponent implements OnInit {
    */
   loadTokensFromLocalStorage(): void{
      const walletsAddress = this.tokenService.tokenWalletList;
-     for ( let i = 0; i < walletsAddress.length; i++) {
-       if ( walletsAddress[i].walletAddress === this.wallet.address){
+     for ( const walletAddres of walletsAddress) {
+       if ( walletAddres.walletAddress === this.wallet.address){
          this.tokens = this.tokenService.getTokensOfWallet(this.wallet.address);
          console.log(this.tokens);
        }
@@ -207,7 +207,7 @@ export class WalletDetailsComponent implements OnInit {
     }
   }
 
-  async autofill(event: any, address: any): Promise<void>{
+  async fillTable(event: any, address: any): Promise<void>{
 
     this.token = event.valueOf();
     const wallAd = this.tokenService.tokenWalletList;
