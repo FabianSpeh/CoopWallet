@@ -23,12 +23,14 @@ export class InsertAbiComponent {
     if (this.nameOfContractElement.nativeElement.value === '' || this.abiOfContractElement.nativElement.value === ''){
 
       // Handles the error case, if there is no contract name given
-      if (this.nameOfContractElement.nativeElement.value === '')
+      if (this.nameOfContractElement.nativeElement.value === '') {
         this.errorMessageContractName.nativeElement.hidden = false;
+      }
 
       // Handle the error case, if there is no contract ABI given
-      if (this.abiOfContractElement.nativElement.value === '')
+      if (this.abiOfContractElement.nativElement.value === '') {
         this.errorMessageABIContract.nativeElement.hidden = false;
+      }
     }
     else{
       this.activeModal.close();

@@ -207,11 +207,13 @@ export class MultisigWalletDataService {
       const multiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), contractAddress);
 
       // Get the indeces of the transactions
-      const transactionIndeces = await multiSigContract.methods.getTransactionIds(0, 16, true, true).call(); //.then((res: any) => console.log(res));
+      const transactionIndeces = await multiSigContract.methods.getTransactionIds(0, 16, true, true).call();
 
       const transactionInformationList = [];
 
-      for (let index in transactionIndeces) {
+
+      // tslint:disable-next-line:forin
+      for (const index in transactionIndeces) {
 
         // Get the transaction
         const transaction = await multiSigContract.methods.transactions(index).call();
@@ -220,55 +222,60 @@ export class MultisigWalletDataService {
         const id = index;
 
         // Get the destination of the transaction
-        const destination = transaction['destination'];
-        //singleTransactionInformation['destination'] = transaction['destination'];
+        const destination = transaction.destination;
+        // singleTransactionInformation['destination'] = transaction['destination'];
 
         // Get the value of the transaction
-        const value = transaction['value'];
+        const value = transaction.value;
 
         // Get the data from the transaction
-        const data = transaction['data'];
+        const data = transaction.data;
 
         // Sets the unknown flag, if the abi is unknown
-        var insertAbiAction = ""
+        let insertAbiAction = '';
 
-        if (destination !== contractAddress)
-          insertAbiAction = "YES"
-        else
-          insertAbiAction = "NO"
+        if (destination !== contractAddress) {
+          insertAbiAction = 'YES';
+        }
+        else {
+          insertAbiAction = 'NO';
+        }
 
           // Get the owners who confirmed the transactions
         const ownersWhoConfirmed = await multiSigContract.methods.getConfirmations(index).call();
 
         // Get the execution state of the transactions
-        const isExecuted = transaction['executed']
+        const isExecuted = transaction.executed;
 
         // Get the possible owner confirm/revoke actions
         const hasOwnerConfirmed = await multiSigContract.methods.confirmations(index, currentAccountAddress);
 
-        var ownerAction = "";
+        let ownerAction = '';
 
-         if (hasOwnerConfirmed === false && isExecuted === false)
-           ownerAction = "CONFIRMATION";
-         else if (hasOwnerConfirmed === true && isExecuted === false)
-           ownerAction = "REVOKE";
-         else
-           ownerAction = "NONE";
-
-        var singleTransactionInformation = {
-                                              id: id,
-                                              destination: destination,
-                                              value: value,
-                                              data: data,
-                                              insertAbiAction: insertAbiAction,
-                                              ownersWhoConfirmed: ownersWhoConfirmed,
-                                              ownerAction: ownerAction,
-                                              isExecuted: isExecuted
+        if (hasOwnerConfirmed === false && isExecuted === false) {
+           ownerAction = 'CONFIRMATION';
         }
+         else if (hasOwnerConfirmed === true && isExecuted === false) {
+           ownerAction = 'REVOKE';
+ }
+         else {
+           ownerAction = 'NONE';
+ }
+
+        const singleTransactionInformation = {
+                                              id,
+                                              destination,
+                                              value,
+                                              data,
+                                              insertAbiAction,
+                                              ownersWhoConfirmed,
+                                              ownerAction,
+                                              isExecuted
+        };
 
         transactionInformationList.push(singleTransactionInformation);
       }
-      const jsonString = JSON.stringify(transactionInformationList)
+      const jsonString = JSON.stringify(transactionInformationList);
       console.log(jsonString);
     }
   }

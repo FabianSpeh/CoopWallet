@@ -112,19 +112,19 @@ export class WalletDetailsComponent implements OnInit {
   }
 
   getTransactions(): any {
-    this.walletService.getTransactions("0x283011659f9Cd638b4d99EFB264b198917f6Ff5D");
+    this.walletService.getTransactions('0x283011659f9Cd638b4d99EFB264b198917f6Ff5D');
   }
 
 
   confirmTransaction(contractAddress: any, transactionID: any): any {
-    this.walletService.confirmTransaction(contractAddress,transactionID);
+    this.walletService.confirmTransaction(contractAddress, transactionID);
   }
 
   revokeTransaction(contractAddress: any, transactionID: any): any {
-    this.walletService.revokeTransaction(contractAddress,transactionID);
+    this.walletService.revokeTransaction(contractAddress, transactionID);
   }
 
   openInsertAbiPopup(): any {
-    //const modalRef = this.modalService.open(InsertAbiComponent);
+    // const modalRef = this.modalService.open(InsertAbiComponent);
   }
 }
