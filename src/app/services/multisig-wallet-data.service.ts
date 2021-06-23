@@ -249,19 +249,19 @@ export class MultisigWalletDataService {
         const isExecuted = transaction.executed;
 
         // Get the possible owner confirm/revoke actions
-        const hasOwnerConfirmed = await multiSigContract.methods.confirmations(index, currentAccountAddress);
+        const hasOwnerConfirmed = await multiSigContract.methods.confirmations(index, currentAccountAddress).call();
 
         let ownerAction = '';
 
-        if (hasOwnerConfirmed === false && isExecuted === false) {
+        if (isExecuted === false && hasOwnerConfirmed === false) {
            ownerAction = 'CONFIRMATION';
         }
-         else if (hasOwnerConfirmed === true && isExecuted === false) {
+         else if (isExecuted === false && hasOwnerConfirmed === true) {
            ownerAction = 'REVOKE';
  }
          else {
            ownerAction = 'NONE';
- }
+        }
 
         const singleTransactionInformation = {
                                               id,
