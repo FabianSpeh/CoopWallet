@@ -190,4 +190,126 @@ export class MultisigWalletDataService {
     }
   }
 
+  /**
+   * Get all transactions
+   */
+  async getTransactions(contractAddress: any): Promise<void> {
+
+    if (window.ethereum) {
+      this.web3js = new Web3(window.ethereum);
+      await window.ethereum.enable();
+
+      // Get the address from the current account
+      const accounts = await this.web3js.eth.getAccounts();
+      const currentAccountAddress = accounts[0];
+
+      // Get the multisig contract with the given address
+      const multiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), contractAddress);
+
+      // Get the indeces of the transactions
+      const transactionIndeces = await multiSigContract.methods.getTransactionIds(0, 16, true, true).call();
+
+      const transactionInformationList = [];
+
+
+      // tslint:disable-next-line:forin
+      for (const index in transactionIndeces) {
+
+        // Get the transaction
+        const transaction = await multiSigContract.methods.transactions(index).call();
+
+        // Get the id of the transaction in the contract
+        const id = index;
+
+        // Get the destination of the transaction
+        const destination = transaction.destination;
+        // singleTransactionInformation['destination'] = transaction['destination'];
+
+        // Get the value of the transaction
+        const value = transaction.value;
+
+        // Get the data from the transaction
+        const data = transaction.data;
+
+        // Sets the unknown flag, if the abi is unknown
+        let insertAbiAction = '';
+
+        if (destination !== contractAddress) {
+          insertAbiAction = 'YES';
+        }
+        else {
+          insertAbiAction = 'NO';
+        }
+
+          // Get the owners who confirmed the transactions
+        const ownersWhoConfirmed = await multiSigContract.methods.getConfirmations(index).call();
+
+        // Get the execution state of the transactions
+        const isExecuted = transaction.executed;
+
+        // Get the possible owner confirm/revoke actions
+        const hasOwnerConfirmed = await multiSigContract.methods.confirmations(index, currentAccountAddress);
+
+        let ownerAction = '';
+
+        if (hasOwnerConfirmed === false && isExecuted === false) {
+           ownerAction = 'CONFIRMATION';
+        }
+         else if (hasOwnerConfirmed === true && isExecuted === false) {
+           ownerAction = 'REVOKE';
+ }
+         else {
+           ownerAction = 'NONE';
+ }
+
+        const singleTransactionInformation = {
+                                              id,
+                                              destination,
+                                              value,
+                                              data,
+                                              insertAbiAction,
+                                              ownersWhoConfirmed,
+                                              ownerAction,
+                                              isExecuted
+        };
+
+        transactionInformationList.push(singleTransactionInformation);
+      }
+      const jsonString = JSON.stringify(transactionInformationList);
+      console.log(jsonString);
+    }
+  }
+
+  async confirmTransaction(contractAddress: any, transactionID: any): Promise<void> {
+    if (window.ethereum) {
+      this.web3js = new Web3(window.ethereum);
+      await window.ethereum.enable();
+
+      // Get the address from the current account
+      const accounts = await this.web3js.eth.getAccounts();
+      const currentAccountAddress = accounts[0];
+
+      // Get the multisig contract with the given address
+      const multiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), contractAddress);
+
+      await multiSigContract.methods.confirmTransaction(15).send({from: currentAccountAddress});
+    }
+  }
+
+  async revokeTransaction(contractAddress: any, transactionID: any): Promise<void> {
+    if (window.ethereum) {
+      this.web3js = new Web3(window.ethereum);
+      await window.ethereum.enable();
+
+      // Get the address from the current account
+      const accounts = await this.web3js.eth.getAccounts();
+      const currentAccountAddress = accounts[0];
+
+      // Get the multisig contract with the given address
+      const multiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), contractAddress);
+
+      await multiSigContract.methods.revokeConfirmation(15).send({from: currentAccountAddress});
+    }
+  }
+
 }

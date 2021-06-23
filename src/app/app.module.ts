@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { BackgroundComponent } from './background/background.component';
 
 import {AddOwnerComponent} from './add-owner/add-owner.component';
+import {InsertAbiComponent} from './insert-abi/insert-abi.component';
 
 
 // Service class
