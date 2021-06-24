@@ -214,7 +214,7 @@ export class MultisigWalletDataService {
 
       // tslint:disable-next-line:forin
       for (const key in transactionIndeces) {
-        let index = transactionIndeces[key];
+        const index = transactionIndeces[key];
 
         // Get the transaction
         const transaction = await multiSigContract.methods.transactions(index).call();
