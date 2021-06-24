@@ -5,8 +5,8 @@
   <div class="c-accent">{{ wallet.address }}</div>
 
 
-  <div class="d-flex justify-content-between mt-5">
-    <h2 class="c-white">owners <span class="small c-medium">(total: {{ wallet.owners }})</span></h2>
+  <div class="d-flex justify-content-between mt-5 border px-2 pt-2">
+    <h2 class="c-white">Owners <span class="small c-medium">(total: {{ wallet.owners }})</span></h2>
     <div>
       <button class="btn btn btn-outline-light mr-2" (click)="openAddOwnerPopup()">Add</button>
       <button class="btn btn btn-outline-light" type="button" data-toggle="collapse" data-target="#ownerTable"
@@ -47,7 +47,7 @@
     <div>
       <button class="btn btn btn-outline-light mr-2" (click)="openAddTokenPopup()">Add</button>
       <button class="btn btn btn-outline-light" type="button" data-toggle="collapse" data-target="#tokensTable"
-              aria-expanded="false" aria-controls="tokensTable" (click)="this.toggleTokensButtonIcon()" id="toggleTokensButton"> <i id="icon" class="fas fa-arrow-down"></i></button>
+              aria-expanded="false" aria-controls="tokensTable" (click)="this.toggleTokensButtonIcon()" id="toggleTokensButton">Show</button>
     </div>
   </div>
 
@@ -105,8 +105,8 @@
     </div>
   </ng-template>
 
-  <div class="d-flex justify-content-between mt-5">
-    <h2 class="c-white">transactions</h2>
+  <div class="d-flex justify-content-between mt-5 border px-2 pt-2">
+    <h2 class="c-white">Transactions</h2>
     <div>
       <button class="btn btn btn-outline-light" type="button" data-toggle="collapse" data-target="#transactionsTable"
               aria-expanded="false" aria-controls="transactionTable" (click)="this.toggleTransactionsButtonText()"
