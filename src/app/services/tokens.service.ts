@@ -168,8 +168,10 @@ export class TokensService {
       let walletbalance = -1;
       let userbalance = -1;
       await this.getBalance(address, walletAddress).then((res) => walletbalance = res);
+      walletbalance = walletbalance / (10 ** token.decimals);
       token.walletBalance = walletbalance.toString();
-      await this.getUserAddres().then(async (res) => await this.getBalance(address, res).then((res2) => userbalance = res2));
+      await this.getUserAddres().then(async (res) => await this.getBalance(address, res[0]).then((res2) => userbalance = res2));
+      userbalance = userbalance / (10 ** token.decimals);
       token.userBalance = userbalance.toString();
       resolve(token);
     });

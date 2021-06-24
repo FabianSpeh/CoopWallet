@@ -233,5 +233,6 @@ export class WalletDetailsComponent implements OnInit {
   async removeTokens(): Promise<void>{
     this.tokenService.removeTokenFromWallet(this.addressToken, this.walletAddress);
     console.log('deleted');
+    window.location.reload();
   }
 }
