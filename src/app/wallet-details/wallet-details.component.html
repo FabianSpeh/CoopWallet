@@ -134,7 +134,7 @@
         <td>{{ this.getNameOfWallet(transaction.destination) }}</td>
         <td>{{ transaction.value }}</td>
         <td>{{ this.getDataSubject(transaction.data) }}
-          <button class="btn btn-sm btn-outline-light mr-2 my-1" *ngIf="transaction.insertAbiAction == 'YES'">Confirm</button>
+          <button class="btn btn-sm btn-outline-light mr-2 my-1" *ngIf="transaction.insertAbiAction == 'YES'">Edit ABI</button>
         </td>
         <td>
           <div *ngFor="let owner of transaction.ownersWhoConfirmed">{{ this.getOwnerName(owner) }}</div>
