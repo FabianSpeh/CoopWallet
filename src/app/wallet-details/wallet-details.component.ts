@@ -68,7 +68,7 @@ export class WalletDetailsComponent implements OnInit {
 
     }
     this.ownerService.currentAddress.subscribe(address => this.ownerAddress = address);
-    this.loadTokensFromLocalStorage();
+    await this.loadTokensFromLocalStorage();
   }
 
 
@@ -179,14 +179,13 @@ export class WalletDetailsComponent implements OnInit {
   /**
    * download the tokens of a Wallet and store it in a variable
    */
-  loadTokensFromLocalStorage(): void{
-     const walletsAddress = this.tokenService.tokenWalletList;
-     for ( const walletAddres of walletsAddress) {
-       if ( walletAddres.walletAddress === this.wallet.address){
-         this.tokens = this.tokenService.getTokensOfWallet(this.wallet.address);
-         console.log(this.tokens);
-       }
-     }
+  async loadTokensFromLocalStorage(): Promise<void> {
+    const walletsAddress = this.tokenService.tokenWalletList;
+    for (const walletAddres of walletsAddress) {
+      if (walletAddres.walletAddress === this.wallet.address) {
+        await this.tokenService.getTokensOfWallet(this.wallet.address).then((res) => this.tokens = res);
+      }
+    }
   }
 
   async openModal(content: any): Promise<void>{
@@ -213,7 +212,7 @@ export class WalletDetailsComponent implements OnInit {
     const wallAd = this.tokenService.tokenWalletList;
     for ( const elt of wallAd) {
       if ( elt.walletAddress === address){
-        this.tokens = this.tokenService.getTokensOfWallet(this.wallet.address);
+        await this.tokenService.getTokensOfWallet(this.wallet.address).then((res) => this.tokens = res);
         this.walletAddress = elt.walletAddress;
       }
     }

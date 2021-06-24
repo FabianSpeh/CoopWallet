@@ -88,11 +88,34 @@ export class TokensService {
    * Returns an empty list, if there are no tokens for this Wallet
    * @param address - the address of the Multisig-Wallet
    */
-  public getTokensOfWallet(address: string): Token[] {
+  public async getTokensOfWallet(address: string): Promise<Token[]> {
     const tokenWallet = this.tokenWalletList.find((e: TokenWallet) => e.walletAddress === address);
+    if (tokenWallet === undefined) {
+
+    } else {
+      await this.updateBalanceOfToken(address, tokenWallet.tokens);
+    }
     return tokenWallet !== undefined ? tokenWallet.tokens : [];
   }
 
+
+  /**
+   * Update Balance of tokens
+   * @param tokens list of all wallet tokens
+   * @param walletAddress Address of the MultisigWallet
+   */
+  public async updateBalanceOfToken(walletAddress: string, tokens: Token[]): Promise <void>{
+    for (const token of tokens){
+      let walletbalance = -1;
+      let userbalance = -1;
+      await this.getBalance(token.address, walletAddress).then((res) => walletbalance = res);
+      walletbalance = walletbalance / (10 ** token.decimals);
+      token.walletBalance = walletbalance.toString();
+      await this.getUserAddres().then(async (res) => await this.getBalance(token.address, res[0]).then((res2) => userbalance = res2));
+      userbalance = userbalance / (10 ** token.decimals);
+      token.userBalance = userbalance.toString();
+    }
+  }
   /**
    * Removes a Token from a Multisig-Wallet in the tokenWalletList. Updates the local storage.
    * @param tokenAddress - the address of the Token
@@ -155,6 +178,7 @@ export class TokensService {
   /**
    * Private Function to fetch a Token Promise
    * @param address - the address of the Token
+   * @param walletAddress address of the MultisigWallet
    */
   private getTokenJSON(address: string, walletAddress: string): Promise<Token> {
     const token: Token = {
