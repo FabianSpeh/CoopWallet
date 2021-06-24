@@ -106,6 +106,16 @@ export class WalletDetailsComponent implements OnInit {
     const page = this.currentPage;
     const startIndex = this.numberOfTransactions - (page - 1) * this.pageSize;
     let endIndex = this.numberOfTransactions - this.pageSize - (page - 1) * this.pageSize;
+    if (endIndex < 0) {
+      endIndex = 0;
+    }
+    await this.loadTransactions(endIndex, startIndex);
+  }
+  async loadTransactions(from: number, to: number): Promise<void> {
+    const newTransactions = await this.walletService.getTransactions(this.wallet.address, from, to);
+    for (let i = this.pageSize - 1; i >= 0; i--) {
+      this.transactions.push(newTransactions[i]);
+    }
 
 
   }
