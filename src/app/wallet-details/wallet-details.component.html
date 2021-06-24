@@ -152,7 +152,12 @@
             </span>
           </div>
         </td>
-        <td>{{ transaction.isExecuted }}</td>
+        <td>
+          <div>{{ transaction.isExecuted }}</div>
+          <div *ngIf="!transaction.isExecuted" class="c-medium">
+            {{ transaction.ownersWhoConfirmed.length }}/{{ wallet.confirmations }} confirmations
+          </div>
+        </td>
         <td class="d-flex justify-content-end">
           <button class="btn btn-sm btn-outline-light mr-2 my-1" *ngIf="transaction.ownerAction == 'CONFIRMATION'" (click)="confirmTransaction(wallet.address, transaction.id)">Confirm</button>
           <button class="btn btn-sm btn-outline-danger my-1" *ngIf="transaction.ownerAction == 'REVOKE'" (click)="revokeTransaction(wallet.address, transaction.id)">Revoke</button>

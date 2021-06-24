@@ -19,7 +19,7 @@ export interface Transaction {
   insertAbiAction: string;
   ownersWhoConfirmed: string[];
   ownerAction: string;
-  isExecuted: string;
+  isExecuted: boolean;
 }
 
 @Component({
@@ -118,7 +118,6 @@ export class WalletDetailsComponent implements OnInit {
       endIndex = 0;
     }
     if (startIndex > 0) {
-      console.log(endIndex, startIndex);
       await this.loadTransactions(endIndex, startIndex);
     }
   }
