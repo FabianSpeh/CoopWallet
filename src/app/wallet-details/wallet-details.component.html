@@ -130,13 +130,27 @@
       <tbody>
       <tr *ngFor="let transaction of transactions">
         <td>{{ transaction.id }}</td>
-        <td>{{ this.getNameOfWallet(transaction.destination) }}</td>
+        <td>
+          <span class="address" ngbTooltip="{{ transaction.destination }}" placement="top-left" container="body">
+            <span triggers="click" [autoClose]="true" ngbTooltip="copied!" placement="top-left"
+                  container="body" (click)="copyToClipboard(transaction.destination)">
+              {{ this.getNameOfWallet(transaction.destination) }}
+            </span>
+          </span>
+        </td>
         <td>{{ transaction.value }}</td>
         <td>{{ this.getDataSubject(transaction.data) }}
           <button class="btn btn-sm btn-outline-light mr-2 my-1" *ngIf="transaction.insertAbiAction == 'YES'">Edit ABI</button>
         </td>
         <td>
-          <div *ngFor="let owner of transaction.ownersWhoConfirmed">{{ this.getOwnerName(owner) }}</div>
+          <div *ngFor="let owner of transaction.ownersWhoConfirmed">
+            <span class="address" ngbTooltip="{{ owner }}" placement="top-left" container="body">
+              <span triggers="click" [autoClose]="true" ngbTooltip="copied!" placement="top-left"
+                    container="body" (click)="copyToClipboard(owner)">
+                {{ this.getOwnerName(owner) }}
+              </span>
+            </span>
+          </div>
         </td>
         <td>{{ transaction.isExecuted }}</td>
         <td class="d-flex justify-content-end">

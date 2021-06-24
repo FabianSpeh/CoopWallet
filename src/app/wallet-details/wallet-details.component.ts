@@ -9,6 +9,7 @@ import {OwnerAddressService} from '../services/owner-address.service';
 import {UserWalletDataService} from '../services/user-wallet-data.service';
 import {RemoveTokenComponent} from '../remove-token/remove-token.component';
 import {TokensService} from '../services/tokens.service';
+import {ClipboardService} from 'ngx-clipboard';
 
 export interface Transaction {
   id: string;
@@ -30,9 +31,8 @@ export interface Transaction {
 export class WalletDetailsComponent implements OnInit {
 
   constructor(public walletService: MultisigWalletDataService, private modalService: NgbModal,
-              private ownerService: OwnerAddressService,
-              public multisigService: MultisigWalletDataService,
-              public dataService: UserWalletDataService,
+              private ownerService: OwnerAddressService, private clipboardService: ClipboardService,
+              public multisigService: MultisigWalletDataService, public dataService: UserWalletDataService,
               public tokenService: TokensService) { }
 
 
@@ -68,6 +68,16 @@ export class WalletDetailsComponent implements OnInit {
   // Variables for toggling the transactions table
   transactionsTableVisible = false;
   @ViewChild('toggleTransactionsButton') toggleTransactionsButton: ElementRef | undefined;
+
+
+  /**
+   * Copies the given address to the users clipboard
+   * @param address - The address to be copied
+   */
+  copyToClipboard(address: string): void {
+    this.clipboardService.copyFromContent(address);
+  }
+
 
   /**
    * Toggles the text of the owner button from Hide to Show and vice versa
