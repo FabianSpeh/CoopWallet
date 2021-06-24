@@ -47,7 +47,6 @@ export class WalletDetailsComponent implements OnInit {
   numberOfTransactions: any;
   pageSize = 3;
   currentPage: any;
-  lastPage: any;
 
   private ownerAddress: any;
   message: any;
@@ -100,7 +99,6 @@ export class WalletDetailsComponent implements OnInit {
     }
   }
 
-
   async loadNext(): Promise<void> {
     this.currentPage++;
     const page = this.currentPage;
@@ -109,15 +107,18 @@ export class WalletDetailsComponent implements OnInit {
     if (endIndex < 0) {
       endIndex = 0;
     }
-    await this.loadTransactions(endIndex, startIndex);
+    if (startIndex > 0) {
+      console.log(endIndex, startIndex);
+      await this.loadTransactions(endIndex, startIndex);
+    }
   }
+
+
   async loadTransactions(from: number, to: number): Promise<void> {
     const newTransactions = await this.walletService.getTransactions(this.wallet.address, from, to);
-    for (let i = this.pageSize - 1; i >= 0; i--) {
+    for (let i = newTransactions.length - 1; i >= 0; i--) {
       this.transactions.push(newTransactions[i]);
     }
-
-
   }
 
   async ngOnInit(): Promise<void> {

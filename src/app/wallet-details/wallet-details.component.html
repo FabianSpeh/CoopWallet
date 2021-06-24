@@ -34,7 +34,6 @@
           </td>
           <td class="d-flex justify-content-end">
               <button class="btn btn-sm btn-outline-light mr-2 my-1" (click)="open(owner)">Edit</button>
-              <button class="btn btn-sm btn-outline-light mr-2 my-1">Replace</button>
               <button class="btn btn-sm btn-outline-danger my-1" (click)="removeOwner(owner.address, wallet.address)">Remove</button>
           </td>
         </tr>
@@ -148,7 +147,7 @@
       </tbody>
     </table>
     <div class="d-flex justify-content-end ">
-      <button class="btn btn-sm btn-outline-light" (click)="this.loadNext()">load next</button>
+      <button class="btn btn-sm btn-outline-light mr-2" (click)="this.loadNext()">load next</button>
     </div>
   </div>
 
