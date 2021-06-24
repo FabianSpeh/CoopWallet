@@ -1,9 +1,7 @@
-import {Component, OnInit, AfterViewInit, ViewChild, ViewChildren, } from '@angular/core';
+import {Component, OnInit, ViewChild, ViewChildren, } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {WalletDetailsComponent} from '../wallet-details/wallet-details.component';
 import {OwnerAddressService} from '../services/owner-address.service';
-
-
 
 declare var window: any;
 
@@ -12,7 +10,7 @@ declare var window: any;
   templateUrl: './edit-owner.component.html',
   styleUrls: ['./edit-owner.component.css']
 })
-export class EditOwnerComponent implements AfterViewInit, OnInit {
+export class EditOwnerComponent implements  OnInit {
 
 @ViewChild('nameOfOwner') nameOfOwnerElement: any;
 @ViewChild('errorMessage') errorMessage: any;
@@ -23,8 +21,10 @@ ownerName: any;
 ownerAddress: any;
 ownerList: any;
 
-
   constructor(public activeModal: NgbActiveModal, private ownerService: OwnerAddressService) {
+    /**
+     * ownerList contains all owners
+     */
 this.ownerList = {
   name: [],
   address: []
@@ -34,10 +34,6 @@ this.ownerList = {
   ngOnInit(): void {
 
     this.ownerService.currentAddress.subscribe(address => this.ownerAddress = address);
-
-  }
-
-  ngAfterViewInit(): void {
 
   }
 
@@ -55,7 +51,9 @@ this.ownerList = {
     }
   }
 
-
+  /**
+   * parses the Local Storage entry with the key "Owners" and pushes a newly added Owner onto it
+   */
   async addOwnersToLocalStorage(): Promise<any> {
     if (localStorage.getItem('Owners') != null) {
       this.ownerList = JSON.parse(localStorage.getItem('Owners') || '{}');
