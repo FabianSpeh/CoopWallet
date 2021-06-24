@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { BackgroundComponent } from './background/background.component';
 import {AddOwnerComponent} from './add-owner/add-owner.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {InsertAbiComponent} from './insert-abi/insert-abi.component';
 
 
 // Service class
@@ -41,6 +42,7 @@ import { AddTokenComponent } from './add-token/add-token.component';
     EditOwnerComponent,
     AddTokenComponent,
     AddOwnerComponent,
+    InsertAbiComponent
   ],
   imports: [
     FontAwesomeModule,

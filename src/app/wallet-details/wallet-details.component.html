@@ -1,11 +1,12 @@
 <div class="container my-5">
-  <h1 class="c-white heading">{{ wallet.name }}</h1>
+
+  <h1 class="c-white">{{ wallet.name }}</h1>
   <h3 class="c-medium">Balance: {{ wallet.balance }}ETH</h3>
   <div class="c-accent">{{ wallet.address }}</div>
 
 
   <div class="d-flex justify-content-between mt-5">
-    <h2 class="c-white">Owners <span class="small c-medium">(total: {{ wallet.owners }})</span></h2>
+    <h2 class="c-white">owners <span class="small c-medium">(total: {{ wallet.owners }})</span></h2>
     <div>
       <button class="btn btn btn-outline-light mr-2" (click)="openAddOwnerPopup()">Add</button>
       <button class="btn btn btn-outline-light" type="button" data-toggle="collapse" data-target="#ownerTable"
@@ -103,6 +104,54 @@
       <button type="button" class="btn btn-outline-danger mr-2 my-1" (click)="modal.close('Save click')">Cancel</button>
     </div>
   </ng-template>
+
+  <div class="d-flex justify-content-between mt-5">
+    <h2 class="c-white">transactions</h2>
+    <div>
+      <button class="btn btn btn-outline-light" type="button" data-toggle="collapse" data-target="#transactionsTable"
+              aria-expanded="false" aria-controls="transactionTable" (click)="this.toggleTransactionsButtonText()"
+              id="toggleTransactionsButton">Show</button>
+    </div>
+  </div>
+
+
+  <div id="transactionsTable" class="collapse">
+    <table class="table table-dark table-hover">
+      <thead>
+      <tr class="bg-accent c-black font-weight-bold">
+        <th scope="col">ID</th>
+        <th scope="col">Destination</th>
+        <th scope="col">Value</th>
+        <th scope="col">Data/Subject</th>
+        <th scope="col">Confirmations</th>
+        <th scope="col">Executed</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let transaction of transactions">
+        <td>{{ transaction.id }}</td>
+        <td>{{ this.getNameOfWallet(transaction.destination) }}</td>
+        <td>{{ transaction.value }}</td>
+        <td>{{ this.getDataSubject(transaction.data) }}
+          <button class="btn btn-sm btn-outline-light mr-2 my-1" *ngIf="transaction.insertAbiAction == 'YES'">Confirm</button>
+        </td>
+        <td>
+          <div *ngFor="let owner of transaction.ownersWhoConfirmed">{{ this.getOwnerName(owner) }}</div>
+        </td>
+        <td>{{ transaction.isExecuted }}</td>
+        <td class="d-flex justify-content-end">
+          <button class="btn btn-sm btn-outline-light mr-2 my-1" *ngIf="transaction.ownerAction == 'CONFIRMATION'" (click)="confirmTransaction(wallet.address, transaction.id)">Confirm</button>
+          <button class="btn btn-sm btn-outline-danger my-1" *ngIf="transaction.ownerAction == 'REVOKE'" (click)="revokeTransaction(wallet.address, transaction.id)">Revoke</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-end ">
+      <button class="btn btn-sm btn-outline-light" (click)="this.loadNext()">load next</button>
+    </div>
+  </div>
+
 
 </div>
 
