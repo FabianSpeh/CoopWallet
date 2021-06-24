@@ -60,25 +60,49 @@
       </tr>
       </thead>
       <tbody>
-      <tr > <!-- *ngFor="let owner of owners" -->
+      <tr *ngFor="let token of tokens">
         <td class="d-flex justify-content-between">
-          <div>Wallet</div>
+          <div>{{token.name}}</div>
           <div>
-            <button class="btn btn-sm btn-outline-light mr-2 my-1">Replace</button>
-            <button class="btn btn-sm btn-outline-danger my-1" (click)="openRemoveTokenPopup() " >Remove</button> <!-- (click) = "removeOwner(owner.address, wallet.address)" -->
+            <button class="btn btn-sm btn-outline-light mr-2 my-1">Edit</button>
+            <button class="btn btn-sm btn-outline-danger my-1" data-toggle="collapse" data-target="#removeToken"
+                    aria-expanded="false" aria-controls="removeToken" (click)="openModal(removeToken)" (click)="fillTable(token.name, wallet.address)">Remove</button> <!-- (click)="openRemoveTokenPopup()" -->
+
           </div>
         </td>
-        <td>
-          test
-        </td>
-        <td>
-          test
-        </td>
+        <td>{{token.walletBalance}}  {{token.symbol}}</td>
+        <td>{{token.userBalance}} {{token.symbol}}</td>
 
       </tr>
       </tbody>
     </table>
   </div>
+
+  <!-- Template for removing a token -->
+  <ng-template #removeToken let-modal class="modal-container">
+    <div class="modal-header bg-accent ">
+      <h4 class="modal-title" id="modal-basic-title">Remove Token</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body bg-dark">
+      <form class="form-group">
+        <label for="TokenName">Name</label>
+        <input id="TokenName" class="form-control " name="Tokensname"  disabled value="{{nameToken}}">
+        <label for="TokenAddres">Address</label>
+        <input id="TokenAddres" class="form-control " name="Tokensaddress" disabled value="{{addressToken}}">
+        <label for="symbol">Symbol</label>
+        <input id="symbol" class="form-control " name="dp" disabled value="{{tokensSymbol}}">
+        <label for="Decimals">Decimals</label>
+        <input id="Decimals" class="form-control " name="dp" disabled value="{{tokensDecimals}}">
+      </form>
+    </div>
+    <div class="modal-footer bg-dark">
+      <button type="button" class="btn btn-outline-light mr-2 my-1"  (click)="removeTokens()" (click)="modal.close('Save click')">Ok</button>
+      <button type="button" class="btn btn-outline-danger mr-2 my-1" (click)="modal.close('Save click')">Cancel</button>
+    </div>
+  </ng-template>
 
 </div>
 

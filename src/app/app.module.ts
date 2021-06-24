@@ -23,7 +23,7 @@ import { WalletDetailsComponent } from './wallet-details/wallet-details.componen
 import {EditOwnerComponent} from './edit-owner/edit-owner.component';
 import {OwnerAddressService} from './services/owner-address.service';
 import { AddTokenComponent } from './add-token/add-token.component';
-import { RemoveTokenComponent } from './remove-token/remove-token.component';
+
 
 
 @NgModule({
@@ -41,7 +41,6 @@ import { RemoveTokenComponent } from './remove-token/remove-token.component';
     EditOwnerComponent,
     AddTokenComponent,
     AddOwnerComponent,
-    RemoveTokenComponent
   ],
   imports: [
     FontAwesomeModule,

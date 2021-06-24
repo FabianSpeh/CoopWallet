@@ -12,6 +12,8 @@ export interface Token {
   address: string;
   symbol: string;
   decimals: number;
+  walletBalance: string;
+  userBalance: string;
 }
 
 /**
@@ -86,11 +88,34 @@ export class TokensService {
    * Returns an empty list, if there are no tokens for this Wallet
    * @param address - the address of the Multisig-Wallet
    */
-  public getTokensOfWallet(address: string): Token[] {
+  public async getTokensOfWallet(address: string): Promise<Token[]> {
     const tokenWallet = this.tokenWalletList.find((e: TokenWallet) => e.walletAddress === address);
+    if (tokenWallet === undefined) {
+
+    } else {
+      await this.updateBalanceOfToken(address, tokenWallet.tokens);
+    }
     return tokenWallet !== undefined ? tokenWallet.tokens : [];
   }
 
+
+  /**
+   * Update Balance of tokens
+   * @param tokens list of all wallet tokens
+   * @param walletAddress Address of the MultisigWallet
+   */
+  public async updateBalanceOfToken(walletAddress: string, tokens: Token[]): Promise <void>{
+    for (const token of tokens){
+      let walletbalance = -1;
+      let userbalance = -1;
+      await this.getBalance(token.address, walletAddress).then((res) => walletbalance = res);
+      walletbalance = walletbalance / (10 ** token.decimals);
+      token.walletBalance = walletbalance.toString();
+      await this.getUserAddres().then(async (res) => await this.getBalance(token.address, res[0]).then((res2) => userbalance = res2));
+      userbalance = userbalance / (10 ** token.decimals);
+      token.userBalance = userbalance.toString();
+    }
+  }
   /**
    * Removes a Token from a Multisig-Wallet in the tokenWalletList. Updates the local storage.
    * @param tokenAddress - the address of the Token
@@ -117,7 +142,8 @@ export class TokensService {
       if (token !== undefined) {
         tokenWallet.tokens = tokenWallet.tokens.filter((e: Token) => e.address !== tokenAddress);
       }
-      await this.getTokenJSON(tokenAddress).then((res) => { tokenWallet.tokens.push(res); });
+      await this.getTokenJSON(tokenAddress, walletAddress).then((res) => { tokenWallet.tokens.push(res); });
+      console.log('Saved token in token list for ', walletAddress, ': ', tokenWallet );
       localStorage.setItem('Tokens', JSON.stringify(this.tokenWalletList));
     } else {
       this.tokenWalletList.push({walletAddress, tokens: []} as TokenWallet);
@@ -126,21 +152,52 @@ export class TokensService {
   }
 
   /**
+   * Get Balance from token Contract
+   * @param tokenAddress Adresse des Tokens
+   * @param walletAddress Adresse des abzufragen Wallets
+   */
+  public async getBalance(tokenAddress: string, walletAddress: string ): Promise<any> {
+    if ( this.web3 !== undefined){
+      const tokenContract = new this.web3.eth.Contract(this.tokenContractABI, tokenAddress);
+      return await tokenContract.methods.balanceOf(walletAddress).call();
+    }
+  }
+
+  /**
+   * Get user Address
+   */
+  private async getUserAddres(): Promise<any>{
+    let address: any;
+    if (window.ethereum) {
+      await window.ethereum.request({method: 'eth_requestAccounts'}).then((res: any) => address = res);
+    }
+    return address;
+  }
+
+  /**
    * Private Function to fetch a Token Promise
    * @param address - the address of the Token
+   * @param walletAddress address of the MultisigWallet
    */
-  private getTokenJSON(address: string): Promise<Token> {
+  private getTokenJSON(address: string, walletAddress: string): Promise<Token> {
     const token: Token = {
-      name: '', address, symbol: '', decimals: 0
+      name: '', address, symbol: '', decimals: 0, walletBalance: '', userBalance: ''
     };
     const tokenContract = new this.web3.eth.Contract(this.tokenContractABI, address);
     return new Promise<Token>(async (resolve, reject) => {
       token.name = await tokenContract.methods.name().call();
       token.symbol = await tokenContract.methods.symbol().call();
       token.decimals = await tokenContract.methods.decimals().call();
+      let walletbalance = -1;
+      let userbalance = -1;
+      await this.getBalance(address, walletAddress).then((res) => walletbalance = res);
+      walletbalance = walletbalance / (10 ** token.decimals);
+      token.walletBalance = walletbalance.toString();
+      await this.getUserAddres().then(async (res) => await this.getBalance(address, res[0]).then((res2) => userbalance = res2));
+      userbalance = userbalance / (10 ** token.decimals);
+      token.userBalance = userbalance.toString();
       resolve(token);
     });
   }
-
 
 }
