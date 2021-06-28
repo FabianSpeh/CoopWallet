@@ -2,14 +2,10 @@ import {
   Component,
   OnInit,
   ViewEncapsulation,
-  ViewChild,
-  AfterViewInit
+  ViewChild
 } from '@angular/core';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import {BrowserRefreshService} from '../services/browser-refresh.service';
-
-
-
 
 @Component({
   selector: 'app-popup',
@@ -17,9 +13,12 @@ import {BrowserRefreshService} from '../services/browser-refresh.service';
   styleUrls: ['./popup.component.css'],
   encapsulation: ViewEncapsulation.None
 })
+/**
+ * PopupComponent contains the Initial Popup, which explains the Web Application
+ */
 export class PopupComponent implements OnInit{
   closeResult = '';
-  dontShowAgain = false;
+
   @ViewChild('content') modalContent: any;
 
   etherumEnabled: boolean;
@@ -28,14 +27,15 @@ export class PopupComponent implements OnInit{
     this.etherumEnabled = await this.service.checkEthereumConnection();
   }
 
+  /**
+   * Opens the Popup onInit, if theres no valid Connection to Metamask
+   */
   async ngOnInit(): Promise<void> {
     await this.checkData();
     if (!this.etherumEnabled) {
       this.modalService.open(this.modalContent, {ariaLabelledBy: 'modal-basic-title', size: 'xl'});
     }
   }
-
-
 
   constructor(private modalService: NgbModal, private service: BrowserRefreshService) {
     this.etherumEnabled = false;
@@ -52,7 +52,6 @@ export class PopupComponent implements OnInit{
 
   }
 
-
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
 
@@ -62,12 +61,6 @@ export class PopupComponent implements OnInit{
     } else {
       return `with: ${reason}`;
     }
-  }
-  public DontShowAgain(): void{
-
-
-
-
   }
 
   }

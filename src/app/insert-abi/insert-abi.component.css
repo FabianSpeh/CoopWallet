@@ -37,7 +37,6 @@
   opacity: 0.6;
 }
 
-
-
-
-
+.btn-outline-danger{
+  color: white !important;
+}

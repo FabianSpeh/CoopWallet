@@ -1,3 +1,12 @@
 .small {
   font-size: 0.5em;
 }
+
+.border{
+  border: 1px solid white;
+  border-radius: 5px;
+}
+
+.page-link:hover {
+  cursor: pointer;
+}

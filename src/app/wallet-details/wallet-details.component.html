@@ -1,10 +1,11 @@
 <div class="container my-5">
-  <h1 class="c-white heading">{{ wallet.name }}</h1>
-  <h3 class="c-medium">Balance: {{ wallet.balance }}ETH</h3>
+
+  <h1 class="c-white">{{ wallet.name }}</h1>
+  <h3 class="c-medium">Balance: {{ wallet.balance }} ETH</h3>
   <div class="c-accent">{{ wallet.address }}</div>
 
 
-  <div class="d-flex justify-content-between mt-5">
+  <div class="d-flex justify-content-between mt-5 border px-2 pt-2 mb-3">
     <h2 class="c-white">Owners <span class="small c-medium">(total: {{ wallet.owners }})</span></h2>
     <div>
       <button class="btn btn btn-outline-light mr-2" (click)="openAddOwnerPopup()">Add</button>
@@ -33,12 +34,143 @@
           </td>
           <td class="d-flex justify-content-end">
               <button class="btn btn-sm btn-outline-light mr-2 my-1" (click)="open(owner)">Edit</button>
-              <button class="btn btn-sm btn-outline-light mr-2 my-1">Replace</button>
               <button class="btn btn-sm btn-outline-danger my-1" (click)="removeOwner(owner.address, wallet.address)">Remove</button>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
+   <!----------- Token löschen  auflisten ---------->
+  <div class="d-flex justify-content-between mt-5 border px-2 pt-2 mb-3">
+    <h2 > Tokens </h2>
+    <div>
+      <button class="btn btn btn-outline-light mr-2" (click)="openAddTokenPopup()">Add</button>
+      <button class="btn btn btn-outline-light" type="button" data-toggle="collapse" data-target="#tokensTable"
+              aria-expanded="false" aria-controls="tokensTable" (click)="this.toggleTokensButtonIcon()" id="toggleTokensButton">Show</button>
+    </div>
+  </div>
+
+  <div id="tokensTable" class="collapse">
+    <table class="table table-dark table-hover table-striped table-bordered" >
+      <thead>
+      <tr class="bg-accent c-black font-weight-bold bg-accent">
+        <th scope="col"> Name</th>
+        <th scope="col"> Multisig balance</th>
+        <th scope="col"> Account balance</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let token of tokens">
+        <td class="d-flex justify-content-between">
+          <div>{{token.name}}</div>
+          <div>
+            <button class="btn btn-sm btn-outline-light mr-2 my-1">Edit</button>
+            <button class="btn btn-sm btn-outline-danger my-1" data-toggle="collapse" data-target="#removeToken"
+                    aria-expanded="false" aria-controls="removeToken" (click)="openModal(removeToken)" (click)="fillTable(token.name, wallet.address)">Remove</button> <!-- (click)="openRemoveTokenPopup()" -->
+
+          </div>
+        </td>
+        <td>{{token.walletBalance}}  {{token.symbol}}</td>
+        <td>{{token.userBalance}} {{token.symbol}}</td>
+
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Template for removing a token -->
+  <ng-template #removeToken let-modal class="modal-container">
+    <div class="modal-header bg-accent ">
+      <h4 class="modal-title" id="modal-basic-title">Remove Token</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body bg-dark">
+      <form class="form-group">
+        <label for="TokenName">Name</label>
+        <input id="TokenName" class="form-control " name="Tokensname"  disabled value="{{nameToken}}">
+        <label for="TokenAddres">Address</label>
+        <input id="TokenAddres" class="form-control " name="Tokensaddress" disabled value="{{addressToken}}">
+        <label for="symbol">Symbol</label>
+        <input id="symbol" class="form-control " name="dp" disabled value="{{tokensSymbol}}">
+        <label for="Decimals">Decimals</label>
+        <input id="Decimals" class="form-control " name="dp" disabled value="{{tokensDecimals}}">
+      </form>
+    </div>
+    <div class="modal-footer bg-dark">
+      <button type="button" class="btn btn-outline-light mr-2 my-1"  (click)="removeTokens()" (click)="modal.close('Save click')">Ok</button>
+      <button type="button" class="btn btn-outline-danger mr-2 my-1" (click)="modal.close('Save click')">Cancel</button>
+    </div>
+  </ng-template>
+
+  <div class="d-flex justify-content-between mt-5 border px-2 pt-2 mb-3">
+    <h2 class="c-white">Transactions</h2>
+    <div>
+      <button class="btn btn btn-outline-light" type="button" data-toggle="collapse" data-target="#transactionsTable"
+              aria-expanded="false" aria-controls="transactionTable" (click)="this.toggleTransactionsButtonText()"
+              id="toggleTransactionsButton">Show</button>
+    </div>
+  </div>
+
+
+  <div id="transactionsTable" class="collapse">
+    <table class="table table-dark table-hover">
+      <thead>
+      <tr class="bg-accent c-black font-weight-bold">
+        <th scope="col">ID</th>
+        <th scope="col">Destination</th>
+        <th scope="col">Value</th>
+        <th scope="col">Data/Subject</th>
+        <th scope="col">Confirmations</th>
+        <th scope="col">Executed</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let transaction of transactions">
+        <td>{{ transaction.id }}</td>
+        <td>
+          <span class="address" ngbTooltip="{{ transaction.destination }}" placement="top-left" container="body">
+            <span triggers="click" [autoClose]="true" ngbTooltip="copied!" placement="top-left"
+                  container="body" (click)="copyToClipboard(transaction.destination)">
+              {{ this.getNameOfWallet(transaction.destination) }}
+            </span>
+          </span>
+        </td>
+        <td>{{ transaction.value }}</td>
+        <td>{{ this.getDataSubject(transaction.data) }}
+          <button class="btn btn-sm btn-outline-light mr-2 my-1" *ngIf="transaction.insertAbiAction == 'YES'">Edit ABI</button>
+        </td>
+        <td>
+          <div *ngFor="let owner of transaction.ownersWhoConfirmed">
+            <span class="address" ngbTooltip="{{ owner }}" placement="top-left" container="body">
+              <span triggers="click" [autoClose]="true" ngbTooltip="copied!" placement="top-left"
+                    container="body" (click)="copyToClipboard(owner)">
+                {{ this.getOwnerName(owner) }}
+              </span>
+            </span>
+          </div>
+        </td>
+        <td>
+          <div>{{ transaction.isExecuted }}</div>
+          <div *ngIf="!transaction.isExecuted" class="c-medium">
+            {{ transaction.ownersWhoConfirmed.length }}/{{ wallet.confirmations }} confirmations
+          </div>
+        </td>
+        <td class="d-flex justify-content-end">
+          <button class="btn btn-sm btn-outline-light mr-2 my-1" *ngIf="transaction.ownerAction == 'CONFIRMATION'" (click)="confirmTransaction(wallet.address, transaction.id)">Confirm</button>
+          <button class="btn btn-sm btn-outline-danger my-1" *ngIf="transaction.ownerAction == 'REVOKE'" (click)="revokeTransaction(wallet.address, transaction.id)">Revoke</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-end ">
+      <button class="btn btn-sm btn-outline-light mr-2" (click)="this.loadNext()">load next</button>
+    </div>
+  </div>
+
 
 </div>
+
+

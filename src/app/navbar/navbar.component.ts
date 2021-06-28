@@ -1,10 +1,11 @@
-import {Component, OnInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, OnDestroy, ChangeDetectorRef, NgModule} from '@angular/core';
 import {BrowserRefreshService} from '../services/browser-refresh.service';
 import {UserWalletDataService} from '../services/user-wallet-data.service';
 import Web3 from 'web3';
 import {ClipboardService} from 'ngx-clipboard';
 
 declare var window: any;
+
 
 @Component({
   selector: 'app-navbar',
@@ -75,37 +76,23 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.interval = setInterval(() => this.update(), this.updateTime);
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
-      // Old Method of checking for new User Data
-      /*this.web3js.eth.subscribe('newBlockHeaders', (error: any, result: any) => {
-        if (!error) {
-          console.log("New BlockHeader");
-          this.update();
-          return;
-        }
-
-        console.error(error);
-      });*/
 
       /** Setting up of Various Event Listener to act on User Wallet Data Changes */
       window.ethereum.on('accountsChanged', () => {
-        console.log('accountChanged');
         this.accountIndex = 0;
         this.update();
       });
 
       window.ethereum.on('networkChanged', () => {
-        console.log('networkChanged');
         this.update();
         window.location.reload();
       });
 
       window.ethereum.on('balanceChanged', () => {
-        console.log('balanceChanged');
         this.update();
       });
 
       window.ethereum.on('chainChanged', () => {
-        console.log('chainChanged');
         window.location.reload();
       });
     }
@@ -115,7 +102,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
    * Update Method to Update all the Data from the User Wallet
    */
  async update(): Promise<void>{
-    console.log('Update Started');
     await this.checkData();
     if (this.ethereumEnabled){
       await this.connectMetaMask();
@@ -130,7 +116,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.dataGot = await this.userService.getData(this.accountIndex);
     if (this.dataGot) {
       this.change.detectChanges();
-      console.log('Connect to Metamask');
     }
   }
 
@@ -144,7 +129,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.dataGot = await this.userService.getData(this.accountIndex);
     if (this.dataGot) {
       this.change.detectChanges();
-      console.log('Connect to Metamask');
     }
   }
 
@@ -153,7 +137,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
    */
   ngOnDestroy(): void {
     clearInterval(this.interval);
-    this.web3js.eth.clearSubscriptions();
   }
 
 }

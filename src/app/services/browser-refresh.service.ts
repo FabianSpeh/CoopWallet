@@ -42,7 +42,6 @@ export class BrowserRefreshService {
         }
       }
     } catch (err) {
-      console.log(err);
       this.ethereumCheck =  false;
     }
     return this.ethereumCheck;

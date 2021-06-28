@@ -9,11 +9,12 @@ import { TransactionsComponent } from './transactions/transactions.component';
 import { WalletsComponent } from './wallets/wallets.component';
 import { AddressesComponent } from './addresses/addresses.component';
 import { PopupComponent } from './popup/popup.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbActiveModal, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { BackgroundComponent } from './background/background.component';
-
 import {AddOwnerComponent} from './add-owner/add-owner.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {InsertAbiComponent} from './insert-abi/insert-abi.component';
 
 
 // Service class
@@ -22,6 +23,8 @@ import {ModalContentComponent, NgbdModalContentComponent} from './modal-content/
 import { WalletDetailsComponent } from './wallet-details/wallet-details.component';
 import {EditOwnerComponent} from './edit-owner/edit-owner.component';
 import {OwnerAddressService} from './services/owner-address.service';
+import { AddTokenComponent } from './add-token/add-token.component';
+
 
 
 @NgModule({
@@ -36,15 +39,19 @@ import {OwnerAddressService} from './services/owner-address.service';
     ModalContentComponent,
     NgbdModalContentComponent,
     WalletDetailsComponent,
-    EditOwnerComponent
+    EditOwnerComponent,
+    AddTokenComponent,
+    AddOwnerComponent,
+    InsertAbiComponent
   ],
   imports: [
+    FontAwesomeModule,
     BrowserModule,
     AppRoutingModule,
     NgbModule,
     FormsModule
   ],
-  providers: [MultisigWalletDataService, CookieService, WalletDetailsComponent, OwnerAddressService],
+  providers: [MultisigWalletDataService, CookieService, WalletDetailsComponent, OwnerAddressService, NgbActiveModal],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
