@@ -5,7 +5,8 @@ import {TokensService} from '../services/tokens.service';
 @Component({
   selector: 'app-add-token',
   templateUrl: './add-token.component.html',
-  styleUrls: ['./add-token.component.css']
+  styleUrls: ['./add-token.component.css'],
+  providers: [NgbActiveModal]
 })
 /**
  * The AddTokenComponent contains the Popup for adding a new Token to a Wallet

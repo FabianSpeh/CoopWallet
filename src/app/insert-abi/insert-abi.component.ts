@@ -6,7 +6,8 @@ import {MultisigWalletDataService} from '../services/multisig-wallet-data.servic
 @Component({
   selector: 'app-insert-abi',
   templateUrl: './insert-abi.component.html',
-  styleUrls: ['./insert-abi.component.css']
+  styleUrls: ['./insert-abi.component.css'],
+  providers: [NgbActiveModal]
 })
 export class InsertAbiComponent {
 

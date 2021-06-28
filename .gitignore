@@ -95,3 +95,4 @@ fabric.properties
 node_modules/*
 /.idea/compiler.xml
 /.idea/jsLibraryMappings.xml
+/dist/out-tsc/
