@@ -10,6 +10,7 @@ import {UserWalletDataService} from '../services/user-wallet-data.service';
 import {RemoveTokenComponent} from '../remove-token/remove-token.component';
 import {TokensService} from '../services/tokens.service';
 import {ClipboardService} from 'ngx-clipboard';
+import { AddTransactionComponent } from '../add-transaction/add-transaction.component';
 
 export interface Transaction {
   id: string;
@@ -380,5 +381,8 @@ export class WalletDetailsComponent implements OnInit {
     // const modalRef = this.modalService.open(InsertAbiComponent);
   }
 
+  openAddTransactionPopup(): any {
+    const modalRef = this.modalService.open(AddTransactionComponent);
+  }
 
 }

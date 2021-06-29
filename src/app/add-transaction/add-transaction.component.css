@@ -1,0 +1,15 @@
+.popupAddTransaction{
+  width: 800px;
+}
+input[type=text], textarea{
+  background-color: #292b2c;
+  color: antiquewhite;
+}
+textarea:focus{
+  background-color: #292b2c;
+  color: antiquewhite;
+}
+.bg{
+  background-color: #292b2c;
+  color: antiquewhite;
+}
