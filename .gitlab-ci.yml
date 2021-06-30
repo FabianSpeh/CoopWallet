@@ -1,6 +1,7 @@
 cache:
   paths:
     - node_modules/
+    - dist/
 
 default:
   image: atlassianlabs/docker-node-jdk-chrome-firefox
@@ -37,7 +38,6 @@ lint_job:
 
   only:
     - merge_requests
-    - pushes
 
 karma_job:
   stage: test
