@@ -38,6 +38,7 @@ lint_job:
 
   only:
     - merge_requests
+    - pushes
 
 karma_job:
   stage: test
@@ -67,4 +68,4 @@ deploy_job:
     - dapp
 
   script:
-    - aws s3 sync --delete ./dist s3://coop-wallet
+    - aws s3 sync --delete ./dist/dapp s3://coop-wallet
