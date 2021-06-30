@@ -7,8 +7,10 @@ export interface Wallet {
   name: string;
   address: string;
   balance: string;
+  completebalance: string;
   confirmations: string;
   owners: string;
+
   pending: string;
   network: string;
 }
@@ -103,11 +105,11 @@ export class MultisigWalletDataService {
    */
   public getWalletJSON(name: string, address: string): Promise<Wallet> {
     const wallet: Wallet = {
-      name, address, balance: '', confirmations: '', owners: '', pending: '', network: ''
+      name, address, balance: '', completebalance: '', confirmations: '', owners: '', pending: '', network: ''
     };
     return new Promise<Wallet>((resolve, reject) => {
       this.getBalance(address)
-        .then( () => wallet.balance = this.balance.toString());
+        .then( () => {wallet.balance = this.balance.toString(); wallet.completebalance = this.fullbalance.toString(); });
       this.getNumberOfConfirmations(address)
         .then( () => wallet.confirmations = this.numberOfConfirmations.toString());
       this.getNumberOfOwners(address)

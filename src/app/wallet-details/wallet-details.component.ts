@@ -132,7 +132,7 @@ export class WalletDetailsComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     const wallet: Wallet = {
-      name: '', address: '', balance: '', confirmations: '', owners: '', pending: '', network: ''
+      name: '', address: '', balance: '', completebalance: '', confirmations: '', owners: '', pending: '', network: ''
     };
     this.wallet =  wallet;
     this.wallet =  await this.loadWallet();
