@@ -61,6 +61,11 @@ build_job:
   script:
     - npm run buildProd
 
+  only:
+    - master
+
+
+
 deploy_job:
   stage: deploy
   image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
@@ -69,3 +74,6 @@ deploy_job:
 
   script:
     - aws s3 sync --delete ./dist/dapp s3://coop-wallet
+
+  only:
+    - master
