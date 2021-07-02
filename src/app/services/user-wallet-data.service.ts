@@ -69,7 +69,7 @@ export class UserWalletDataService {
         balanceInEther = balanceInEther + '.00' + ' ';
       } else {
           let balanceInNumber = Number(balanceInEther);
-          balanceInNumber = Math.round((balanceInNumber + Number.EPSILON) * 100) / 100;
+          balanceInNumber = Math.round((balanceInNumber) * 1000) / 1000;
           balanceInEther = balanceInNumber.toString();
       }
       this.showBalance = balanceInEther + ' ETH';
