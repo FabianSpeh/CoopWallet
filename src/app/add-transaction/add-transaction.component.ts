@@ -4,7 +4,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-add-transaction',
   templateUrl: './add-transaction.component.html',
-  styleUrls: ['./add-transaction.component.css']
+  styleUrls: ['./add-transaction.component.css'],
+  providers: [NgbActiveModal]
 })
 export class AddTransactionComponent implements OnInit {
 
