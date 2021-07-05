@@ -10,7 +10,7 @@ import {UserWalletDataService} from '../services/user-wallet-data.service';
 import {RemoveTokenComponent} from '../remove-token/remove-token.component';
 import {TokensService} from '../services/tokens.service';
 import {ClipboardService} from 'ngx-clipboard';
-import { AddTransactionComponent } from '../add-transaction/add-transaction.component';
+import {AddTransactionComponent} from '../add-transaction/add-transaction.component';
 
 export interface Transaction {
   id: string;
@@ -322,6 +322,10 @@ export class WalletDetailsComponent implements OnInit {
     }
   }
 
+  openRemoveTokenPopup(): any {
+    const modalRef = this.modalService.open(RemoveTokenComponent);
+  }
+
   async openModal(content: any): Promise<void>{
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -339,7 +343,7 @@ export class WalletDetailsComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
-
+/*
   async fillTable(event: any, address: any): Promise<void>{
 
     this.token = event.valueOf();
@@ -362,7 +366,7 @@ export class WalletDetailsComponent implements OnInit {
     console.log(address);
     console.log(this.token);
   }
-
+  */
   async removeTokens(): Promise<void>{
     this.tokenService.removeTokenFromWallet(this.addressToken, this.walletAddress);
     console.log('deleted');
@@ -384,5 +388,4 @@ export class WalletDetailsComponent implements OnInit {
   openAddTransactionPopup(): any {
     const modalRef = this.modalService.open(AddTransactionComponent);
   }
-
 }
