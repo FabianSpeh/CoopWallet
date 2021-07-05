@@ -1,6 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Web3 from 'web3';
+import {AddWalletSelectorComponent} from '../add-wallet-selector/add-wallet-selector.component';
 
 declare var window: any;
 
@@ -29,6 +30,7 @@ declare var window: any;
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn btn-outline-light" (click)="save()" >Add</button>
+      <button type="button" class="btn btn btn-outline-danger" (click)="this.activeModal.close()" >Close</button>
     </div>
   `,
   styleUrls: ['./modal-content.component.css']
@@ -133,5 +135,8 @@ export class ModalContentComponent {
 
   open(): any {
     const modalRef = this.modalService.open(NgbdModalContentComponent);
+  }
+  openAddWallet(): any {
+    const modalRef = this.modalService.open(AddWalletSelectorComponent);
   }
 }

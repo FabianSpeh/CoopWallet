@@ -138,6 +138,7 @@ export class WalletDetailsComponent implements OnInit {
     this.wallet =  await this.loadWallet();
     if (this.wallet !== undefined) {
       this.owners = await this.loadOwnersOfWallet();
+
       this.numberOfTransactions = await this.walletService.getAllTransactionCount(this.wallet.address);
       this.currentPage = 0;
       await this.loadNext();
