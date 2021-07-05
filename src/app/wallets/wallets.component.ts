@@ -37,13 +37,8 @@ export class WalletsComponent implements OnInit, OnDestroy {
   name: any;
 
   convertBalanceString(balance: string): string {
-    if (balance.length < 3) {
-      return balance;
-    } else {
-      return this.convertBalanceString(balance.substring(0, balance.length - 3))
-        + ' ' + balance.substring(balance.length - 3, balance.length);
-    }
-  }
+    return  balance; }
+
 
 
   /**

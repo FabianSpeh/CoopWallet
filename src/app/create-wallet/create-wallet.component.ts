@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 
 import {MultisigWalletDataService} from '../services/multisig-wallet-data.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import {MultisigCreateService} from '../services/multisig-create.service';
 @Component({
   selector: 'app-create-wallet',
   templateUrl: './create-wallet.component.html',
@@ -17,7 +18,7 @@ export class CreateWalletComponent implements OnInit {
 owners: any;
 
 
-  constructor(public multiSigService: MultisigWalletDataService, public activeModal: NgbActiveModal) { }
+  constructor(public multiSigService: MultisigWalletDataService, public activeModal: NgbActiveModal, public createMultisSig: MultisigCreateService) { }
 
    async loadDefaultOwner(): Promise<object>{
     const ownersTemp: object[] = [];
@@ -58,9 +59,14 @@ for (let i  = 0; i <= this.owners.length; i++){
     const nameOfWallet = this.nameOfWalletElement.nativeElement.value;
     const requiredConfirmations = this.requiredConfirmationsElement.nativeElement.value;
     const dailyLimit = this.dailyLimitElement.nativeElement.value;
-
-    if (requiredConfirmations.value <= this.owners.length){
+    const  ownersArray = [];
+    for ( const owner of this.owners){
+      ownersArray.push(owner.address);
+    }
+    console.log(this.owners.length + 'Dad' + requiredConfirmations);
+    if (requiredConfirmations <= this.owners.length){
      // TODO: Creation of Wallet
+      this.createMultisSig.deployMultisig(ownersArray, requiredConfirmations, dailyLimit);
    }
 
    else {

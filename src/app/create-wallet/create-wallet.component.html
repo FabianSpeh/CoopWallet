@@ -10,11 +10,11 @@
       </div>
       <label for="requiredConfirmations" id = "requiredConfirmationsLabel" class="label">Required confirmations</label>
       <div class="input-group" id="requiredConfirmationsInput">
-        <input #requiredConfirmations id="requiredConfirmations" type="number" class="form-control" value="1" placeholder="required Confirmations">
+        <input #requiredConfirmations id="requiredConfirmations" min="0" type="number" class="form-control" defaultValue ="1" value="1" placeholder="required Confirmations">
       </div>
       <label for="dailyLimit" id = "dailyLimitLabel" class="label">Daily limit</label>
       <div class="input-group" id="dailyLimitInput">
-        <input #dailyLimit id="dailyLimit" type="number" class="form-control" value="0" placeholder="Daily Limit">
+        <input #dailyLimit id="dailyLimit" min="0" type="number" class="form-control" [defaultValue]="0" value="0" placeholder="Daily Limit">
       </div>
       <p #errorMessage hidden='true' style="color: red">You need to specify a <b>Address</b>!</p>
     </div>
