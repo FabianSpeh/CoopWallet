@@ -10,13 +10,11 @@ import {UserWalletDataService} from '../services/user-wallet-data.service';
 import {RemoveTokenComponent} from '../remove-token/remove-token.component';
 import {TokensService} from '../services/tokens.service';
 import {ClipboardService} from 'ngx-clipboard';
-<<<<<<< HEAD
+
 import {AddTransactionComponent} from '../add-transaction/add-transaction.component';
-=======
-import { AddTransactionComponent } from '../add-transaction/add-transaction.component';
+
 import {ContractAbiService} from '../services/contract-abi.service';
 import {InsertAbiComponent} from '../insert-abi/insert-abi.component';
->>>>>>> 55be9be164d20f828c99a4e398d684ac406a8eb0
 
 export interface Transaction {
   id: string;
