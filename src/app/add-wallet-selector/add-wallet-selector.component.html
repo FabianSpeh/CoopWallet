@@ -1,0 +1,23 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Create or restore a wallet</h4>
+</div>
+<div class="modal-body">
+  <form #walletForm>
+    <div>
+      <input #createWallet type="radio" id="createWallet"
+             name="type" value="create">
+      <label class="ml-2"for="createWallet">Create a new Wallet</label>
+      <br>
+      <input #restoreWallet type="radio" id="restoreWallet"
+             name="type" value="restore">
+      <label class="ml-2" for="restoreWallet">Restore an existing Wallet</label>
+    </div>
+    <div>
+
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn btn-outline-light" (click)="next()"  >Next</button>
+  <button type="button" class="btn btn btn-outline-danger" (click)="this.activeModal.close()" >Close</button>
+</div>

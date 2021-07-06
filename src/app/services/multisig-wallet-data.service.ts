@@ -7,8 +7,10 @@ export interface Wallet {
   name: string;
   address: string;
   balance: string;
+  completebalance: string;
   confirmations: string;
   owners: string;
+
   pending: string;
   network: string;
 }
@@ -52,8 +54,8 @@ export class MultisigWalletDataService {
         balanceInEther = balanceInEther + '.00' + ' ';
       } else {
         let balanceInNumber = Number(balanceInEther);
-        balanceInNumber = Math.round((balanceInNumber + Number.EPSILON) * 10000) / 10000;
-        balanceInEther = balanceInNumber.toString().substring(0, (balanceInNumber.toString().indexOf('.') + 5));
+        balanceInNumber = Math.round((balanceInNumber) * 100) / 100;
+        balanceInEther = balanceInNumber.toString();
       }
       this.balance = balanceInEther;
     }
@@ -103,11 +105,11 @@ export class MultisigWalletDataService {
    */
   public getWalletJSON(name: string, address: string): Promise<Wallet> {
     const wallet: Wallet = {
-      name, address, balance: '', confirmations: '', owners: '', pending: '', network: ''
+      name, address, balance: '', completebalance: '', confirmations: '', owners: '', pending: '', network: ''
     };
     return new Promise<Wallet>((resolve, reject) => {
       this.getBalance(address)
-        .then( () => wallet.balance = this.balance.toString());
+        .then( () => {wallet.balance = this.balance.toString(); wallet.completebalance = this.fullbalance.toString(); });
       this.getNumberOfConfirmations(address)
         .then( () => wallet.confirmations = this.numberOfConfirmations.toString());
       this.getNumberOfOwners(address)
