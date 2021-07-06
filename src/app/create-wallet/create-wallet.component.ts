@@ -66,24 +66,22 @@ for (let i  = 0; i <= this.owners.length; i++){
 }
   }
 
-  createWallet(): any {
+  async createWallet(): Promise<any> {
     const nameOfWallet = this.nameOfWalletElement.nativeElement.value;
     const requiredConfirmations = this.requiredConfirmationsElement.nativeElement.value;
     const dailyLimit = this.dailyLimitElement.nativeElement.value;
     const ownersArray: string[] = [];
-    for ( const owner of this.owners){
+    for (const owner of this.owners) {
       ownersArray.push(owner.address.toString());
     }
-    if (requiredConfirmations <= this.owners.length){
-     // TODO: Creation of Wallet
-      this.createMultisSig.deployMultisig(ownersArray, requiredConfirmations, dailyLimit);
-      const walletAddress = this.createMultisSig.currentAddress;
-      this.editJsons(nameOfWallet, walletAddress);
-   }
-
-   else {
-     // throw Error
-   }
+    if (requiredConfirmations <= this.owners.length) {
+      // TODO: Creation of Wallet
+      const walletAddres = await this.createMultisSig.deployMultisig(ownersArray, requiredConfirmations, dailyLimit);
+      console.log(walletAddres);
+      // this.editJsons(nameOfWallet, walletAddress);
+    } else {
+      // throw Error
+    }
 
 
   }
