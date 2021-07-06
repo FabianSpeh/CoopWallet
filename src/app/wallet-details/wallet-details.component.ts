@@ -10,7 +10,13 @@ import {UserWalletDataService} from '../services/user-wallet-data.service';
 import {RemoveTokenComponent} from '../remove-token/remove-token.component';
 import {TokensService} from '../services/tokens.service';
 import {ClipboardService} from 'ngx-clipboard';
+<<<<<<< HEAD
 import {AddTransactionComponent} from '../add-transaction/add-transaction.component';
+=======
+import { AddTransactionComponent } from '../add-transaction/add-transaction.component';
+import {ContractAbiService} from '../services/contract-abi.service';
+import {InsertAbiComponent} from '../insert-abi/insert-abi.component';
+>>>>>>> 55be9be164d20f828c99a4e398d684ac406a8eb0
 
 export interface Transaction {
   id: string;
@@ -34,7 +40,7 @@ export class WalletDetailsComponent implements OnInit {
   constructor(public walletService: MultisigWalletDataService, private modalService: NgbModal,
               private ownerService: OwnerAddressService, private clipboardService: ClipboardService,
               public multisigService: MultisigWalletDataService, public dataService: UserWalletDataService,
-              public tokenService: TokensService) { }
+              public tokenService: TokensService, public abiService: ContractAbiService) { }
 
 
   // The wallet of the current details page:
@@ -143,10 +149,13 @@ export class WalletDetailsComponent implements OnInit {
       this.currentPage = 0;
       await this.loadNext();
     } else {
-  this.wallet =  wallet;
-}
+      this.wallet =  wallet;
+    }
     this.ownerService.currentAddress.subscribe(address => this.ownerAddress = address);
     await this.loadTokensFromLocalStorage();
+    this.abiService.getMethodsFromABI('');
+    console.log(this.abiService.getMethodNamesFromABI(''));
+    this.abiService.getParametersFromMethod('', 'addOwner');
   }
 
 
@@ -281,7 +290,12 @@ export class WalletDetailsComponent implements OnInit {
   openAddTokenPopup(): any {
     const modalRef = this.modalService.open(AddTokenComponent);
   }
-/*
+
+  openEditABIPopup(address: string): any {
+    const modalRef = this.modalService.open(InsertAbiComponent);
+    modalRef.componentInstance.address = address;
+  }
+  /*
   openRemoveTokenPopup(): any {
     const modalRef = this.modalService.open(RemoveTokenComponent);
   }

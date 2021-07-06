@@ -141,7 +141,9 @@
         </td>
         <td>{{ transaction.value }}</td>
         <td>{{ this.getDataSubject(transaction.data) }}
-          <button class="btn btn-sm btn-outline-light mr-2 my-1" *ngIf="transaction.insertAbiAction == 'YES'">Edit ABI</button>
+          <button class="btn btn-sm btn-outline-light mr-2 my-1" *ngIf="transaction.insertAbiAction == 'YES'" (click)="openEditABIPopup(transaction.destination)">
+            Edit ABI
+          </button>
         </td>
         <td>
           <div *ngFor="let owner of transaction.ownersWhoConfirmed">
