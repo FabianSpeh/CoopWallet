@@ -59,9 +59,9 @@ for (let i  = 0; i <= this.owners.length; i++){
     const nameOfWallet = this.nameOfWalletElement.nativeElement.value;
     const requiredConfirmations = this.requiredConfirmationsElement.nativeElement.value;
     const dailyLimit = this.dailyLimitElement.nativeElement.value;
-    const  ownersArray = [];
+    let ownersArray: string[] = [];
     for ( const owner of this.owners){
-      ownersArray.push(owner.address);
+      ownersArray.push(owner.address.toString());
     }
     console.log(this.owners.length + 'Dad' + requiredConfirmations);
     if (requiredConfirmations <= this.owners.length){
