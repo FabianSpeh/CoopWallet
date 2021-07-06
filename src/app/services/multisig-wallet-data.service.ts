@@ -54,8 +54,8 @@ export class MultisigWalletDataService {
         balanceInEther = balanceInEther + '.00' + ' ';
       } else {
         let balanceInNumber = Number(balanceInEther);
-        balanceInNumber = Math.round((balanceInNumber + Number.EPSILON) * 100) / 100;
-        balanceInEther = balanceInNumber.toString().substring(0, (balanceInNumber.toString().indexOf('.') + 3));
+        balanceInNumber = Math.round((balanceInNumber) * 100) / 100;
+        balanceInEther = balanceInNumber.toString();
       }
       this.balance = balanceInEther;
     }
