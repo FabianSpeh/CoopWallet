@@ -46,6 +46,7 @@ export class MultisigCreateService {
         gasPrice: '30000'
       }).then((res: any) => console.log(res));
       this.currentAddress = contract.address;
+      console.log(this.currentAddress);
     }
 
     return this.currentAddress;
