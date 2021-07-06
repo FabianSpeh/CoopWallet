@@ -15,10 +15,21 @@ export class CreateWalletComponent implements OnInit {
 
   @ViewChild('nameOfOwner') nameOfOwner: any;
   @ViewChild('addressOfOwner') addressOfOwner: any;
-owners: any;
+  owners: any;
+  walletList: any;
+  ownerList: any;
 
-
-  constructor(public multiSigService: MultisigWalletDataService, public activeModal: NgbActiveModal, public createMultisSig: MultisigCreateService) { }
+  constructor(public multiSigService: MultisigWalletDataService, public activeModal: NgbActiveModal,
+              public createMultisSig: MultisigCreateService) {
+    this.walletList = {
+      name: [],
+      address: []
+    };
+    this.ownerList = {
+      name: [],
+      address: []
+    };
+  }
 
    async loadDefaultOwner(): Promise<object>{
     const ownersTemp: object[] = [];
@@ -59,14 +70,15 @@ for (let i  = 0; i <= this.owners.length; i++){
     const nameOfWallet = this.nameOfWalletElement.nativeElement.value;
     const requiredConfirmations = this.requiredConfirmationsElement.nativeElement.value;
     const dailyLimit = this.dailyLimitElement.nativeElement.value;
-    let ownersArray: string[] = [];
+    const ownersArray: string[] = [];
     for ( const owner of this.owners){
       ownersArray.push(owner.address.toString());
     }
-    console.log(this.owners.length + 'Dad' + requiredConfirmations);
     if (requiredConfirmations <= this.owners.length){
      // TODO: Creation of Wallet
       this.createMultisSig.deployMultisig(ownersArray, requiredConfirmations, dailyLimit);
+      const walletAddress = this.createMultisSig.currentAddress;
+      this.editJsons(nameOfWallet, walletAddress);
    }
 
    else {
@@ -76,4 +88,49 @@ for (let i  = 0; i <= this.owners.length; i++){
 
   }
 
+  /**
+   * Load the Json from Local Storage and Save new Wallet into it
+   * @param walletName Name of the Wallet
+   * @param walletAddress Address of the Wallet
+   */
+  editJsons(walletName: string, walletAddress: string): void{
+    // checks if Wallets Cookie already exists and retrieves it
+    if (localStorage.getItem('Wallets') != null) {
+      // this.walletList = JSON.parse(this.cookieService.get('Wallets'));
+      this.walletList = JSON.parse(localStorage.getItem('Wallets') || '{}');
+    }
+
+    // adds new Wallet name/ Address to Array
+    this.walletList.name.push(walletName);
+    this.walletList.address.push(walletAddress);
+    localStorage.setItem('Wallets', JSON.stringify(this.walletList));
+
+    // Load Owners of Wallet
+    if (localStorage.getItem('Owners') != null) {
+      this.ownerList = JSON.parse(localStorage.getItem('Owners') || '{}');
+    }
+    for (const owner of this.owners) {
+      const ownerName = owner.name;
+      const ownerAddress = owner.address;
+      if (ownerName === 'My Account'){
+        continue;
+      }
+      let addressExist = false;
+      for (let i = 0; i <= this.ownerList.address.length; i++) {
+        if (ownerAddress === this.ownerList.address[i]) {
+
+          this.ownerList.name[i] = ownerName;
+          addressExist = true;
+        }
+      }
+
+      if (!addressExist){
+        this.ownerList.name.push(ownerName);
+        this.ownerList.address.push(ownerAddress);
+      }
+    }
+    localStorage.setItem('Owners', JSON.stringify(this.ownerList));
+    // Todo rewrite complete WalletsData Setup
+    window.location.reload();
+  }
 }
