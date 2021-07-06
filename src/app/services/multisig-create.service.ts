@@ -44,9 +44,10 @@ export class MultisigCreateService {
         from: owners[0],
         gas: gass,
         gasPrice: '30000'
-      }).then((res: any) => {this.currentAddress = res.address; console.log(res); return this.currentAddress; });
-
+      }).then((res: any) => console.log(res));
+      this.currentAddress = contract.address;
     }
+
     return this.currentAddress;
   }
 }
