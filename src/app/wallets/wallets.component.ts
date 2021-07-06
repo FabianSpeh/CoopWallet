@@ -111,7 +111,9 @@ export class WalletsComponent implements OnInit, OnDestroy {
     if (this.ethereumEnabled){
       if (this.walletsData.length !== 0) {
         for (const wallet of this.walletsData) {
-          wallet.balance = this.walletService.getBalance(wallet.address);
+          await this.walletService.getBalance(wallet.address);
+          wallet.balance = this.walletService.balance;
+          wallet.completebalance = this.walletService.fullbalance;
         }
         this.change.detectChanges();
       }
