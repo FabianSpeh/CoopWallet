@@ -55,6 +55,12 @@ export class ContractAbiService {
     return null;
   }
 
+  /**
+   * Method saves the contract information in the local storage
+   * @param address The address of the contract
+   * @param name The name of the contract
+   * @param abi The ABI of the contract
+   */
   saveABIMethods(address: string, name: string, abi: string): void {
     const abiMethods = this.getMethodsFromABI(abi);
 
@@ -74,6 +80,20 @@ export class ContractAbiService {
     }
     this.contracts.push({address, name, methods});
     localStorage.setItem('Contracts', JSON.stringify(this.contracts));
+  }
+
+  /*
+   * Method checks, if the contract with the ABI is in the local storage
+   * @param address
+   */
+  isKnownContract(address: string): boolean {
+    // tslint:disable-next-line:forin
+    for (const contract in this.contracts) {
+      if (this.contracts[contract].address === address) {
+        return true;
+      }
+    }
+    return false;
   }
 
 }
