@@ -92,7 +92,6 @@ export class WalletsComponent implements OnInit, OnDestroy {
     await this.checkData();
     if (this.ethereumEnabled){
       if (this.walletsData.length === 0) {
-        console.log('test');
         await this.readCookies();
       }
     }

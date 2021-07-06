@@ -3,6 +3,10 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {MultisigWalletDataService} from '../services/multisig-wallet-data.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {MultisigCreateService} from '../services/multisig-create.service';
+import Web3 from 'web3';
+
+declare var window: any;
+
 @Component({
   selector: 'app-create-wallet',
   templateUrl: './create-wallet.component.html',
@@ -34,7 +38,12 @@ export class CreateWalletComponent implements OnInit {
 
    async loadDefaultOwner(): Promise<object>{
     const ownersTemp: object[] = [];
-    const accounts = await this.multiSigService.web3js.eth.getAccounts();
+    let accounts: any;
+    if (window.ethereum) {
+       await window.ethereum.request({method: 'eth_requestAccounts'});
+       const web3js = new Web3(window.ethereum);
+       accounts = await web3js.eth.getAccounts();
+     }
     const myAccount = accounts[0];
 
     ownersTemp[0] = {name: 'My Account', address: myAccount};
