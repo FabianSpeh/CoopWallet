@@ -22,6 +22,10 @@ export class ContractAbiService {
     this.contracts = JSON.parse(localStorage.getItem('Contracts') as string);
   }
 
+  /**
+   * Returns all method-objects of a given ABI (with type 'function')
+   * @param abi - ABI string
+   */
   getMethodsFromABI(abi: string): any[] {
     const abiJSON = JSON.parse(abi);
     const methods: object[] = [];
@@ -35,6 +39,10 @@ export class ContractAbiService {
     return methods;
   }
 
+  /**
+   * Returns an array with all the method-names of a given ABI
+   * @param abi - ABI string
+   */
   getMethodNamesFromABI(abi: string): string[] {
     const methods = this.getMethodsFromABI(abi);
     const names: string[] = [];
@@ -45,6 +53,11 @@ export class ContractAbiService {
     return names;
   }
 
+  /**
+   * Returns all parameter-objects of a given method
+   * @param abi - ABI string
+   * @param name - the name as specified in the abi
+   */
   getParametersFromMethod(abi: string, name: string): any {
     const methods = this.getMethodsFromABI(abi);
     for (const key in methods) {
@@ -55,6 +68,12 @@ export class ContractAbiService {
     return null;
   }
 
+  /**
+   * Saves the address, a custom name and all ABI methods and their encoded hex-values of a certain contract in local storage.
+   * @param address - address of the contract
+   * @param name - the chosen local name
+   * @param abi - abi string
+   */
   saveABIMethods(address: string, name: string, abi: string): void {
     const abiMethods = this.getMethodsFromABI(abi);
 
