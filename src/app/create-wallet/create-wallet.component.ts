@@ -76,9 +76,9 @@ for (let i  = 0; i <= this.owners.length; i++){
     }
     if (requiredConfirmations <= this.owners.length) {
       // TODO: Creation of Wallet
-      const walletAddres = await this.createMultisSig.deployMultisig(ownersArray, requiredConfirmations, dailyLimit);
-      console.log(walletAddres);
-      // this.editJsons(nameOfWallet, walletAddress);
+      const walletAddress = await this.createMultisSig.deployMultisig(ownersArray, requiredConfirmations, dailyLimit);
+      console.log(walletAddress);
+      this.editJsons(nameOfWallet, walletAddress);
     } else {
       // throw Error
     }
