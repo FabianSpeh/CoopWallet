@@ -6,7 +6,8 @@ import {MultisigCreateService} from '../services/multisig-create.service';
 @Component({
   selector: 'app-create-wallet',
   templateUrl: './create-wallet.component.html',
-  styleUrls: ['./create-wallet.component.css']
+  styleUrls: ['./create-wallet.component.css'],
+  providers: [NgbActiveModal]
 })
 export class CreateWalletComponent implements OnInit {
   @ViewChild('nameofWallet') nameOfWalletElement: any;

@@ -6,7 +6,8 @@ import {CreateWalletComponent} from '../create-wallet/create-wallet.component';
 @Component({
   selector: 'app-add-wallet-selector',
   templateUrl: './add-wallet-selector.component.html',
-  styleUrls: ['./add-wallet-selector.component.css']
+  styleUrls: ['./add-wallet-selector.component.css'],
+  providers: [NgbActiveModal]
 })
 export class AddWalletSelectorComponent implements OnInit {
 @ViewChild('walletForm') walletForm: any;
