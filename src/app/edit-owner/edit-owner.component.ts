@@ -2,6 +2,7 @@ import {ChangeDetectorRef, Component, OnInit, ViewChild, ViewChildren} from '@an
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {WalletDetailsComponent} from '../wallet-details/wallet-details.component';
 import {OwnerAddressService} from '../services/owner-address.service';
+// @ts-ignore
 import {OwnerService} from '../services/owner.service';
 
 declare var window: any;
@@ -78,7 +79,7 @@ this.ownerList = {
     }
     this.ownerList.name.push(this.ownerName);
     this.ownerList.address.push(this.ownerAddress);
-    console.log(this.ownerArraySevice.owners);
+
     localStorage.setItem('Owners', JSON.stringify(this.ownerList));
     this.changeDetectorRef.detectChanges();
 

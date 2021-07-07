@@ -49,7 +49,7 @@ export class MultisigWalletDataService {
 
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
-      await window.ethereum.enable();
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
       this.balance = await this.web3js.eth.getBalance(address);
       let balanceInEther = this.web3js.utils.fromWei(this.balance, 'ether');
       this.fullbalance = balanceInEther + ' ETH';
@@ -65,10 +65,9 @@ export class MultisigWalletDataService {
   }
 
   public async getNumberOfConfirmations(address: any): Promise<void> {
-
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
-      await window.ethereum.enable();
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
       const MultiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), address);
       await MultiSigContract.methods.required.call().call().then( (res: any) => this.numberOfConfirmations = res);
     }
@@ -77,7 +76,7 @@ export class MultisigWalletDataService {
   async getNumberOfOwners(address: any): Promise<void> {
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
-      await window.ethereum.enable();
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
 
       const MultiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), address);
       await MultiSigContract.methods.getOwners().call().then((res: any) => this.ownerListNumber = res.length);
@@ -87,7 +86,7 @@ export class MultisigWalletDataService {
   async getTransActionCount(address: any): Promise<void> {
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
-      await window.ethereum.enable();
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
       const MultiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), address);
       await MultiSigContract.methods.getTransactionCount(true, false).call().then((res: any) => this.pendingNonce = res);
     }
@@ -96,7 +95,7 @@ export class MultisigWalletDataService {
   async getNetwork(address: any): Promise<void> {
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
-      await window.ethereum.enable();
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
       await this.web3js.eth.net.getNetworkType(address).then((res: any) => this.network = res);
     }
   }
@@ -132,7 +131,7 @@ export class MultisigWalletDataService {
   async addOwner(ownerAddress: any, contractAddress: any): Promise<void> {
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
-      await window.ethereum.enable();
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
 
       // Get the address from the current account
       const accounts = await this.web3js.eth.getAccounts();
@@ -159,7 +158,7 @@ export class MultisigWalletDataService {
   async removeOwner(ownerAddress: any, contractAddress: any): Promise<void>{
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
-      await window.ethereum.enable();
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
 
       // Get the address from the current account
       const accounts = await this.web3js.eth.getAccounts();
@@ -182,10 +181,19 @@ export class MultisigWalletDataService {
   async getOwnerArray(address: any): Promise<void> {
     if (window.ethereum){
       this.web3js = new Web3(window.ethereum);
-      await window.ethereum.enable();
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
 
       const MultiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), address);
       await MultiSigContract.methods.getOwners().call().then((res: any) => this.ownerArray = res);
+    }
+  }
+
+  async getConfirmationsOfTransaction(contractAddress: string, id: number): Promise<any> {
+    if (window.ethereum) {
+      this.web3js = new Web3(window.ethereum);
+      const multiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), contractAddress);
+      const confirmations = await multiSigContract.methods.getConfirmations(id).call();
+      return confirmations.length;
     }
   }
 
@@ -196,7 +204,7 @@ export class MultisigWalletDataService {
 
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
-      await window.ethereum.enable();
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
 
       // Get the address from the current account
       const accounts = await this.web3js.eth.getAccounts();
@@ -287,7 +295,7 @@ export class MultisigWalletDataService {
   async getAllTransactionCount(address: any): Promise<void> {
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
-      await window.ethereum.enable();
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
       const MultiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), address);
       return await MultiSigContract.methods.getTransactionCount(true, true).call();
     }
@@ -296,7 +304,7 @@ export class MultisigWalletDataService {
   async confirmTransaction(contractAddress: any, transactionID: any): Promise<void> {
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
-      await window.ethereum.enable();
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
 
       // Get the address from the current account
       const accounts = await this.web3js.eth.getAccounts();
@@ -321,7 +329,7 @@ export class MultisigWalletDataService {
   async revokeTransaction(contractAddress: any, transactionID: any): Promise<void> {
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
-      await window.ethereum.enable();
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
 
       // Get the address from the current account
       const accounts = await this.web3js.eth.getAccounts();

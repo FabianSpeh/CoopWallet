@@ -20,7 +20,7 @@ export class MultisigCreateService {
   public async deployMultisig(owners: string[], conformations: number, limit: number): Promise<string> {
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
-      await window.ethereum.enable();
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
       let gass = 2103029;
       const contract = await new this.web3js.eth.Contract(this.contractAbi, null, {
         // tslint:disable-next-line

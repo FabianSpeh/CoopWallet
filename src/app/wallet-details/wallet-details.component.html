@@ -104,7 +104,10 @@
   </ng-template>
 
   <div class="d-flex justify-content-between mt-5 border px-2 pt-2 mb-3">
-    <h2 class="c-white">Transactions</h2>
+    <h2 class="c-white">
+      Transactions
+      <span class="small text-success" *ngIf="this.newTransaction">received new transaction</span>
+    </h2>
     <div>
       <button class="btn btn btn-outline-light mr-2" (click)="openAddTransactionPopup()">Add</button>
       <button class="btn btn btn-outline-light" type="button" data-toggle="collapse" data-target="#transactionsTable"
