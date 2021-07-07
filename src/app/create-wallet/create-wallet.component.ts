@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 
 import {MultisigWalletDataService} from '../services/multisig-wallet-data.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {MultisigCreateService} from '../services/multisig-create.service';
 import Web3 from 'web3';
 import {WalletDataService} from '../services/wallet-data.service';
@@ -26,7 +26,7 @@ export class CreateWalletComponent implements OnInit {
   ownerList: any;
 
   constructor(public activeModal: NgbActiveModal, public createMultisSig: MultisigCreateService,
-              public walletData: WalletDataService, public walletService: MultisigWalletDataService) {
+              public walletData: WalletDataService, public walletService: MultisigWalletDataService, public modalService: NgbModal) {
     this.walletList = {
       name: [],
       address: []
