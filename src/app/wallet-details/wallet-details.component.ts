@@ -355,7 +355,7 @@ export class WalletDetailsComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
-/*
+
   async fillTable(event: any, address: any): Promise<void>{
 
     this.token = event.valueOf();
@@ -378,7 +378,7 @@ export class WalletDetailsComponent implements OnInit {
     console.log(address);
     console.log(this.token);
   }
-  */
+
   async removeTokens(): Promise<void>{
     this.tokenService.removeTokenFromWallet(this.addressToken, this.walletAddress);
     console.log('deleted');

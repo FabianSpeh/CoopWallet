@@ -66,7 +66,7 @@
           <div>
             <button class="btn btn-sm btn-outline-light mr-2 my-1">Edit</button>
             <button class="btn btn-sm btn-outline-danger my-1" data-toggle="collapse" data-target="#removeToken"
-                    aria-expanded="false" aria-controls="removeToken" (click)="openRemoveTokenPopup()" >Remove</button> <!--openModal(removeToken)  (click)="fillTable(token.name, wallet.address)"-->
+                    aria-expanded="false" aria-controls="removeToken" (click) = openModal(removeToken)  (click)="fillTable(token.name, wallet.address)">Remove</button> <!--openModal(removeToken)  (click)="fillTable(token.name, wallet.address)"-->
 
           </div>
         </td>
@@ -79,7 +79,7 @@
   </div>
 
   <!-- Template for removing a token -->
- <!-- <ng-template #removeToken let-modal class="modal-container">
+  <ng-template #removeToken let-modal class="modal-container">
     <div class="modal-header bg-accent ">
       <h4 class="modal-title" id="modal-basic-title">Remove Token</h4>
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -103,7 +103,7 @@
       <button type="button" class="btn btn-outline-danger mr-2 my-1" (click)="modal.close('Save click')">Cancel</button>
     </div>
   </ng-template>
--->
+
   <div class="d-flex justify-content-between mt-5 border px-2 pt-2 mb-3">
     <h2 class="c-white">Transactions</h2>
     <div>
