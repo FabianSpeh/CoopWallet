@@ -35,6 +35,11 @@ export class ContractAbiService {
     return methods;
   }
 
+  /**
+   * Method creates a list of method names
+   * @param abi The ABI of the contranct
+   * @return string[] With the names of the methods from the
+   */
   getMethodNamesFromABI(abi: string): string[] {
     const methods = this.getMethodsFromABI(abi);
     const names: string[] = [];
@@ -78,11 +83,11 @@ export class ContractAbiService {
       const signature = this.web3.eth.abi.encodeFunctionSignature(abiMethods[key]);
       methods.push({name: methodName, signature});
     }
-    this.contracts.push({address, name, methods});
+    this.contracts.push({address, name, abi, methods});
     localStorage.setItem('Contracts', JSON.stringify(this.contracts));
   }
 
-  /*
+  /**
    * Method checks, if the contract with the ABI is in the local storage
    * @param address
    */
@@ -94,6 +99,58 @@ export class ContractAbiService {
       }
     }
     return false;
+  }
+
+
+  getMethodNameFromData(data: string, address: string): string {
+    const methodSignature = data.slice(0, 10);
+    const methodParameterValue = data.slice(10);
+
+    // Runs through the contracts in the local storage to find a saved one
+    for (const contractKey in this.contracts) {
+      const contract = this.contracts[contractKey];
+
+      // Block will be executed, if a contract was found
+      if (contract.address === address) {
+
+        for (const methodKey in contract.methods) {
+          const method = contract.methods[methodKey];
+
+          if (method.signature == methodSignature) {
+            const parameters = this.getParametersFromMethod(contract.abi, method.name);
+
+            try {
+              const parameterValue = this.web3.eth.abi.decodeParameters(parameters, methodParameterValue);
+
+              const lengthOfParameterKeys = Object.keys(parameterValue).length;
+              const startPosition = Math.floor(lengthOfParameterKeys / 2) + 1;
+
+              const sliced = Object.entries(parameterValue).slice(startPosition, lengthOfParameterKeys);
+
+              var outputParameterString = "";
+
+              for (var key in sliced)
+              {
+                const oneParameter = sliced[key];
+                const parameterString = oneParameter[0] + " = " + oneParameter[1] + ",";
+                outputParameterString += parameterString;
+              }
+
+              outputParameterString = outputParameterString.slice(0, -1);
+
+              return method.name + "(" + outputParameterString + ")";
+            }
+            catch (e)
+            {
+              return data.substring(0, 12) + '...';
+            }
+          }
+        }
+
+      }
+    }
+
+    return data.substring(0, 12) + '...';;
   }
 
 }
