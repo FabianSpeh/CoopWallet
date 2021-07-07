@@ -22,6 +22,10 @@ export class ContractAbiService {
     this.contracts = JSON.parse(localStorage.getItem('Contracts') as string);
   }
 
+  /**
+   * Returns all method-objects of a given ABI (with type 'function')
+   * @param abi - ABI string
+   */
   getMethodsFromABI(abi: string): any[] {
     const abiJSON = JSON.parse(abi);
     const methods: object[] = [];
@@ -50,6 +54,11 @@ export class ContractAbiService {
     return names;
   }
 
+  /**
+   * Returns all parameter-objects of a given method
+   * @param abi - ABI string
+   * @param name - the name as specified in the abi
+   */
   getParametersFromMethod(abi: string, name: string): any {
     const methods = this.getMethodsFromABI(abi);
     for (const key in methods) {
