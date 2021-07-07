@@ -18,10 +18,12 @@ export class AddWalletSelectorComponent implements OnInit {
   ngOnInit(): void {
   }
   private openRestoreWallet(): any {
+    this.activeModal.close();
     const modalRef = this.modalService.open(NgbdModalContentComponent);
   }
 
   private openCreateWallet(): any {
+    this.activeModal.close();
     const modalRef = this.modalService.open(CreateWalletComponent, {size: 'xl'});
   }
 

@@ -4,6 +4,7 @@ import {MultisigWalletDataService} from '../services/multisig-wallet-data.servic
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {MultisigCreateService} from '../services/multisig-create.service';
 import Web3 from 'web3';
+import {WalletDataService} from '../services/wallet-data.service';
 
 declare var window: any;
 
@@ -24,8 +25,8 @@ export class CreateWalletComponent implements OnInit {
   walletList: any;
   ownerList: any;
 
-  constructor(public multiSigService: MultisigWalletDataService, public activeModal: NgbActiveModal,
-              public createMultisSig: MultisigCreateService) {
+  constructor(public activeModal: NgbActiveModal, public createMultisSig: MultisigCreateService,
+              public walletData: WalletDataService, public walletService: MultisigWalletDataService) {
     this.walletList = {
       name: [],
       address: []
@@ -85,7 +86,6 @@ for (let i  = 0; i <= this.owners.length; i++){
       ownersArray.push(owner.address.toString());
     }
     if (requiredConfirmations <= this.owners.length) {
-      // TODO: Creation of Wallet
       const walletAddress = await this.createMultisSig.deployMultisig(ownersArray, requiredConfirmations, dailyLimit);
       console.log(walletAddress);
       this.editJsons(nameOfWallet, walletAddress);
@@ -111,6 +111,8 @@ for (let i  = 0; i <= this.owners.length; i++){
     // adds new Wallet name/ Address to Array
     this.walletList.name.push(walletName);
     this.walletList.address.push(walletAddress);
+    this.walletService.getWalletJSON(walletName, walletAddress).then((res) => { this.walletData.addData(res); });
+
     localStorage.setItem('Wallets', JSON.stringify(this.walletList));
 
     // Load Owners of Wallet
@@ -138,7 +140,5 @@ for (let i  = 0; i <= this.owners.length; i++){
       }
     }
     localStorage.setItem('Owners', JSON.stringify(this.ownerList));
-    // Todo rewrite complete WalletsData Setup
-    window.location.reload();
   }
 }
