@@ -14,8 +14,6 @@ export class AddTransactionComponent implements OnInit {
   disableElement: boolean = true;
   methodes: any;
   selectMethode: HTMLElement | null | undefined;
-  selected: any;
-  t = '';
 
   constructor(public activeModal: NgbActiveModal, public abiService: ContractAbiService) { }
 
@@ -53,6 +51,10 @@ export class AddTransactionComponent implements OnInit {
     this.createInputField(methode);
   }
 
+  /**
+   * methode to create the needed InputFealds
+   * @param needed Parameter Object
+   */
   createInputField(needed: []): void {
     console.log(needed);
     this.removeAdded();
@@ -67,7 +69,7 @@ export class AddTransactionComponent implements OnInit {
 
       const message = document.createElement('div');
       message.innerHTML = '<h4>Paramters</h4><br>';
-      // @ts-ignore
+
       if (container !== null){
         container.appendChild(message);
       }
