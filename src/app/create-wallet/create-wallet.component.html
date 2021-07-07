@@ -1,0 +1,76 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Create new Wallet</h4>
+</div>
+<div class="modal-body">
+  <form>
+    <div class="form-group">
+      <label for="nameOfWallet" id="label1" class="label">Name</label>
+      <div class="input-group" id="nameInput">
+        <input #nameofWallet id="nameOfWallet" type="text" class="form-control" placeholder="Name of Wallet">
+      </div>
+      <label for="requiredConfirmations" id = "requiredConfirmationsLabel" class="label">Required confirmations</label>
+      <div class="input-group" id="requiredConfirmationsInput">
+        <input #requiredConfirmations id="requiredConfirmations" min="0" type="number" class="form-control" defaultValue ="1" value="1" placeholder="required Confirmations">
+      </div>
+      <label for="dailyLimit" id = "dailyLimitLabel" class="label">Daily limit</label>
+      <div class="input-group" id="dailyLimitInput">
+        <input #dailyLimit id="dailyLimit" min="0" type="number" class="form-control" [defaultValue]="0" value="0" placeholder="Daily Limit">
+      </div>
+      <p #errorMessage hidden='true' style="color: red">You need to specify a <b>Address</b>!</p>
+    </div>
+  </form>
+  <h3 class="mt-5" >Owners</h3>
+  <div id="ownerTable" class="mt-2" >
+    <table class="table table-dark table-hover ">
+      <thead>
+      <tr class="bg-accent c-black font-weight-bold">
+        <th scope="col">Name</th>
+        <th scope="col">Address</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let owner of owners">
+        <td>
+          <div class="mr-2">{{ owner.name }}</div>
+        </td>
+        <td>
+          <span class="address">{{ owner.address }}</span>
+        </td>
+        <td class="d-flex justify-content-end">
+          <button class="btn btn-outline-danger my-1" (click)="removeOwner(owner)">Remove</button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+        <form>
+          <div class="form-group">
+            <div class="input-group" id="ownerNameInput">
+              <input #nameOfOwner id="nameOfOwner" type="text" class="form-control" placeholder="Name of Owner">
+            </div>
+          </div>
+        </form>
+        </td>
+        <td>
+          <form>
+            <div class="form-group">
+              <div class="input-group" id="ownerAddressInput">
+                <input #addressOfOwner id="addressOfOwner" type="text" class="form-control" placeholder="Address of Owner">
+              </div>
+            </div>
+          </form>
+        </td>
+        <td class="d-flex justify-content-end">
+          <button class="btn btn-outline-success my-1" (click)="addOwner()">Add</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button  type="button" class="btn btn btn-outline-light" (click)="createWallet()" >Create</button>
+  <button type="button" class="btn btn btn-outline-danger" (click)="this.modalService.dismissAll()"  >Close</button>
+</div>
+

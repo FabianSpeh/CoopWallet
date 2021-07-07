@@ -5,6 +5,7 @@ import {UserWalletDataService} from '../services/user-wallet-data.service';
 import {BrowserRefreshService} from '../services/browser-refresh.service';
 
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import {WalletDataService} from '../services/wallet-data.service';
 
 @Component({
   selector: 'app-wallets',
@@ -20,7 +21,7 @@ export class WalletsComponent implements OnInit, OnDestroy {
 
   constructor(private modalService: NgbModal, public change: ChangeDetectorRef, private clipboardService: ClipboardService,
               public walletService: MultisigWalletDataService, public userService: UserWalletDataService,
-              public refreshservice: BrowserRefreshService) {}
+              public refreshservice: BrowserRefreshService, public walletData: WalletDataService) {}
   @ViewChild('walletName') walletNameElement: any;
   @ViewChild('walletAddress') walletAddressElement: any;
   @ViewChild('errorMessage') errorMessage: any;
@@ -32,18 +33,13 @@ export class WalletsComponent implements OnInit, OnDestroy {
 
   // WalletsData contains the Wallets from local storage
   // Currently also holds dummy-data
-  walletsData: any[] = [];
+  //  walletsData: any[] = [];
   // tslint:disable-next-line:typedef
   name: any;
 
   convertBalanceString(balance: string): string {
-    if (balance.length < 3) {
-      return balance;
-    } else {
-      return this.convertBalanceString(balance.substring(0, balance.length - 3))
-        + ' ' + balance.substring(balance.length - 3, balance.length);
-    }
-  }
+    return  balance; }
+
 
 
   /**
@@ -78,7 +74,8 @@ export class WalletsComponent implements OnInit, OnDestroy {
     }
     const wallets = JSON.parse(localStorage.getItem('Wallets') || '{}');
     for (let i = 0; i < wallets.name.length; i++) {
-      this.walletService.getWalletJSON(wallets.name[i], wallets.address[i]).then((res) => { this.walletsData.push(res); });
+      this.walletService.getWalletJSON(wallets.name[i], wallets.address[i]).then((res) => { this.walletData.addData(res);
+                                                                                             });
     }
     this.change.detectChanges();
   }
@@ -96,8 +93,7 @@ export class WalletsComponent implements OnInit, OnDestroy {
   async update(): Promise<void>{
     await this.checkData();
     if (this.ethereumEnabled){
-      if (this.walletsData.length === 0) {
-        console.log('test');
+      if (this.walletData.walletsData.length === 0 && localStorage.getItem('Wallets') !== null) {
         await this.readCookies();
       }
     }
@@ -109,9 +105,11 @@ export class WalletsComponent implements OnInit, OnDestroy {
   async update2(): Promise<void>{
     await this.checkData();
     if (this.ethereumEnabled){
-      if (this.walletsData.length !== 0) {
-        for (const wallet of this.walletsData) {
-          wallet.balance = this.walletService.getBalance(wallet.address);
+      if (this.walletData.walletsData.length !== 0) {
+        for (const wallet of this.walletData.walletsData) {
+          await this.walletService.getBalance(wallet.address);
+          wallet.balance = this.walletService.balance;
+          wallet.completebalance = this.walletService.fullbalance;
         }
         this.change.detectChanges();
       }
@@ -154,10 +152,11 @@ export class WalletsComponent implements OnInit, OnDestroy {
           if (this.walletsname === wallets.name[i]) {
             wallets.name.splice(i, 1);
             wallets.address.splice(i, 1);
+            this.walletData.deleteData(this.walletsname);
           }
         }
         localStorage.setItem('Wallets', JSON.stringify(wallets));
-        window.location.reload();
+        this.change.detectChanges();
       }
     } else{
         // Nothing do to maybe check for possibility later
@@ -171,12 +170,13 @@ export class WalletsComponent implements OnInit, OnDestroy {
       const wallets = JSON.parse(localStorage.getItem('Wallets') || '{}');
       for (let i = 0; i < wallets.name.length; i++) {
         if (this.editwalletname === wallets.name[i]){
+          this.walletData.changeName(wallets.name[i], name);
           wallets.name[i] = name;
         }
         }
       localStorage.setItem('Wallets', JSON.stringify(wallets));
       }
-    window.location.reload();
+    this.change.detectChanges();
   }
 
   deletingWallet(wallet: any, removeWallet: any): void {
