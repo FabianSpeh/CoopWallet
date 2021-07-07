@@ -25,7 +25,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let owner of owners">
+        <tr *ngFor="let owner of this.ownerArraySevice.owners">
           <td>
             <div class="mr-2">{{ owner.name }}</div>
           </td>
@@ -64,9 +64,8 @@
         <td class="d-flex justify-content-between">
           <div>{{token.name}}</div>
           <div>
-            <button class="btn btn-sm btn-outline-light mr-2 my-1">Edit</button>
             <button class="btn btn-sm btn-outline-danger my-1" data-toggle="collapse" data-target="#removeToken"
-                    aria-expanded="false" aria-controls="removeToken" (click)="openModal(removeToken)" (click)="fillTable(token.name, wallet.address)">Remove</button> <!-- (click)="openRemoveTokenPopup()" -->
+                    aria-expanded="false" aria-controls="removeToken" (click)="openModal(removeToken); fillTable(token.name, wallet.address)">Remove</button> <!-- (click)="openRemoveTokenPopup()" -->
 
           </div>
         </td>
@@ -110,6 +109,7 @@
       <span class="small text-success" *ngIf="this.newTransaction">received new transaction</span>
     </h2>
     <div>
+      <button class="btn btn btn-outline-light mr-2" (click)="openAddTransactionPopup()">Add</button>
       <button class="btn btn btn-outline-light" type="button" data-toggle="collapse" data-target="#transactionsTable"
               aria-expanded="false" aria-controls="transactionTable" (click)="this.toggleTransactionsButtonText()"
               id="toggleTransactionsButton">Show</button>
@@ -142,8 +142,10 @@
           </span>
         </td>
         <td>{{ transaction.value }}</td>
-        <td>{{ this.getDataSubject(transaction.data) }}
-          <button class="btn btn-sm btn-outline-light mr-2 my-1" *ngIf="transaction.insertAbiAction == 'YES'">Edit ABI</button>
+        <td>{{ this.getDataSubject(transaction.data, transaction.destination) }}
+          <button class="btn btn-sm btn-outline-light mr-2 my-1" *ngIf="transaction.insertAbiAction == 'YES'" (click)="openEditABIPopup(transaction.destination)">
+            Edit ABI
+          </button>
         </td>
         <td>
           <div *ngFor="let owner of transaction.ownersWhoConfirmed">

@@ -1,5 +1,5 @@
 import {MultisigWalletDataService, Wallet} from '../services/multisig-wallet-data.service';
-import {AfterViewInit, Component, Input, OnInit, ViewChild, ElementRef} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild, ElementRef, ChangeDetectorRef} from '@angular/core';
 import {AddOwnerComponent} from '../add-owner/add-owner.component';
 import {AddTokenComponent} from '../add-token/add-token.component';
 
@@ -10,10 +10,13 @@ import {UserWalletDataService} from '../services/user-wallet-data.service';
 import {RemoveTokenComponent} from '../remove-token/remove-token.component';
 import {TokensService} from '../services/tokens.service';
 import {ClipboardService} from 'ngx-clipboard';
+import { AddTransactionComponent } from '../add-transaction/add-transaction.component';
+import {ContractAbiService} from '../services/contract-abi.service';
+import {InsertAbiComponent} from '../insert-abi/insert-abi.component';
+import {OwnerService} from '../services/owner.service';
 import Web3 from 'web3';
 
 declare var window: any;
-
 export interface Transaction {
   id: string;
   destination: string;
@@ -36,7 +39,9 @@ export class WalletDetailsComponent implements OnInit {
   constructor(public walletService: MultisigWalletDataService, private modalService: NgbModal,
               private ownerService: OwnerAddressService, private clipboardService: ClipboardService,
               public multisigService: MultisigWalletDataService, public dataService: UserWalletDataService,
-              public tokenService: TokensService) { }
+              public abiService: ContractAbiService, public tokenService: TokensService, public change: ChangeDetectorRef,
+              public  ownerArraySevice: OwnerService) { }
+
 
 
   // The wallet of the current details page:
@@ -49,6 +54,7 @@ export class WalletDetailsComponent implements OnInit {
   transactions: Transaction[] = [];
   numberOfTransactions: any;
   pageSize = 3;
+  currentPage: any;
 
   private ownerAddress: any;
   message: any;
@@ -197,18 +203,22 @@ export class WalletDetailsComponent implements OnInit {
     this.wallet =  wallet;
     this.wallet =  await this.loadWallet();
     if (this.wallet !== undefined) {
-      this.owners = await this.loadOwnersOfWallet();
+      this.ownerArraySevice.owners = await this.loadOwnersOfWallet();
+
       this.numberOfTransactions = await this.walletService.getAllTransactionCount(this.wallet.address);
       await this.loadNext();
     } else {
-  this.wallet =  wallet;
-}
+      this.wallet =  wallet;
+    }
     this.ownerService.currentAddress.subscribe(address => this.ownerAddress = address);
     if (this.subscription !== undefined) {
       this.subscription.unsubscribe();
     }
     this.subscribeToContractTransactions();
     await this.loadTokensFromLocalStorage();
+    this.abiService.getMethodsFromABI('');
+    console.log(this.abiService.getMethodNamesFromABI(''));
+    this.abiService.getParametersFromMethod('', 'addOwner');
   }
 
 
@@ -280,32 +290,11 @@ export class WalletDetailsComponent implements OnInit {
     }
   }
 
-  getDataSubject(data: string): string {
+  getDataSubject(data: string, contractAddress: string): string {
 
-    const methodInformation = data.slice(2, 10);
-    const transportInformation = data.slice(11);
+    const methodName = this.abiService.getMethodNameFromData(data, contractAddress);
 
-    switch (methodInformation)
-    {
-      // Deals with the case, if the method is addOwner()
-      case '7065cb48':
-        const owner = '0x' + transportInformation;
-        return 'Method: addOwner()';
-
-      // Deals with the case, if the method is removeOwner()
-      case '173825d9':
-        return 'Method: removeOwner()';
-
-      // Deals with the case, if the method is changeDailyLimit()
-      case  'cea08621':
-        return 'Method: changeDailyLimit()';
-
-      case 'ba51a6df':
-        return 'Method: changeRequirement()';
-
-      default:
-        return data.substring(0, 12) + '...';
-    }
+    return methodName;
   }
 
   getOwnerName(address: string): string {
@@ -343,7 +332,12 @@ export class WalletDetailsComponent implements OnInit {
   openAddTokenPopup(): any {
     const modalRef = this.modalService.open(AddTokenComponent);
   }
-/*
+
+  openEditABIPopup(address: string): any {
+    const modalRef = this.modalService.open(InsertAbiComponent);
+    modalRef.componentInstance.address = address;
+  }
+  /*
   openRemoveTokenPopup(): any {
     const modalRef = this.modalService.open(RemoveTokenComponent);
   }
@@ -375,8 +369,13 @@ export class WalletDetailsComponent implements OnInit {
   /**
    * download the tokens of a Wallet and store it in a variable
    */
-  loadTokensFromLocalStorage(): void {
-     this.tokenService.getTokensOfWallet(this.wallet.address).then((res) => this.tokens = res);
+  async loadTokensFromLocalStorage(): Promise<void> {
+    const walletsAddress = this.tokenService.tokenWalletList;
+    for (const walletAddres of walletsAddress) {
+      if (walletAddres.walletAddress === this.wallet.address) {
+        await this.tokenService.getTokensOfWallet(this.wallet.address).then((res) => this.tokens = res);
+      }
+    }
   }
 
   async openModal(content: any): Promise<void>{
@@ -403,7 +402,7 @@ export class WalletDetailsComponent implements OnInit {
     const wallAd = this.tokenService.tokenWalletList;
     for ( const elt of wallAd) {
       if ( elt.walletAddress === address){
-        await this.tokenService.getTokensOfWallet(this.wallet.address).then((res) => this.tokens = res);
+        await this.tokenService.getTokensOfWallet(this.wallet.address).then((res) => {this.tokens = res; } );
         this.walletAddress = elt.walletAddress;
       }
     }
@@ -422,8 +421,13 @@ export class WalletDetailsComponent implements OnInit {
 
   async removeTokens(): Promise<void>{
     this.tokenService.removeTokenFromWallet(this.addressToken, this.walletAddress);
-    console.log('deleted');
-    window.location.reload();
+    for ( const token of this.tokens){
+      if (token.address === this.addressToken){
+        this.tokens.splice(token.index, 1);
+      }
+    }
+    this.change.detectChanges();
+
   }
 
   confirmTransaction(contractAddress: any, transactionID: any): any {
@@ -438,5 +442,8 @@ export class WalletDetailsComponent implements OnInit {
     // const modalRef = this.modalService.open(InsertAbiComponent);
   }
 
+  openAddTransactionPopup(): any {
+    const modalRef = this.modalService.open(AddTransactionComponent);
+  }
 
 }

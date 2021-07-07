@@ -1,0 +1,43 @@
+<div class="bg-dark popupAddTransaction">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Send transaction</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <div class="form-group" id="destInput">
+          <label for="destinationInput" id="label1" class="label">Destination</label>
+          <input  id="destinationInput" type="text" class="form-control" >
+        </div>
+        <div class="form-group" id="nameInput">
+          <label for="contractName" id="label2" class="label mt-2">Contract name (optional)</label>
+          <input id="contractName" type="text" class="form-control">
+        </div>
+        <div class="form-group" id="symbolInput">
+          <label for="amount" id="label3" class="label">Amount (ETH)</label>
+          <input id="amount" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="abiString" id="label4" class="label mt-2">ABI string</label>
+          <textarea class="form-control" id="abiString" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Method</label>
+          <select class="form-control bg px-1" id="exampleFormControlSelect1">
+            <option selected></option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </select>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn btn-outline-light" >Send transaction</button>
+    <button type="button" class="btn btn btn-outline-danger" (click)="this.activeModal.close('Close click')" >Close</button>
+  </div>
+
+</div>

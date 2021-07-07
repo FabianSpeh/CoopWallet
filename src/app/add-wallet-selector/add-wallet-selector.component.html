@@ -16,8 +16,9 @@
 
     </div>
   </form>
+  <p #errorMessage hidden='true' style="color: red">You need to select one of the two options!</p>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn btn-outline-light" (click)="next()"  >Next</button>
-  <button type="button" class="btn btn btn-outline-danger" (click)="this.activeModal.close()" >Close</button>
+  <button type="button" class="btn btn btn-outline-danger" (click)="this.modalService.dismissAll()" >Close</button>
 </div>
