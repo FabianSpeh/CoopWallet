@@ -36,8 +36,9 @@ export class WalletDetailsComponent implements OnInit {
 
   constructor(public walletService: MultisigWalletDataService, private modalService: NgbModal,
               private ownerService: OwnerAddressService, private clipboardService: ClipboardService,
-              public multisigService: MultisigWalletDataService, public dataService: UserWalletDataService,        public abiService: ContractAbiService,
-public tokenService: TokensService, public change: ChangeDetectorRef, public  ownerArraySevice: OwnerService) { }
+              public multisigService: MultisigWalletDataService, public dataService: UserWalletDataService,
+              public abiService: ContractAbiService, public tokenService: TokensService, public change: ChangeDetectorRef,
+              public  ownerArraySevice: OwnerService) { }
 
 
 
