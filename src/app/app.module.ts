@@ -24,9 +24,9 @@ import { WalletDetailsComponent } from './wallet-details/wallet-details.componen
 import {EditOwnerComponent} from './edit-owner/edit-owner.component';
 import {OwnerAddressService} from './services/owner-address.service';
 import { AddTokenComponent } from './add-token/add-token.component';
+import { AddTransactionComponent } from './add-transaction/add-transaction.component';
 import { AddWalletSelectorComponent } from './add-wallet-selector/add-wallet-selector.component';
 import { CreateWalletComponent } from './create-wallet/create-wallet.component';
-
 
 
 
@@ -46,9 +46,9 @@ import { CreateWalletComponent } from './create-wallet/create-wallet.component';
     AddTokenComponent,
     AddOwnerComponent,
     InsertAbiComponent,
+    AddTransactionComponent,
     AddWalletSelectorComponent,
     CreateWalletComponent,
-
   ],
   imports: [
     FontAwesomeModule,
