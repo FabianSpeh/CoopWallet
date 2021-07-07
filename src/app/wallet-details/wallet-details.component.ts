@@ -155,6 +155,7 @@ export class WalletDetailsComponent implements OnInit {
       this.subscription.on('data', async (log: any) => {
         // This part will likely be called multiple times, as new events might exist in multiple blocks;
         // thus you need check, if the received transaction was already added:
+        console.log('new event!!!', log);
         const newNumberOfTransactions = await this.walletService.getAllTransactionCount(this.wallet.address);
         if (newNumberOfTransactions !== this.numberOfTransactions) {
           this.numberOfTransactions = newNumberOfTransactions;
@@ -167,7 +168,24 @@ export class WalletDetailsComponent implements OnInit {
           // show text for 4 seconds, to inform user that new transaction was received:
           this.newTransaction = true;
           setTimeout(() => { this.newTransaction = false; }, 4000);
+        } else {
+          // Confirmation, Revoke or Duplicate:
+          // tslint:disable-next-line:prefer-for-of
+          for (let i = 0; i < this.transactions.length; i++) {
+            const id = Number(this.transactions[i].id);
+            const confirms = await this.walletService.getConfirmationsOfTransaction(this.wallet.address, id);
+            // if the number of confirmation locally differs from the one in the contract, the transaction was revoked or confirmed and
+            // should be replaced by the latest version:
+            if (confirms !== this.transactions[i].ownersWhoConfirmed.length) {
+              const transactions = await this.walletService.getTransactions(this.wallet.address, id, id + 1);
+              const transaction = transactions.pop();
+              this.transactions[i] = transaction;
+            }
+          }
         }
+      });
+      this.subscription.on('changed', (log: any) => {
+        console.log('something changed', log);
       });
       console.log('subscribed to ', this.wallet.address);
     }
