@@ -120,7 +120,8 @@ export class AddTransactionComponent implements OnInit {
   removeAdded(): void{
     const toRemove = document.getElementById('added');
     if (toRemove !== null){
-      toRemove.innerHTML = '';
+      toRemove.remove();
     }
+
   }
 }
