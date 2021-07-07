@@ -88,11 +88,12 @@ export class AddTransactionComponent implements OnInit {
           if (container !== null) {
             container.appendChild(lab);
             container.appendChild(inputF);
-            if (parent !== null){
-              parent.appendChild(parent);
-            }
           }
         }
+      }
+
+      if (parent !== null){
+        parent.appendChild(parent);
       }
     }
   }
