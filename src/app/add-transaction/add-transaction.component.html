@@ -19,18 +19,14 @@
         </div>
         <div class="form-group">
           <label for="abiString" id="label4" class="label mt-2">ABI string</label>
-          <textarea class="form-control" id="abiString" rows="3"></textarea>
+          <textarea class="form-control" id="abiString" rows="3" #ABIString (keyup)="getMethodes()"></textarea>
         </div>
-        <div class="form-group">
-          <label for="exampleFormControlSelect1">Method</label>
-          <select class="form-control bg px-1" id="exampleFormControlSelect1">
+        <div class="form-group" id="lastElement">
+          <label for="possibleMethodes">Method</label>
+          <select class="form-control bg px-1 blocked" id="possibleMethodes" name="possibleMethodes" (click) = "getSelectedMethode()" [disabled]= "disableElement" #selectedMeth>
             <option selected></option>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </select>
+            <option *ngFor = "let methode of methodes" [value]="methode"> {{methode}}</option>
+          </select >
         </div>
       </div>
     </form>
