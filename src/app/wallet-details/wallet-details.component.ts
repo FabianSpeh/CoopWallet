@@ -318,7 +318,6 @@ export class WalletDetailsComponent implements OnInit {
     for (const walletAddres of walletsAddress) {
       if (walletAddres.walletAddress === this.wallet.address) {
         await this.tokenService.getTokensOfWallet(this.wallet.address).then((res) => this.tokens = res);
-        console.log(this.tokens);
       }
     }
   }
