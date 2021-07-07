@@ -14,7 +14,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let wallet of walletsData">
+        <tr *ngFor="let wallet of walletData.walletsData">
           <td><span class="wallet-link py-3" routerLink="/wallets/details/{{ wallet.address }}">{{ wallet.name }}</span><br>
             <button class="btn btn-sm btn-outline-light mr-2 my-1" (click)="editingWallet(wallet, editWallet)">Edit Wallet</button>
             <button class="btn btn-sm btn-outline-danger mr-2 my-1" (click)="deletingWallet(wallet, removeWallet)">Remove</button></td>

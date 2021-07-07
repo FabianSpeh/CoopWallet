@@ -1,5 +1,5 @@
 import {MultisigWalletDataService, Wallet} from '../services/multisig-wallet-data.service';
-import {AfterViewInit, Component, Input, OnInit, ViewChild, ElementRef} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild, ElementRef, ChangeDetectorRef} from '@angular/core';
 import {AddOwnerComponent} from '../add-owner/add-owner.component';
 import {AddTokenComponent} from '../add-token/add-token.component';
 
@@ -10,6 +10,7 @@ import {UserWalletDataService} from '../services/user-wallet-data.service';
 import {RemoveTokenComponent} from '../remove-token/remove-token.component';
 import {TokensService} from '../services/tokens.service';
 import {ClipboardService} from 'ngx-clipboard';
+import {OwnerService} from '../services/owner.service';
 
 export interface Transaction {
   id: string;
@@ -33,7 +34,7 @@ export class WalletDetailsComponent implements OnInit {
   constructor(public walletService: MultisigWalletDataService, private modalService: NgbModal,
               private ownerService: OwnerAddressService, private clipboardService: ClipboardService,
               public multisigService: MultisigWalletDataService, public dataService: UserWalletDataService,
-              public tokenService: TokensService) { }
+              public tokenService: TokensService, public change: ChangeDetectorRef, public  ownerArraySevice: OwnerService) { }
 
 
   // The wallet of the current details page:
@@ -137,7 +138,7 @@ export class WalletDetailsComponent implements OnInit {
     this.wallet =  wallet;
     this.wallet =  await this.loadWallet();
     if (this.wallet !== undefined) {
-      this.owners = await this.loadOwnersOfWallet();
+      this.ownerArraySevice.owners = await this.loadOwnersOfWallet();
 
       this.numberOfTransactions = await this.walletService.getAllTransactionCount(this.wallet.address);
       this.currentPage = 0;
@@ -346,7 +347,7 @@ export class WalletDetailsComponent implements OnInit {
     const wallAd = this.tokenService.tokenWalletList;
     for ( const elt of wallAd) {
       if ( elt.walletAddress === address){
-        await this.tokenService.getTokensOfWallet(this.wallet.address).then((res) => this.tokens = res);
+        await this.tokenService.getTokensOfWallet(this.wallet.address).then((res) => {this.tokens = res; } );
         this.walletAddress = elt.walletAddress;
       }
     }
@@ -365,8 +366,13 @@ export class WalletDetailsComponent implements OnInit {
 
   async removeTokens(): Promise<void>{
     this.tokenService.removeTokenFromWallet(this.addressToken, this.walletAddress);
-    console.log('deleted');
-    window.location.reload();
+    for ( const token of this.tokens){
+      if (token.address === this.addressToken){
+        this.tokens.splice(token.index, 1);
+      }
+    }
+    this.change.detectChanges();
+
   }
 
   confirmTransaction(contractAddress: any, transactionID: any): any {

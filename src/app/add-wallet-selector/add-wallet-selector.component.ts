@@ -13,29 +13,36 @@ export class AddWalletSelectorComponent implements OnInit {
 @ViewChild('walletForm') walletForm: any;
 @ViewChild('restoreWallet') restoreWallet: any;
 @ViewChild('createWallet') createWallet: any;
-  constructor(public activeModal: NgbActiveModal, private modalService: NgbModal) { }
+@ViewChild('errorMessage') errorMessage: any;
+  constructor(public activeModal: NgbActiveModal, public modalService: NgbModal) { }
 
   ngOnInit(): void {
   }
   private openRestoreWallet(): any {
+    this.modalService.dismissAll();
     const modalRef = this.modalService.open(NgbdModalContentComponent);
   }
 
+
   private openCreateWallet(): any {
+    this.modalService.dismissAll();
     const modalRef = this.modalService.open(CreateWalletComponent, {size: 'xl'});
   }
 
   next(): any {
     console.log(this.restoreWallet);
     if (this.restoreWallet.nativeElement.checked){
-      this.activeModal.close();
+
       this.openRestoreWallet(); }
+
     else if (this.createWallet.nativeElement.checked){
-      this.activeModal.close();
+
       this.openCreateWallet();
     }
 
-
+    else {
+      this.errorMessage.nativeElement.hidden = false;
+    }
 
     }
   }
