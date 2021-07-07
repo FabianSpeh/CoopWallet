@@ -10,7 +10,7 @@ export class WalletDataService {
 
   /**
    * Add a Wallet to the Wallet data Array
-   * @param data A Wallet for mor info @see multisig-wallet-data.service Wallet.
+   * @param data A Wallet for mor info see multisig-wallet-data.service Wallet.
    */
   public addData(data: Wallet): void{
     this.walletsData.push(data);
