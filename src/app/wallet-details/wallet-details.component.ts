@@ -10,6 +10,9 @@ import {UserWalletDataService} from '../services/user-wallet-data.service';
 import {RemoveTokenComponent} from '../remove-token/remove-token.component';
 import {TokensService} from '../services/tokens.service';
 import {ClipboardService} from 'ngx-clipboard';
+import Web3 from 'web3';
+
+declare var window: any;
 
 export interface Transaction {
   id: string;
@@ -46,7 +49,6 @@ export class WalletDetailsComponent implements OnInit {
   transactions: Transaction[] = [];
   numberOfTransactions: any;
   pageSize = 3;
-  currentPage: any;
 
   private ownerAddress: any;
   message: any;
@@ -59,6 +61,9 @@ export class WalletDetailsComponent implements OnInit {
   tokensSymbol = '';
   addressToken = '';
   walletAddress: any;
+  web3: any;
+  subscription: any;
+  newTransaction = false;
 
 
   // Variables for toggling the owner table
@@ -109,20 +114,28 @@ export class WalletDetailsComponent implements OnInit {
     }
   }
 
-  async loadNext(): Promise<void> {
-    this.currentPage++;
-    const page = this.currentPage;
-    const startIndex = this.numberOfTransactions - (page - 1) * this.pageSize;
-    let endIndex = this.numberOfTransactions - this.pageSize - (page - 1) * this.pageSize;
-    if (endIndex < 0) {
-      endIndex = 0;
+  /**
+   * calls this.loadTransactions() for the next n (n = this.pageSize) transactions
+   */
+  loadNext(): void {
+    let to;
+    if (this.transactions !== undefined && this.transactions.length > 0) {
+      // @ts-ignore transaction cannot be undefined here
+      to = Number(this.transactions[this.transactions.length - 1].id);
+    } else {
+      to = this.numberOfTransactions;
     }
-    if (startIndex > 0) {
-      await this.loadTransactions(endIndex, startIndex);
+    const from = Math.max(to - this.pageSize, 0);
+    if (to > 0) {
+      this.loadTransactions(from, to).then();
     }
   }
 
-
+  /**
+   * loads the transactions in given range into this.transactions
+   * @param from - starting id
+   * @param to - closing id (excluded)
+   */
   async loadTransactions(from: number, to: number): Promise<void> {
     const newTransactions = await this.walletService.getTransactions(this.wallet.address, from, to);
     for (let i = newTransactions.length - 1; i >= 0; i--) {
@@ -130,6 +143,35 @@ export class WalletDetailsComponent implements OnInit {
     }
   }
 
+  /**
+   * Subscribes to all Events on the current wallet address
+   */
+  subscribeToContractTransactions(): void {
+    if (window.ethereum) {
+      this.web3 = new Web3(window.ethereum);
+      // Initialize the subscription:
+      this.subscription = this.web3.eth.subscribe('logs', { address: this.wallet.address});
+      // Define the function that should be called if data is received:
+      this.subscription.on('data', async (log: any) => {
+        // This part will likely be called multiple times, as new events might exist in multiple blocks;
+        // thus you need check, if the received transaction was already added:
+        const newNumberOfTransactions = await this.walletService.getAllTransactionCount(this.wallet.address);
+        if (newNumberOfTransactions !== this.numberOfTransactions) {
+          this.numberOfTransactions = newNumberOfTransactions;
+          // get the latest transaction and add it to the front of the transactions-list
+          const newTransaction =
+            await this.walletService.getTransactions(this.wallet.address, this.numberOfTransactions - 1, this.numberOfTransactions);
+          console.log('new transaction detected, count @ ', this.numberOfTransactions);
+          console.log('new transaction: ', newTransaction);
+          this.transactions.unshift(newTransaction.pop());
+          // show text for 4 seconds, to inform user that new transaction was received:
+          this.newTransaction = true;
+          setTimeout(() => { this.newTransaction = false; }, 4000);
+        }
+      });
+      console.log('subscribed to ', this.wallet.address);
+    }
+  }
   async ngOnInit(): Promise<void> {
     const wallet: Wallet = {
       name: '', address: '', balance: '', completebalance: '', confirmations: '', owners: '', pending: '', network: ''
@@ -138,14 +180,16 @@ export class WalletDetailsComponent implements OnInit {
     this.wallet =  await this.loadWallet();
     if (this.wallet !== undefined) {
       this.owners = await this.loadOwnersOfWallet();
-
       this.numberOfTransactions = await this.walletService.getAllTransactionCount(this.wallet.address);
-      this.currentPage = 0;
       await this.loadNext();
     } else {
   this.wallet =  wallet;
 }
     this.ownerService.currentAddress.subscribe(address => this.ownerAddress = address);
+    if (this.subscription !== undefined) {
+      this.subscription.unsubscribe();
+    }
+    this.subscribeToContractTransactions();
     await this.loadTokensFromLocalStorage();
   }
 
@@ -313,13 +357,8 @@ export class WalletDetailsComponent implements OnInit {
   /**
    * download the tokens of a Wallet and store it in a variable
    */
-  async loadTokensFromLocalStorage(): Promise<void> {
-    const walletsAddress = this.tokenService.tokenWalletList;
-    for (const walletAddres of walletsAddress) {
-      if (walletAddres.walletAddress === this.wallet.address) {
-        await this.tokenService.getTokensOfWallet(this.wallet.address).then((res) => this.tokens = res);
-      }
-    }
+  loadTokensFromLocalStorage(): void {
+     this.tokenService.getTokensOfWallet(this.wallet.address).then((res) => this.tokens = res);
   }
 
   async openModal(content: any): Promise<void>{
