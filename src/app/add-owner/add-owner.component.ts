@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import { NgbActiveModal, } from '@ng-bootstrap/ng-bootstrap';
+import {NgbActiveModal, NgbModal,} from '@ng-bootstrap/ng-bootstrap';
 import {MultisigWalletDataService} from '../services/multisig-wallet-data.service';
 
 
@@ -17,7 +17,7 @@ export class AddOwnerComponent {
   @ViewChild('addressOfOwner') addressOfOwnerElement: any;
   @ViewChild('errorMessage') errorMessage: any;
 
-  constructor(public activeModal: NgbActiveModal, public walletService: MultisigWalletDataService) {
+  constructor(public activeModal: NgbActiveModal, public walletService: MultisigWalletDataService, public modalService: NgbModal) {
 
   }
   /**

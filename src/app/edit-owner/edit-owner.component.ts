@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, OnInit, ViewChild, ViewChildren} from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {WalletDetailsComponent} from '../wallet-details/wallet-details.component';
 import {OwnerAddressService} from '../services/owner-address.service';
 import {OwnerService} from '../services/owner.service';
@@ -24,7 +24,7 @@ ownerAddress: any;
 ownerList: any;
 
   constructor(public activeModal: NgbActiveModal, private ownerService: OwnerAddressService, public changeDetectorRef: ChangeDetectorRef,
-              public  ownerArraySevice: OwnerService) {
+              public  ownerArraySevice: OwnerService, public modalService: NgbModal) {
     /**
      * ownerList contains all owners
      */
