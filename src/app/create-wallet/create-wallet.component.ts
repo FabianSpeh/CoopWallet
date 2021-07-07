@@ -89,6 +89,7 @@ for (let i  = 0; i <= this.owners.length; i++){
       const walletAddress = await this.createMultisSig.deployMultisig(ownersArray, requiredConfirmations, dailyLimit);
       console.log(walletAddress);
       this.editJsons(nameOfWallet, walletAddress);
+      this.modalService.dismissAll();
     } else {
       // throw Error
     }
