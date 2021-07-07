@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {NgbActiveModal, NgbModal,} from '@ng-bootstrap/ng-bootstrap';
+import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {MultisigWalletDataService} from '../services/multisig-wallet-data.service';
 
 
