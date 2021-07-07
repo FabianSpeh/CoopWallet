@@ -112,6 +112,13 @@ export class ContractAbiService {
 
 
   getMethodNameFromData(data: string, address: string): string {
+    if (data === null) {
+      return '';
+    }
+    if (this.contracts.length === 0) {
+      return data.substring(0, 12) + '...';
+    }
+
     const methodSignature = data.slice(0, 10);
     const methodParameterValue = data.slice(10);
 

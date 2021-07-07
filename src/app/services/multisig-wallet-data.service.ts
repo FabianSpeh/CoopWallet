@@ -234,7 +234,7 @@ export class MultisigWalletDataService {
         // singleTransactionInformation['destination'] = transaction['destination'];
 
         // Get the value of the transaction
-        const value = transaction.value;
+        const value = this.web3js.utils.fromWei(transaction.value, 'ether');
 
         // Get the data from the transaction
         const data = transaction.data;
