@@ -140,7 +140,7 @@
           </span>
         </td>
         <td>{{ transaction.value }}</td>
-        <td>{{ this.getDataSubject(transaction.data) }}
+        <td>{{ this.getDataSubject(transaction.data, transaction.destination) }}
           <button class="btn btn-sm btn-outline-light mr-2 my-1" *ngIf="transaction.insertAbiAction == 'YES'" (click)="openEditABIPopup(transaction.destination)">
             Edit ABI
           </button>
