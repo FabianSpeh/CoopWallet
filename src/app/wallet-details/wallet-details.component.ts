@@ -10,6 +10,7 @@ import {UserWalletDataService} from '../services/user-wallet-data.service';
 import {RemoveTokenComponent} from '../remove-token/remove-token.component';
 import {TokensService} from '../services/tokens.service';
 import {ClipboardService} from 'ngx-clipboard';
+import {OwnerService} from '../services/owner.service';
 
 export interface Transaction {
   id: string;
@@ -33,7 +34,7 @@ export class WalletDetailsComponent implements OnInit {
   constructor(public walletService: MultisigWalletDataService, private modalService: NgbModal,
               private ownerService: OwnerAddressService, private clipboardService: ClipboardService,
               public multisigService: MultisigWalletDataService, public dataService: UserWalletDataService,
-              public tokenService: TokensService, public change: ChangeDetectorRef) { }
+              public tokenService: TokensService, public change: ChangeDetectorRef, public  ownerArraySevice: OwnerService) { }
 
 
   // The wallet of the current details page:
@@ -137,7 +138,7 @@ export class WalletDetailsComponent implements OnInit {
     this.wallet =  wallet;
     this.wallet =  await this.loadWallet();
     if (this.wallet !== undefined) {
-      this.owners = await this.loadOwnersOfWallet();
+      this.ownerArraySevice.owners = await this.loadOwnersOfWallet();
 
       this.numberOfTransactions = await this.walletService.getAllTransactionCount(this.wallet.address);
       this.currentPage = 0;

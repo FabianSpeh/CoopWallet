@@ -25,7 +25,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let owner of owners">
+        <tr *ngFor="let owner of this.ownerArraySevice.owners">
           <td>
             <div class="mr-2">{{ owner.name }}</div>
           </td>

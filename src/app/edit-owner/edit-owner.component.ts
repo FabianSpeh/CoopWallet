@@ -1,7 +1,8 @@
-import {Component, OnInit, ViewChild, ViewChildren, } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild, ViewChildren} from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {WalletDetailsComponent} from '../wallet-details/wallet-details.component';
 import {OwnerAddressService} from '../services/owner-address.service';
+import {OwnerService} from '../services/owner.service';
 
 declare var window: any;
 
@@ -22,7 +23,8 @@ ownerName: any;
 ownerAddress: any;
 ownerList: any;
 
-  constructor(public activeModal: NgbActiveModal, private ownerService: OwnerAddressService) {
+  constructor(public activeModal: NgbActiveModal, private ownerService: OwnerAddressService, public changeDetectorRef: ChangeDetectorRef,
+              public  ownerArraySevice: OwnerService) {
     /**
      * ownerList contains all owners
      */
@@ -48,7 +50,7 @@ this.ownerList = {
 
     this.addOwnersToLocalStorage();
     this.activeModal.close();
-    window.location.reload();
+    this.changeDetectorRef.detectChanges();
     }
   }
 
@@ -64,14 +66,21 @@ this.ownerList = {
       if (this.ownerAddress === this.ownerList.address[i]){
 
       this.ownerList.name[i] = this.ownerName;
+      this.ownerArraySevice.owners.name[i] = this.ownerName;
       localStorage.setItem('Owners', JSON.stringify(this.ownerList));
       return;
     }
     }
+    for ( const owner of this.ownerArraySevice.owners){
+      if (owner.address === this.ownerAddress){
+        owner.name = this.ownerName;
+      }
+    }
     this.ownerList.name.push(this.ownerName);
     this.ownerList.address.push(this.ownerAddress);
-
+    console.log(this.ownerArraySevice.owners);
     localStorage.setItem('Owners', JSON.stringify(this.ownerList));
+    this.changeDetectorRef.detectChanges();
 
 
   }
