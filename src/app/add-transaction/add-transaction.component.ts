@@ -60,7 +60,7 @@ export class AddTransactionComponent implements OnInit {
       let container: HTMLElement;
       container = document.createElement('div');
       container.classList.add('mt-3');
-      container.classList.add('mb-3');
+      container.classList.add('mb-1');
       container.classList.add('form-group');
       container.setAttribute('id', 'added');
       const parent = document.getElementById('lastElement');
@@ -68,11 +68,9 @@ export class AddTransactionComponent implements OnInit {
       const message = document.createElement('div');
       message.innerHTML = '<h4>Paramters</h4><br>';
       // @ts-ignore
-      container.appendChild(message);
-      if (parent !== null){
-        parent.appendChild(container);
+      if (container !== null){
+        container.appendChild(message);
       }
-
 
       for (const inputField of needed){
         const name = this.getName(inputField);
@@ -93,7 +91,7 @@ export class AddTransactionComponent implements OnInit {
       }
 
       if (parent !== null){
-        parent.appendChild(parent);
+        parent.appendChild(container);
       }
     }
   }
