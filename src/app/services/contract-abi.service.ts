@@ -89,7 +89,7 @@ export class ContractAbiService {
 
   /**
    * Method checks, if the contract with the ABI is in the local storage
-   * @param address
+   * @param address the Addres of the Contract
    */
   isKnownContract(address: string): boolean {
     // tslint:disable-next-line:forin
@@ -113,10 +113,11 @@ export class ContractAbiService {
       // Block will be executed, if a contract was found
       if (contract.address === address) {
 
+        // tslint:disable-next-line:forin
         for (const methodKey in contract.methods) {
           const method = contract.methods[methodKey];
 
-          if (method.signature == methodSignature) {
+          if (method.signature === methodSignature) {
             const parameters = this.getParametersFromMethod(contract.abi, method.name);
 
             try {
@@ -127,18 +128,19 @@ export class ContractAbiService {
 
               const sliced = Object.entries(parameterValue).slice(startPosition, lengthOfParameterKeys);
 
-              var outputParameterString = "";
+              let outputParameterString = '';
 
-              for (var key in sliced)
+              // tslint:disable-next-line:forin
+              for (const key in sliced)
               {
                 const oneParameter = sliced[key];
-                const parameterString = oneParameter[0] + " = " + oneParameter[1] + ",";
+                const parameterString = oneParameter[0] + ' = ' + oneParameter[1] + ',';
                 outputParameterString += parameterString;
               }
 
               outputParameterString = outputParameterString.slice(0, -1);
 
-              return method.name + "(" + outputParameterString + ")";
+              return method.name + '(' + outputParameterString + ')';
             }
             catch (e)
             {
@@ -150,7 +152,7 @@ export class ContractAbiService {
       }
     }
 
-    return data.substring(0, 12) + '...';;
+    return data.substring(0, 12) + '...';
   }
 
 }
