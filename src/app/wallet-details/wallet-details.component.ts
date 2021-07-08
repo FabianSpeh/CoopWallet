@@ -218,9 +218,6 @@ export class WalletDetailsComponent implements OnInit {
     }
     this.subscribeToContractTransactions();
     await this.loadTokensFromLocalStorage();
-    this.abiService.getMethodsFromABI('');
-    console.log(this.abiService.getMethodNamesFromABI(''));
-    this.abiService.getParametersFromMethod('', 'addOwner');
   }
 
 

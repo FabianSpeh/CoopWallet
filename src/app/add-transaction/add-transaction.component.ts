@@ -34,19 +34,36 @@ export class AddTransactionComponent implements OnInit {
       const accounts = await this.web3.eth.getAccounts();
       const currentAccountAddress = accounts[0];
 
-      const ethereumAmount = Number(this.ethereumInput.value);
-      const methodName = this.selectMeth.value;
-      const destinationABI = this.ABIstring.value;
-      const destinationAddress = this.destinationInput.value;
+      const ethereumAmount = this.ethereumInput.nativeElement.value;
+      const methodName = this.selectMeth.nativeElement.value;
+      const destinationABI = this.ABIstring.nativeElement.value;
+      const destinationAddress = this.destinationInput.nativeElement.value;
       const multisigAddress = location.href.split('/').pop();
-
       const multisigContract = await new this.web3.eth.Contract(JSON.parse(this.multisigABI), multisigAddress);
-      const destinationContract = await new this.web3.eth.Contract(JSON.parse(destinationABI), destinationAddress);
 
-      const methodData = destinationContract.methods[methodName].encodeABI();
+      let data: any;
+      if (destinationABI === ' ') {
+        const parameters = [];
+        const parametersOfMethod = await this.abiService.getParametersFromMethod(destinationABI, methodName);
+        const methodNumber = parametersOfMethod.length;
 
+        const functionObject = {
+          name: methodName,
+          type: 'function',
+          inputs: parametersOfMethod
+        };
+
+        for (let i = 0; i < methodNumber; i++) {
+          const inputElement = (document.getElementById(String(i)) as HTMLInputElement);
+          parameters.push(inputElement.value);
+        }
+
+        data = this.web3.eth.abi.encodeFunctionCall(functionObject, parameters);
+      } else {
+        data = '';
+      }
       await multisigContract.methods
-        .submitTransaction(destinationAddress, ethereumAmount, methodData)
+        .submitTransaction(destinationAddress, ethereumAmount, data)
         .send({from: currentAccountAddress}).then((res: any) => console.log(res));
     }
   }
@@ -89,7 +106,7 @@ export class AddTransactionComponent implements OnInit {
   createInputField(needed: []): void {
     console.log(needed);
     this.removeAdded();
-    if (needed.length >= 0){
+    if (needed !== null && needed.length >= 0){
       let container: HTMLElement;
       container = document.createElement('div');
       container.classList.add('mt-3');
@@ -104,7 +121,7 @@ export class AddTransactionComponent implements OnInit {
       if (container !== null){
         container.appendChild(message);
       }
-
+      let idCounter = 0;
       for (const inputField of needed){
         const name = this.getName(inputField);
         const lab = document.createElement('label');
@@ -115,6 +132,7 @@ export class AddTransactionComponent implements OnInit {
           const inputF = document.createElement('input');
           inputF.classList.add('form-control');
           inputF.classList.add('inputDesign');
+          inputF.setAttribute('id', String(idCounter++));
           inputF.setAttribute('type', this.getType(inputField));
           if (container !== null) {
             container.appendChild(lab);
