@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+
+import {ContractAbiService} from '../services/contract-abi.service';
+
 import Web3 from 'web3';
 
 declare var window: any;
@@ -35,7 +38,7 @@ export class MultisigWalletDataService {
 
   ownerArray: any;
 
-  constructor() {
+  constructor(public abiService: ContractAbiService) {
     this.balance = '';
     this.fullbalance = '';
     this.contract_abi = '[{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"owners","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"owner","type":"address"}],"name":"removeOwner","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"transactionId","type":"uint256"}],"name":"revokeConfirmation","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"isOwner","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"},{"name":"","type":"address"}],"name":"confirmations","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"calcMaxWithdraw","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"pending","type":"bool"},{"name":"executed","type":"bool"}],"name":"getTransactionCount","outputs":[{"name":"count","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"dailyLimit","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"lastDay","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"owner","type":"address"}],"name":"addOwner","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"transactionId","type":"uint256"}],"name":"isConfirmed","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"transactionId","type":"uint256"}],"name":"getConfirmationCount","outputs":[{"name":"count","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"transactions","outputs":[{"name":"destination","type":"address"},{"name":"value","type":"uint256"},{"name":"data","type":"bytes"},{"name":"executed","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getOwners","outputs":[{"name":"","type":"address[]"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"from","type":"uint256"},{"name":"to","type":"uint256"},{"name":"pending","type":"bool"},{"name":"executed","type":"bool"}],"name":"getTransactionIds","outputs":[{"name":"_transactionIds","type":"uint256[]"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"transactionId","type":"uint256"}],"name":"getConfirmations","outputs":[{"name":"_confirmations","type":"address[]"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"transactionCount","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_required","type":"uint256"}],"name":"changeRequirement","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"transactionId","type":"uint256"}],"name":"confirmTransaction","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"destination","type":"address"},{"name":"value","type":"uint256"},{"name":"data","type":"bytes"}],"name":"submitTransaction","outputs":[{"name":"transactionId","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_dailyLimit","type":"uint256"}],"name":"changeDailyLimit","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"MAX_OWNER_COUNT","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"required","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"owner","type":"address"},{"name":"newOwner","type":"address"}],"name":"replaceOwner","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"transactionId","type":"uint256"}],"name":"executeTransaction","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"spentToday","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_owners","type":"address[]"},{"name":"_required","type":"uint256"},{"name":"_dailyLimit","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"anonymous":false,"inputs":[{"indexed":false,"name":"dailyLimit","type":"uint256"}],"name":"DailyLimitChange","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"sender","type":"address"},{"indexed":true,"name":"transactionId","type":"uint256"}],"name":"Confirmation","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"sender","type":"address"},{"indexed":true,"name":"transactionId","type":"uint256"}],"name":"Revocation","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"transactionId","type":"uint256"}],"name":"Submission","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"transactionId","type":"uint256"}],"name":"Execution","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"transactionId","type":"uint256"}],"name":"ExecutionFailure","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"sender","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Deposit","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"owner","type":"address"}],"name":"OwnerAddition","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"owner","type":"address"}],"name":"OwnerRemoval","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"required","type":"uint256"}],"name":"RequirementChange","type":"event"}]';
@@ -46,7 +49,7 @@ export class MultisigWalletDataService {
 
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
-      await window.ethereum.enable();
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
       this.balance = await this.web3js.eth.getBalance(address);
       let balanceInEther = this.web3js.utils.fromWei(this.balance, 'ether');
       this.fullbalance = balanceInEther + ' ETH';
@@ -62,10 +65,9 @@ export class MultisigWalletDataService {
   }
 
   public async getNumberOfConfirmations(address: any): Promise<void> {
-
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
-      await window.ethereum.enable();
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
       const MultiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), address);
       await MultiSigContract.methods.required.call().call().then( (res: any) => this.numberOfConfirmations = res);
     }
@@ -74,7 +76,7 @@ export class MultisigWalletDataService {
   async getNumberOfOwners(address: any): Promise<void> {
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
-      await window.ethereum.enable();
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
 
       const MultiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), address);
       await MultiSigContract.methods.getOwners().call().then((res: any) => this.ownerListNumber = res.length);
@@ -84,7 +86,7 @@ export class MultisigWalletDataService {
   async getTransActionCount(address: any): Promise<void> {
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
-      await window.ethereum.enable();
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
       const MultiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), address);
       await MultiSigContract.methods.getTransactionCount(true, false).call().then((res: any) => this.pendingNonce = res);
     }
@@ -93,7 +95,7 @@ export class MultisigWalletDataService {
   async getNetwork(address: any): Promise<void> {
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
-      await window.ethereum.enable();
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
       await this.web3js.eth.net.getNetworkType(address).then((res: any) => this.network = res);
     }
   }
@@ -129,7 +131,7 @@ export class MultisigWalletDataService {
   async addOwner(ownerAddress: any, contractAddress: any): Promise<void> {
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
-      await window.ethereum.enable();
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
 
       // Get the address from the current account
       const accounts = await this.web3js.eth.getAccounts();
@@ -156,7 +158,7 @@ export class MultisigWalletDataService {
   async removeOwner(ownerAddress: any, contractAddress: any): Promise<void>{
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
-      await window.ethereum.enable();
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
 
       // Get the address from the current account
       const accounts = await this.web3js.eth.getAccounts();
@@ -179,10 +181,19 @@ export class MultisigWalletDataService {
   async getOwnerArray(address: any): Promise<void> {
     if (window.ethereum){
       this.web3js = new Web3(window.ethereum);
-      await window.ethereum.enable();
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
 
       const MultiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), address);
       await MultiSigContract.methods.getOwners().call().then((res: any) => this.ownerArray = res);
+    }
+  }
+
+  async getConfirmationsOfTransaction(contractAddress: string, id: number): Promise<any> {
+    if (window.ethereum) {
+      this.web3js = new Web3(window.ethereum);
+      const multiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), contractAddress);
+      const confirmations = await multiSigContract.methods.getConfirmations(id).call();
+      return confirmations.length;
     }
   }
 
@@ -193,7 +204,7 @@ export class MultisigWalletDataService {
 
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
-      await window.ethereum.enable();
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
 
       // Get the address from the current account
       const accounts = await this.web3js.eth.getAccounts();
@@ -223,7 +234,7 @@ export class MultisigWalletDataService {
         // singleTransactionInformation['destination'] = transaction['destination'];
 
         // Get the value of the transaction
-        const value = transaction.value;
+        const value = this.web3js.utils.fromWei(transaction.value, 'ether');
 
         // Get the data from the transaction
         const data = transaction.data;
@@ -231,12 +242,15 @@ export class MultisigWalletDataService {
         // Sets the unknown flag, if the abi is unknown
         let insertAbiAction = '';
 
-        if (destination !== contractAddress) {
-          insertAbiAction = 'YES';
-        }
-        else {
+        // Checks, if the contract is known or not
+        if (this.abiService.isKnownContract(destination) === true) {
           insertAbiAction = 'NO';
         }
+        else
+        {
+          insertAbiAction = 'YES';
+        }
+
 
           // Get the owners who confirmed the transactions
         const ownersWhoConfirmed = await multiSigContract.methods.getConfirmations(index).call();
@@ -281,7 +295,7 @@ export class MultisigWalletDataService {
   async getAllTransactionCount(address: any): Promise<void> {
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
-      await window.ethereum.enable();
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
       const MultiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contract_abi), address);
       return await MultiSigContract.methods.getTransactionCount(true, true).call();
     }
@@ -290,7 +304,7 @@ export class MultisigWalletDataService {
   async confirmTransaction(contractAddress: any, transactionID: any): Promise<void> {
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
-      await window.ethereum.enable();
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
 
       // Get the address from the current account
       const accounts = await this.web3js.eth.getAccounts();
@@ -315,7 +329,7 @@ export class MultisigWalletDataService {
   async revokeTransaction(contractAddress: any, transactionID: any): Promise<void> {
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
-      await window.ethereum.enable();
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
 
       // Get the address from the current account
       const accounts = await this.web3js.eth.getAccounts();

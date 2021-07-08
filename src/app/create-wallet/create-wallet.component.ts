@@ -1,8 +1,13 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 
 import {MultisigWalletDataService} from '../services/multisig-wallet-data.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {MultisigCreateService} from '../services/multisig-create.service';
+import Web3 from 'web3';
+import {WalletDataService} from '../services/wallet-data.service';
+
+declare var window: any;
+
 @Component({
   selector: 'app-create-wallet',
   templateUrl: './create-wallet.component.html',
@@ -20,8 +25,8 @@ export class CreateWalletComponent implements OnInit {
   walletList: any;
   ownerList: any;
 
-  constructor(public multiSigService: MultisigWalletDataService, public activeModal: NgbActiveModal,
-              public createMultisSig: MultisigCreateService) {
+  constructor(public activeModal: NgbActiveModal, public createMultisSig: MultisigCreateService,
+              public walletData: WalletDataService, public walletService: MultisigWalletDataService, public modalService: NgbModal) {
     this.walletList = {
       name: [],
       address: []
@@ -34,7 +39,12 @@ export class CreateWalletComponent implements OnInit {
 
    async loadDefaultOwner(): Promise<object>{
     const ownersTemp: object[] = [];
-    const accounts = await this.multiSigService.web3js.eth.getAccounts();
+    let accounts: any;
+    if (window.ethereum) {
+       await window.ethereum.request({method: 'eth_requestAccounts'});
+       const web3js = new Web3(window.ethereum);
+       accounts = await web3js.eth.getAccounts();
+     }
     const myAccount = accounts[0];
 
     ownersTemp[0] = {name: 'My Account', address: myAccount};
@@ -76,10 +86,10 @@ for (let i  = 0; i <= this.owners.length; i++){
       ownersArray.push(owner.address.toString());
     }
     if (requiredConfirmations <= this.owners.length) {
-      // TODO: Creation of Wallet
       const walletAddress = await this.createMultisSig.deployMultisig(ownersArray, requiredConfirmations, dailyLimit);
       console.log(walletAddress);
       this.editJsons(nameOfWallet, walletAddress);
+      this.modalService.dismissAll();
     } else {
       // throw Error
     }
@@ -102,6 +112,8 @@ for (let i  = 0; i <= this.owners.length; i++){
     // adds new Wallet name/ Address to Array
     this.walletList.name.push(walletName);
     this.walletList.address.push(walletAddress);
+    this.walletService.getWalletJSON(walletName, walletAddress).then((res) => { this.walletData.addData(res); });
+
     localStorage.setItem('Wallets', JSON.stringify(this.walletList));
 
     // Load Owners of Wallet
@@ -129,7 +141,5 @@ for (let i  = 0; i <= this.owners.length; i++){
       }
     }
     localStorage.setItem('Owners', JSON.stringify(this.ownerList));
-    // Todo rewrite complete WalletsData Setup
-    window.location.reload();
   }
 }

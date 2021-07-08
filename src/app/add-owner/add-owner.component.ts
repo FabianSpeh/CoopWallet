@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import { NgbActiveModal, } from '@ng-bootstrap/ng-bootstrap';
+import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {MultisigWalletDataService} from '../services/multisig-wallet-data.service';
 
 
@@ -17,7 +17,7 @@ export class AddOwnerComponent {
   @ViewChild('addressOfOwner') addressOfOwnerElement: any;
   @ViewChild('errorMessage') errorMessage: any;
 
-  constructor(public activeModal: NgbActiveModal, public walletService: MultisigWalletDataService) {
+  constructor(public activeModal: NgbActiveModal, public walletService: MultisigWalletDataService, public modalService: NgbModal) {
 
   }
   /**
@@ -33,8 +33,7 @@ export class AddOwnerComponent {
     }
     else{
       const address = this.addressOfOwnerElement.nativeElement.value;
-      const contractAddress = '0x283011659f9Cd638b4d99EFB264b198917f6Ff5D';
-
+      const contractAddress = (location.href.split('/').pop() as string);
       this.walletService.addOwner(address, contractAddress);
 
       this.activeModal.close();

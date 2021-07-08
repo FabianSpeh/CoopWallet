@@ -1,11 +1,25 @@
-<div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title">Remove token</h4>
-</div>
-<div class="modal-body">
-  <!-- Will take the name of the token as a parameter, which will render dynamically -->
-<span>Are you sure you want to remove this token?</span>
-</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn btn-outline-light">Confirm</button>
-  <button type="button" class="btn btn btn-outline-danger" (click)="this.activeModal.close('Close click')" >Close</button>
+<!-- Template for removing a token -->
+<div class="size">
+  <div class="modal-header bg-accent ">
+    <h4 class="modal-title" id="modal-basic-title">Remove Token</h4>
+    <button type="button" class="close" aria-label="Close" > <!-- (click)="modal.dismiss('Cross click')" -->
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-dark">
+    <form class="form-group">
+      <label for="TokenName">Name</label>
+      <input id="TokenName" class="form-control " name="Tokensname"  disabled value=""> <!-- {{nameToken}} -->
+      <label for="TokenAddres">Address</label>
+      <input id="TokenAddres" class="form-control " name="Tokensaddress" disabled value=""> <!-- {{addressToken}} -->
+      <label for="symbol">Symbol</label>
+      <input id="symbol" class="form-control " name="dp" disabled value=""> <!-- {{tokensSymbol}} -->
+      <label for="Decimals">Decimals</label>
+      <input id="Decimals" class="form-control " name="dp" disabled value=""> <!-- {{tokensDecimals}} -->
+    </form>
+  </div>
+  <div class="modal-footer bg-dark">
+    <button type="button" class="btn btn-outline-light mr-2 my-1" >Ok</button> <!-- (click)="removeTokens()" (click)="modal.close('Save click')"-->
+    <button type="button" class="btn btn-outline-danger mr-2 my-1" >Cancel</button> <!-- (click)="modal.close('Save click')" -->
+  </div>
 </div>

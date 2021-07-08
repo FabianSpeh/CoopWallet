@@ -1,5 +1,5 @@
 import {MultisigWalletDataService, Wallet} from '../services/multisig-wallet-data.service';
-import {AfterViewInit, Component, Input, OnInit, ViewChild, ElementRef} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild, ElementRef, ChangeDetectorRef} from '@angular/core';
 import {AddOwnerComponent} from '../add-owner/add-owner.component';
 import {AddTokenComponent} from '../add-token/add-token.component';
 
@@ -11,6 +11,14 @@ import {RemoveTokenComponent} from '../remove-token/remove-token.component';
 import {TokensService} from '../services/tokens.service';
 import {ClipboardService} from 'ngx-clipboard';
 
+import {AddTransactionComponent} from '../add-transaction/add-transaction.component';
+
+import {ContractAbiService} from '../services/contract-abi.service';
+import {InsertAbiComponent} from '../insert-abi/insert-abi.component';
+import {OwnerService} from '../services/owner.service';
+import Web3 from 'web3';
+
+declare var window: any;
 export interface Transaction {
   id: string;
   destination: string;
@@ -33,7 +41,9 @@ export class WalletDetailsComponent implements OnInit {
   constructor(public walletService: MultisigWalletDataService, private modalService: NgbModal,
               private ownerService: OwnerAddressService, private clipboardService: ClipboardService,
               public multisigService: MultisigWalletDataService, public dataService: UserWalletDataService,
-              public tokenService: TokensService) { }
+              public abiService: ContractAbiService, public tokenService: TokensService, public change: ChangeDetectorRef,
+              public  ownerArraySevice: OwnerService) { }
+
 
 
   // The wallet of the current details page:
@@ -59,6 +69,9 @@ export class WalletDetailsComponent implements OnInit {
   tokensSymbol = '';
   addressToken = '';
   walletAddress: any;
+  web3: any;
+  subscription: any;
+  newTransaction = false;
 
 
   // Variables for toggling the owner table
@@ -109,20 +122,28 @@ export class WalletDetailsComponent implements OnInit {
     }
   }
 
-  async loadNext(): Promise<void> {
-    this.currentPage++;
-    const page = this.currentPage;
-    const startIndex = this.numberOfTransactions - (page - 1) * this.pageSize;
-    let endIndex = this.numberOfTransactions - this.pageSize - (page - 1) * this.pageSize;
-    if (endIndex < 0) {
-      endIndex = 0;
+  /**
+   * calls this.loadTransactions() for the next n (n = this.pageSize) transactions
+   */
+  loadNext(): void {
+    let to;
+    if (this.transactions !== undefined && this.transactions.length > 0) {
+      // @ts-ignore transaction cannot be undefined here
+      to = Number(this.transactions[this.transactions.length - 1].id);
+    } else {
+      to = this.numberOfTransactions;
     }
-    if (startIndex > 0) {
-      await this.loadTransactions(endIndex, startIndex);
+    const from = Math.max(to - this.pageSize, 0);
+    if (to > 0) {
+      this.loadTransactions(from, to).then();
     }
   }
 
-
+  /**
+   * loads the transactions in given range into this.transactions
+   * @param from - starting id
+   * @param to - closing id (excluded)
+   */
   async loadTransactions(from: number, to: number): Promise<void> {
     const newTransactions = await this.walletService.getTransactions(this.wallet.address, from, to);
     for (let i = newTransactions.length - 1; i >= 0; i--) {
@@ -130,6 +151,53 @@ export class WalletDetailsComponent implements OnInit {
     }
   }
 
+  /**
+   * Subscribes to all Events on the current wallet address
+   */
+  subscribeToContractTransactions(): void {
+    if (window.ethereum) {
+      this.web3 = new Web3(window.ethereum);
+      // Initialize the subscription:
+      this.subscription = this.web3.eth.subscribe('logs', { address: this.wallet.address});
+      // Define the function that should be called if data is received:
+      this.subscription.on('data', async (log: any) => {
+        // This part will likely be called multiple times, as new events might exist in multiple blocks;
+        // thus you need check, if the received transaction was already added:
+        console.log('new event!!!', log);
+        const newNumberOfTransactions = await this.walletService.getAllTransactionCount(this.wallet.address);
+        if (newNumberOfTransactions !== this.numberOfTransactions) {
+          this.numberOfTransactions = newNumberOfTransactions;
+          // get the latest transaction and add it to the front of the transactions-list
+          const newTransaction =
+            await this.walletService.getTransactions(this.wallet.address, this.numberOfTransactions - 1, this.numberOfTransactions);
+          console.log('new transaction detected, count @ ', this.numberOfTransactions);
+          console.log('new transaction: ', newTransaction);
+          this.transactions.unshift(newTransaction.pop());
+          // show text for 4 seconds, to inform user that new transaction was received:
+          this.newTransaction = true;
+          setTimeout(() => { this.newTransaction = false; }, 4000);
+        } else {
+          // Confirmation, Revoke or Duplicate:
+          // tslint:disable-next-line:prefer-for-of
+          for (let i = 0; i < this.transactions.length; i++) {
+            const id = Number(this.transactions[i].id);
+            const confirms = await this.walletService.getConfirmationsOfTransaction(this.wallet.address, id);
+            // if the number of confirmation locally differs from the one in the contract, the transaction was revoked or confirmed and
+            // should be replaced by the latest version:
+            if (confirms !== this.transactions[i].ownersWhoConfirmed.length) {
+              const transactions = await this.walletService.getTransactions(this.wallet.address, id, id + 1);
+              const transaction = transactions.pop();
+              this.transactions[i] = transaction;
+            }
+          }
+        }
+      });
+      this.subscription.on('changed', (log: any) => {
+        console.log('something changed', log);
+      });
+      console.log('subscribed to ', this.wallet.address);
+    }
+  }
   async ngOnInit(): Promise<void> {
     const wallet: Wallet = {
       name: '', address: '', balance: '', completebalance: '', confirmations: '', owners: '', pending: '', network: ''
@@ -137,15 +205,18 @@ export class WalletDetailsComponent implements OnInit {
     this.wallet =  wallet;
     this.wallet =  await this.loadWallet();
     if (this.wallet !== undefined) {
-      this.owners = await this.loadOwnersOfWallet();
+      this.ownerArraySevice.owners = await this.loadOwnersOfWallet();
 
       this.numberOfTransactions = await this.walletService.getAllTransactionCount(this.wallet.address);
-      this.currentPage = 0;
       await this.loadNext();
     } else {
-  this.wallet =  wallet;
-}
+      this.wallet =  wallet;
+    }
     this.ownerService.currentAddress.subscribe(address => this.ownerAddress = address);
+    if (this.subscription !== undefined) {
+      this.subscription.unsubscribe();
+    }
+    this.subscribeToContractTransactions();
     await this.loadTokensFromLocalStorage();
   }
 
@@ -218,32 +289,11 @@ export class WalletDetailsComponent implements OnInit {
     }
   }
 
-  getDataSubject(data: string): string {
+  getDataSubject(data: string, contractAddress: string): string {
 
-    const methodInformation = data.slice(2, 10);
-    const transportInformation = data.slice(11);
+    const methodName = this.abiService.getMethodNameFromData(data, contractAddress);
 
-    switch (methodInformation)
-    {
-      // Deals with the case, if the method is addOwner()
-      case '7065cb48':
-        const owner = '0x' + transportInformation;
-        return 'Method: addOwner()';
-
-      // Deals with the case, if the method is removeOwner()
-      case '173825d9':
-        return 'Method: removeOwner()';
-
-      // Deals with the case, if the method is changeDailyLimit()
-      case  'cea08621':
-        return 'Method: changeDailyLimit()';
-
-      case 'ba51a6df':
-        return 'Method: changeRequirement()';
-
-      default:
-        return data.substring(0, 12) + '...';
-    }
+    return methodName;
   }
 
   getOwnerName(address: string): string {
@@ -281,7 +331,12 @@ export class WalletDetailsComponent implements OnInit {
   openAddTokenPopup(): any {
     const modalRef = this.modalService.open(AddTokenComponent);
   }
-/*
+
+  openEditABIPopup(address: string): any {
+    const modalRef = this.modalService.open(InsertAbiComponent);
+    modalRef.componentInstance.address = address;
+  }
+  /*
   openRemoveTokenPopup(): any {
     const modalRef = this.modalService.open(RemoveTokenComponent);
   }
@@ -322,6 +377,10 @@ export class WalletDetailsComponent implements OnInit {
     }
   }
 
+  openRemoveTokenPopup(): any {
+    const modalRef = this.modalService.open(RemoveTokenComponent);
+  }
+
   async openModal(content: any): Promise<void>{
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -346,7 +405,7 @@ export class WalletDetailsComponent implements OnInit {
     const wallAd = this.tokenService.tokenWalletList;
     for ( const elt of wallAd) {
       if ( elt.walletAddress === address){
-        await this.tokenService.getTokensOfWallet(this.wallet.address).then((res) => this.tokens = res);
+        await this.tokenService.getTokensOfWallet(this.wallet.address).then((res) => {this.tokens = res; } );
         this.walletAddress = elt.walletAddress;
       }
     }
@@ -365,8 +424,13 @@ export class WalletDetailsComponent implements OnInit {
 
   async removeTokens(): Promise<void>{
     this.tokenService.removeTokenFromWallet(this.addressToken, this.walletAddress);
-    console.log('deleted');
-    window.location.reload();
+    for ( const token of this.tokens){
+      if (token.address === this.addressToken){
+        this.tokens.splice(token.index, 1);
+      }
+    }
+    this.change.detectChanges();
+
   }
 
   confirmTransaction(contractAddress: any, transactionID: any): any {
@@ -381,5 +445,7 @@ export class WalletDetailsComponent implements OnInit {
     // const modalRef = this.modalService.open(InsertAbiComponent);
   }
 
-
+  openAddTransactionPopup(): any {
+    const modalRef = this.modalService.open(AddTransactionComponent);
+  }
 }
