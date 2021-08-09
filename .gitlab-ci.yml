@@ -58,7 +58,7 @@ build_job:
 
   script:
     - npm run build
-    - ln
+    - --help
 
 
   only:
