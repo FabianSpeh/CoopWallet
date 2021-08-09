@@ -25,7 +25,6 @@ install_job:
 
   only:
     - merge_requests
-    - master
 
 lint_job:
   stage: test
@@ -38,7 +37,6 @@ lint_job:
 
   only:
     - merge_requests
-    - pushes
 
 karma_job:
   stage: test
