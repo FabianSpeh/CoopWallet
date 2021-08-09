@@ -37,6 +37,7 @@ lint_job:
 
   only:
     - merge_requests
+    - pushes
 
 karma_job:
   stage: test
