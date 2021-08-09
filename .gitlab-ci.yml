@@ -57,7 +57,7 @@ build_job:
     - dapp
 
   script:
-    - --help
+    - help
     - npm run build
 
 
