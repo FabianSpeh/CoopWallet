@@ -1,7 +1,6 @@
 cache:
   paths:
     - node_modules/
-    - dist/
 
 default:
   image: atlassianlabs/docker-node-jdk-chrome-firefox
