@@ -57,8 +57,8 @@ build_job:
     - dapp
 
   script:
-    - npm run build
     - --help
+    - npm run build
 
 
   only:
