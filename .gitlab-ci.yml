@@ -58,7 +58,7 @@ build_job:
 
   script:
     - npm run build
-    - ls /dist
+    - ls dist
 
 
   only:
@@ -73,7 +73,7 @@ deploy_job:
     - dapp
 
   script:
-    - ls /dist
+    - ls dist
     - aws s3 sync --delete ./dist/dapp s3://coop-wallet
 
   only:
