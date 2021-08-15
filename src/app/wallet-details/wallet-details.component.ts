@@ -266,12 +266,18 @@ export class WalletDetailsComponent implements OnInit {
     return ownersCode;
   }
 
+  /**
+   * Opens a modal that lets you edit the (param) owner.
+   */
   open(owner: any): any {
     const modalRef = this.modalService.open(EditOwnerComponent);
     this.ownerAddress = owner.address;
     this.ownerService.changeMessage(owner.address);
   }
 
+  /**
+   * Searches if the given Address is either a locally named wallet or owner and returns the name or the shortened address.
+   */
   getNameOfAddress(address: string): string {
     let name = this.getNameOfWallet(address);
     if (name.startsWith('0x') && name.endsWith('...')) {
@@ -280,6 +286,10 @@ export class WalletDetailsComponent implements OnInit {
     return name;
   }
 
+  /**
+   * Searches the owners in local storage for the name of a given address and returns it. Returns the address shortened if no name was
+   * found.
+   */
   getNameOfWallet(address: string): string {
     if (localStorage.getItem('Wallets') != null){
       const wallets = JSON.parse(localStorage.getItem('Wallets') || '{}');
@@ -302,6 +312,10 @@ export class WalletDetailsComponent implements OnInit {
     return methodName;
   }
 
+  /**
+   * Searches the wallets in local storage for the name of a given address and returns it. Returns the address shortened if no name was
+   * found.
+   */
   getOwnerName(address: string): string {
     if (localStorage.getItem('Owners') != null) {
       const owners = JSON.parse(localStorage.getItem('Owners') || '{}');
