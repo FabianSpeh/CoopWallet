@@ -163,15 +163,12 @@ export class WalletDetailsComponent implements OnInit {
       this.subscription.on('data', async (log: any) => {
         // This part will likely be called multiple times, as new events might exist in multiple blocks;
         // thus you need check, if the received transaction was already added:
-        console.log('new event!!!', log);
         const newNumberOfTransactions = await this.walletService.getAllTransactionCount(this.wallet.address);
         if (newNumberOfTransactions !== this.numberOfTransactions) {
           this.numberOfTransactions = newNumberOfTransactions;
           // get the latest transaction and add it to the front of the transactions-list
           const newTransaction =
             await this.walletService.getTransactions(this.wallet.address, this.numberOfTransactions - 1, this.numberOfTransactions);
-          console.log('new transaction detected, count @ ', this.numberOfTransactions);
-          console.log('new transaction: ', newTransaction);
           this.transactions.unshift(newTransaction.pop());
           // show text for 4 seconds, to inform user that new transaction was received:
           this.newTransaction = true;
@@ -275,6 +272,14 @@ export class WalletDetailsComponent implements OnInit {
     this.ownerService.changeMessage(owner.address);
   }
 
+  getNameOfAddress(address: string): string {
+    let name = this.getNameOfWallet(address);
+    if (name.startsWith('0x') && name.endsWith('...')) {
+      name = this.getOwnerName(address);
+    }
+    return name;
+  }
+
   getNameOfWallet(address: string): string {
     if (localStorage.getItem('Wallets') != null){
       const wallets = JSON.parse(localStorage.getItem('Wallets') || '{}');
@@ -283,16 +288,17 @@ export class WalletDetailsComponent implements OnInit {
           return wallets.name[i];
         }
       }
-      return address.substring(0, 12) + '...';
+      return address.substring(0, 8) + '...';
     } else {
-      return address.substring(0, 12) + '...';
+      return address.substring(0, 8) + '...';
     }
   }
 
   getDataSubject(data: string, contractAddress: string): string {
-
-    const methodName = this.abiService.getMethodNameFromData(data, contractAddress);
-
+    let methodName = this.abiService.getMethodNameFromData(data, contractAddress);
+    if (methodName.length > 40) {
+      methodName = methodName.slice(0, methodName.length / 2) + '\n' + methodName.slice(methodName.length / 2);
+    }
     return methodName;
   }
 
@@ -305,10 +311,10 @@ export class WalletDetailsComponent implements OnInit {
         }
       }
 
-      return address.substring(0, 12) + '...';
+      return address.substring(0, 8) + '...';
 
     } else {
-      return address.substring(0, 12) + '...';
+      return address.substring(0, 8) + '...';
     }
 
   }
@@ -415,11 +421,8 @@ export class WalletDetailsComponent implements OnInit {
         this.tokensDecimals = elt.decimals;
         this.tokensSymbol = elt.symbol;
         this.addressToken = elt.address;
-        console.log(this.nameToken, this.tokensDecimals, this.tokensSymbol, this.addressToken);
       }
     }
-    console.log(address);
-    console.log(this.token);
   }
 
   async removeTokens(): Promise<void>{

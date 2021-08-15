@@ -137,13 +137,13 @@
           <span class="address" ngbTooltip="{{ transaction.destination }}" placement="top-left" container="body">
             <span triggers="click" [autoClose]="true" ngbTooltip="copied!" placement="top-left"
                   container="body" (click)="copyToClipboard(transaction.destination)">
-              {{ this.getNameOfWallet(transaction.destination) }}
+              {{ this.getNameOfAddress(transaction.destination) }}
             </span>
           </span>
         </td>
         <td><span>{{ transaction.value }} ETH</span></td>
         <td>{{ this.getDataSubject(transaction.data, transaction.destination) }}
-          <button class="btn btn-sm btn-outline-light mr-2 my-1" *ngIf="transaction.insertAbiAction == 'YES'" (click)="openEditABIPopup(transaction.destination)">
+          <button class="btn btn-sm btn-outline-light mr-2 my-1" *ngIf="transaction.insertAbiAction == 'YES' && transaction.data !== null" (click)="openEditABIPopup(transaction.destination)">
             Edit ABI
           </button>
         </td>
@@ -164,7 +164,7 @@
           </div>
         </td>
         <td class="d-flex justify-content-end">
-          <button class="btn btn-sm btn-outline-light mr-2 my-1" *ngIf="transaction.ownerAction == 'CONFIRMATION'" (click)="confirmTransaction(wallet.address, transaction.id)">Confirm</button>
+          <button class="btn btn-sm btn-outline-light my-1" *ngIf="transaction.ownerAction == 'CONFIRMATION'" (click)="confirmTransaction(wallet.address, transaction.id)">Confirm</button>
           <button class="btn btn-sm btn-outline-danger my-1" *ngIf="transaction.ownerAction == 'REVOKE'" (click)="revokeTransaction(wallet.address, transaction.id)">Revoke</button>
         </td>
       </tr>
