@@ -99,7 +99,7 @@ export class NgbdModalContentComponent {
         await this.web3js.eth.getBalance(this.walletAddress);
         const MultiSigContract = await new this.web3js.eth.Contract(JSON.parse(this.contractAbi), this.walletAddress);
         await MultiSigContract.methods.getOwners().call().then((res: any) => ownerListNumber = res.length);
-        if (ownerListNumber <= 1){
+        if (ownerListNumber <= 0){
           isAdress = false;
         } else {
           isAdress = true;
@@ -110,7 +110,6 @@ export class NgbdModalContentComponent {
       console.log('Wrong Adress');
       console.log(this.walletAddress);
     }
-
     // adds new Array to Cookies as Json
     if (isAdress) {
       this.walletService.getWalletJSON(this.walletName, this.walletAddress).then((res) => { this.walletData.addData(res); });

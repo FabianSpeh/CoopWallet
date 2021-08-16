@@ -43,7 +43,7 @@ export class MultisigCreateService {
       ).send({
         from: owners[0],
         gas: gass,
-        gasPrice: '300000000000'
+        gasPrice: '20000000000'
       }).then((res: any) => this.currentAddress = res._address);
 
 
