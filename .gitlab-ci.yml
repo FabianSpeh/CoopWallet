@@ -74,7 +74,7 @@ deploy_job:
 
   script:
     - ls 
-    - aws s3 sync ./dist/dapp s3://coop-wallet --acl=public-read --delete
+    - aws s3 sync ./dist/dapp s3://coop-wallet --delete
 
   only:
     - master
