@@ -141,7 +141,10 @@ export class WalletsComponent implements OnInit, OnDestroy {
     this.open(editWallet);
   }
 
-
+  /**
+   * Delete a Wallet from the JSON
+   * @param name Name of the Wallet to Delete
+   */
   public deleteWallet(name: string): void{
     if (name === this.walletsname) {
       if (localStorage.getItem('Wallets') == null) {
@@ -162,6 +165,11 @@ export class WalletsComponent implements OnInit, OnDestroy {
         // Nothing do to maybe check for possibility later
     }
   }
+
+  /**
+   * Saves a Wallet Name if a Name get changed to the JSON
+   * @param walletName new Name of the Wallet
+   */
   public saveWallet(walletName: string): void{
     const name = walletName;
     if (localStorage.getItem('Wallets') == null){
@@ -179,6 +187,11 @@ export class WalletsComponent implements OnInit, OnDestroy {
     this.change.detectChanges();
   }
 
+  /**
+   * Saves which Wallet to delete
+   * @param wallet Wallet which the User wants to delete
+   * @param removeWallet Popup of the Wallet remove dialog
+   */
   deletingWallet(wallet: any, removeWallet: any): void {
     this.walletsname = wallet.name;
     this.walletsaddress = wallet.address;

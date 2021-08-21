@@ -15,7 +15,11 @@ export class OwnerAddressService {
   constructor() {
   }
 
-changeMessage(address: string): any {
+  /**
+   * TODO
+   * @param address Addres of TODO
+   */
+  changeMessage(address: string): any {
     this.ownerAddress.next(address);
 
 }
