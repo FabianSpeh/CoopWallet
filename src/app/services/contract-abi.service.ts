@@ -110,7 +110,11 @@ export class ContractAbiService {
     return false;
   }
 
-
+  /**
+   * Todo Add Comment
+   * @param data TODO
+   * @param address TODO
+   */
   getMethodNameFromData(data: string, address: string): string {
     if (data === null) {
       return '';

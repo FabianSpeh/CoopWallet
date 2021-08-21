@@ -6,7 +6,14 @@ declare var window: any;
 @Injectable({
   providedIn: 'root'
 })
+
+
 export class MultisigCreateService {
+  /**
+   * Service which creates and deploy the Multisig Contract
+   * @param contractAbi Abi of the Multisig Contract.
+   * @param currentAddress Address of the created Multisig Contract
+   */
 
   private contractAbi: any;
   web3js: any;
@@ -17,6 +24,13 @@ export class MultisigCreateService {
     this.currentAddress = '';
   }
 
+  /**
+   * Takes the given Parameters and creates a Contract and then send it with the given data to Metamask which deploys the Contract on the
+   * Blockchain if the User has paid the gas price.
+   * @param owners An Array of User Address which are the Owners of the Multisig Contract
+   * @param conformations Number of owners who must agree for a transaction to be confirmed
+   * @param limit Dailylimit of the Multisig Contract
+   */
   public async deployMultisig(owners: string[], conformations: number, limit: number): Promise<string> {
     if (window.ethereum) {
       this.web3js = new Web3(window.ethereum);
