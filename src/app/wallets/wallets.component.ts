@@ -73,6 +73,7 @@ export class WalletsComponent implements OnInit, OnDestroy {
       return;
     }
     const wallets = JSON.parse(localStorage.getItem('Wallets') || '{}');
+    this.walletData.walletsData = [];
     for (let i = 0; i < wallets.name.length; i++) {
       this.walletService.getWalletJSON(wallets.name[i], wallets.address[i]).then((res) => { this.walletData.addData(res);
                                                                                              });
