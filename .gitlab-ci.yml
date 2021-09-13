@@ -25,6 +25,7 @@ install_job:
 
   only:
     - merge_requests
+    - master
 
 lint_job:
   stage: test
