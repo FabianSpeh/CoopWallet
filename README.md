@@ -4,6 +4,6 @@
 
 Multi-Signature Crypto Wallet using Metamask
 
-##Credits
+## Credits
 
 Connor Landes, Tim Friedrich, Fabian Speh, Tonny Junior Mba Piper, Christian Oechler
