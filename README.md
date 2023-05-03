@@ -1,3 +1,9 @@
-# SWTP-SS21
+# Coop Wallet
 
-Das ist unser SWTP-Projekt für das Semester 2021
+## Project description
+
+Multi-Signature Crypto Wallet using Metamask
+
+##Credits
+
+Connor Landes, Tim Friedrich, Fabian Speh, Tonny Junior Mba Piper, Christian Oechler
